@@ -3,8 +3,6 @@ import { AppContainer } from './Layout.styles';
 
 import Navigation from '../Navigation';
 
-const backgroundImage = require('../../assets/background.jpg');
-
 const Layout = () => {
   return (
     <>

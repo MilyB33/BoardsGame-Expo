@@ -23,7 +23,7 @@ const Box = styled(View)`
 const InfoBox: React.FC<Props> = ({ text, link, additional }) => {
   return (
     <Box>
-      <Typography color="white">{text}</Typography>
+      <Typography>{text}</Typography>
       {link}
       {additional}
     </Box>

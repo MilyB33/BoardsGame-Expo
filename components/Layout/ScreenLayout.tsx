@@ -5,6 +5,7 @@ import { View, ScrollView, StyleSheet } from 'react-native';
 import styled from 'styled-components';
 
 import { CustomBackground } from '../Layout/Layout.styles';
+import Navigation from '../Navigation/Navigation';
 
 interface Props {
   children: React.ReactNode;
@@ -15,7 +16,6 @@ const backgroundImage = require('../../assets/background.jpg');
 const Container = styled(View)`
   flex: 1;
   height: 100%;
-  justify-content: center;
 `;
 
 const ScreenLayout: React.FC<Props> = ({ children }) => {
@@ -23,6 +23,7 @@ const ScreenLayout: React.FC<Props> = ({ children }) => {
     <Container>
       <CustomBackground source={backgroundImage} />
       <ScrollView contentContainerStyle={styles.contentContainer}>
+        <Navigation />
         {children}
       </ScrollView>
     </Container>
@@ -32,7 +33,6 @@ const ScreenLayout: React.FC<Props> = ({ children }) => {
 const styles = StyleSheet.create({
   contentContainer: {
     minHeight: '100%',
-    justifyContent: 'center',
   },
 });
 

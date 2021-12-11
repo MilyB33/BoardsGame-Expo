@@ -3,14 +3,9 @@ import { Text } from 'react-native';
 import styled from 'styled-components';
 import { getColor } from '../../styles/utils';
 
-interface Props {
-  color?: string;
-}
-
-const Typography = styled(Text)<Props>`
+const Typography = styled(Text)`
   font-size: 16px;
-  color: ${({ color }) =>
-    color !== undefined ? getColor(color) : getColor('black')};
+  color: ${getColor('white')};
   text-align: center;
   line-height: 24px;
 `;

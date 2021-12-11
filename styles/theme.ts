@@ -7,9 +7,11 @@ export const color = {
 
   black: '#000',
 
-  primary: 'rgba(86,79,79,.9)',
+  primary: 'rgba(86,79,79,.6)',
 
-  ['primary-border']: 'rgba(255,255,255,.3)',
+  ['primary-border']: 'rgba(255,255,255,.4)',
+
+  modal: 'rgba(0,0,0,.9)',
 };
 
 export const fontSize = {};
