@@ -6,13 +6,6 @@ interface LoginCredentials {
 }
 
 class ServerClient {
-  client = axios.create({
-    baseURL: 'http://192.168.0.12:8080/',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
   loginUser = async (data: LoginCredentials) => {
     try {
       const jsonData = JSON.stringify(data);
@@ -33,8 +26,6 @@ class ServerClient {
           data: json,
         };
       } else throw new Error(json.message);
-
-      // const response = await this.client.post('/login', jsonData);
     } catch (err) {
       return {
         success: false,

@@ -21,7 +21,7 @@ interface Props {
   changeForm: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const LoginForm: React.FC<Props> = ({ changeForm }) => {
+const RegisterForm: React.FC<Props> = ({ changeForm }) => {
   const { storeData } = useStorage();
   const { login, user } = useContext(AuthContext);
   const navigation = useNavigation<NavigationProps>();
@@ -35,8 +35,12 @@ const LoginForm: React.FC<Props> = ({ changeForm }) => {
       alert(data.message);
     } else {
       await storeData(data.data.user.token);
-
-      login(data.data.user);
+      const { _id, username } = data.data.user;
+      login({
+        id: _id,
+        username,
+        isAuthenticated: true,
+      });
       resetForm();
       navigation.navigate('Home');
     }
@@ -44,7 +48,7 @@ const LoginForm: React.FC<Props> = ({ changeForm }) => {
 
   return (
     <View style={styles.form}>
-      <Text style={styles.header}>Zaloguj się</Text>
+      <Text style={styles.header}>Załóż konto</Text>
 
       <Formik
         initialValues={{
@@ -89,9 +93,9 @@ const LoginForm: React.FC<Props> = ({ changeForm }) => {
             </View>
             <Text
               style={styles.link}
-              onPress={() => changeForm(false)}
+              onPress={() => changeForm(true)}
             >
-              Nie masz jeszcze konta? Załóz je od razu.
+              Masz już konto? Zaloguj się.
             </Text>
             <Button
               title="Zaloguj"
@@ -106,4 +110,4 @@ const LoginForm: React.FC<Props> = ({ changeForm }) => {
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

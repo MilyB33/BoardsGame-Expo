@@ -1,5 +1,5 @@
 export type RootStackParamList = {
   Home: undefined;
   Second: undefined;
-  Modal: { modalType: string };
+  Modal: undefined;
 };

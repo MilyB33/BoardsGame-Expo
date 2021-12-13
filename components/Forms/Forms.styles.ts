@@ -30,6 +30,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
   },
+  link: {
+    color: '#fff',
+    textDecorationLine: 'underline',
+    margin: 10,
+    maxWidth: '55%',
+  },
 });
 
 export default styles;
