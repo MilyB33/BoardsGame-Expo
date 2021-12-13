@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import styled from 'styled-components';
 import LoginModal from '../Modals/LoginModal';
@@ -10,7 +10,6 @@ interface Props {
 
 const ModalContainer = styled(View)`
   flex: 1;
-  justify-content: center;
 `;
 
 const ModalScreen: React.FC<Props> = ({ route }) => {
@@ -18,7 +17,13 @@ const ModalScreen: React.FC<Props> = ({ route }) => {
 
   const renderModal = modalType === 'login' ? <LoginModal /> : null;
 
-  return <ModalContainer>{renderModal}</ModalContainer>;
+  return (
+    <ModalContainer>
+      <ScrollView contentContainerStyle={{ minHeight: '100%' }}>
+        {renderModal}
+      </ScrollView>
+    </ModalContainer>
+  );
 };
 
 export default ModalScreen;

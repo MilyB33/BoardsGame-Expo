@@ -9,7 +9,7 @@ import ScreenLayout from '../Layout/ScreenLayout';
 
 const SecondScreen: React.FC<Props> = ({ navigation }) => {
   return (
-    <ScreenLayout navigation={navigation}>
+    <ScreenLayout>
       <View>
         <Text style={{ color: 'white' }}>Second Screen</Text>
       </View>
