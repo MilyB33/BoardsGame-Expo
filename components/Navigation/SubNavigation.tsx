@@ -9,7 +9,7 @@ import { AuthContext } from '../../context/authContext';
 
 type NavigationProps = NativeStackNavigationProp<
   RootStackParamList,
-  'Home' | 'Second' | 'Modal'
+  'Home' | 'Events' | 'Modal'
 >;
 
 interface Props {

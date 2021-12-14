@@ -22,8 +22,8 @@ const ScreenLayout: React.FC<Props> = ({ children }) => {
   return (
     <Container>
       <CustomBackground source={backgroundImage} />
+      <Navigation />
       <ScrollView contentContainerStyle={styles.contentContainer}>
-        <Navigation />
         {children}
       </ScrollView>
     </Container>
@@ -32,7 +32,7 @@ const ScreenLayout: React.FC<Props> = ({ children }) => {
 
 const styles = StyleSheet.create({
   contentContainer: {
-    minHeight: '100%',
+    minHeight: '90%',
   },
 });
 

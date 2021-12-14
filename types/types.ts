@@ -1,5 +1,5 @@
 export type RootStackParamList = {
   Home: undefined;
-  Second: undefined;
+  Events: undefined;
   Modal: undefined;
 };

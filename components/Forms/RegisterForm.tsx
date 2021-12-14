@@ -1,12 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { View, TextInput, Text, Button } from 'react-native';
 import { Formik } from 'formik';
 import styles from './Forms.styles';
-import { AuthContext } from '../../context/authContext';
 
 import ServerClient from '../../clients/serverClient';
-import useStorage from '../../hooks/useStorage';
 import { useNavigation } from '@react-navigation/native';
 import validationSchemas from '../../utils/validationSchemas';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -22,25 +20,23 @@ interface Props {
 }
 
 const RegisterForm: React.FC<Props> = ({ changeForm }) => {
-  const { storeData } = useStorage();
-  const { login, user } = useContext(AuthContext);
   const navigation = useNavigation<NavigationProps>();
 
   const onSubmit = async (
     values: any,
     { resetForm }: { resetForm: Function }
   ) => {
-    const data = await ServerClient.loginUser(values);
+    const userObject = {
+      ...values,
+      confirmPassword: null,
+    };
+
+    const data = await ServerClient.registerUser(userObject);
+
     if (!data.success) {
       alert(data.message);
     } else {
-      await storeData(data.data.user.token);
-      const { _id, username } = data.data.user;
-      login({
-        id: _id,
-        username,
-        isAuthenticated: true,
-      });
+      alert('Successfully registered');
       resetForm();
       navigation.navigate('Home');
     }
@@ -54,8 +50,9 @@ const RegisterForm: React.FC<Props> = ({ changeForm }) => {
         initialValues={{
           username: '',
           password: '',
+          confirmPassword: '',
         }}
-        validationSchema={validationSchemas.LoginSchema}
+        validationSchema={validationSchemas.RegisterSchema}
         onSubmit={onSubmit}
       >
         {(props) => (
@@ -90,6 +87,23 @@ const RegisterForm: React.FC<Props> = ({ changeForm }) => {
                   {props.errors.password}
                 </Text>
               )}
+            </View>
+            <View>
+              <Text style={styles.label}>Potwierdź hasło: </Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Potwierdź hasło"
+                autoCapitalize="none"
+                onChangeText={props.handleChange('confirmPassword')}
+                value={props.values.confirmPassword}
+                secureTextEntry={true}
+              />
+              {props.errors.confirmPassword &&
+                props.touched.confirmPassword && (
+                  <Text style={styles.errorField}>
+                    {props.errors.confirmPassword}
+                  </Text>
+                )}
             </View>
             <Text
               style={styles.link}

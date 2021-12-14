@@ -25,7 +25,7 @@ const NavigationItem = styled(Text)`
 
 type NavigationProps = NativeStackNavigationProp<
   RootStackParamList,
-  'Home' | 'Second' | 'Modal'
+  'Home' | 'Events' | 'Modal'
 >;
 
 const Navigation = () => {
@@ -40,7 +40,7 @@ const Navigation = () => {
           <NavigationItem>Strona Główna</NavigationItem>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Second')}
+          onPress={() => navigation.navigate('Events')}
         >
           <NavigationItem>Wydarzenia</NavigationItem>
         </TouchableOpacity>

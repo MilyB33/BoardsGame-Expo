@@ -11,6 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import validationSchemas from '../../utils/validationSchemas';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types/types';
+import Input from './Input';
 
 type NavigationProps = NativeStackNavigationProp<
   RootStackParamList,
@@ -23,7 +24,7 @@ interface Props {
 
 const LoginForm: React.FC<Props> = ({ changeForm }) => {
   const { storeData } = useStorage();
-  const { login, user } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const navigation = useNavigation<NavigationProps>();
 
   const onSubmit = async (
