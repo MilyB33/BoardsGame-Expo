@@ -11,11 +11,11 @@ import theme from './styles/theme';
 export default function App() {
   return (
     <ThemeProvider theme={theme}>
-      <AppContextProvider>
-        <AuthContextProvider>
+      <AuthContextProvider>
+        <AppContextProvider>
           <AppLayout />
-        </AuthContextProvider>
-      </AppContextProvider>
+        </AppContextProvider>
+      </AuthContextProvider>
     </ThemeProvider>
   );
 }

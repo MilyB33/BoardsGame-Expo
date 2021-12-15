@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useContext } from 'react';
-import ServerClient from '../../clients/serverClient';
+import React, { useContext } from 'react';
+
 import { AppContext } from '../../context/appContext';
 
 import {
@@ -9,17 +9,7 @@ import {
   Button,
 } from 'react-native';
 import Event from './Event';
-
-interface EventType {
-  date: string;
-  time: string;
-  game: string;
-  description: string;
-  place: string;
-  createdAt: string;
-  createdBy: string;
-  _id: string;
-}
+import { Event as EventType } from '../../types/types';
 
 const AllEvents = () => {
   const {
@@ -34,7 +24,7 @@ const AllEvents = () => {
     ));
 
   return (
-    <View>
+    <View style={styles.container}>
       {renderEvents()}
 
       {loading && (
@@ -45,14 +35,24 @@ const AllEvents = () => {
         />
       )}
 
-      {loading || <Button title="Pokaż więcej" onPress={() => {}} />}
+      {loading || (
+        <View style={styles.moreButton}>
+          <Button title="Pokaż więcej" onPress={() => {}} />
+        </View>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   spinner: {
     marginTop: 50,
+  },
+  moreButton: {
+    marginTop: 'auto',
   },
 });
 

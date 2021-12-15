@@ -5,13 +5,10 @@ import { Formik } from 'formik';
 import styles from './Forms.styles';
 import { AuthContext } from '../../context/authContext';
 
-import ServerClient from '../../clients/serverClient';
-import useStorage from '../../hooks/useStorage';
 import { useNavigation } from '@react-navigation/native';
 import validationSchemas from '../../utils/validationSchemas';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types/types';
-import Input from './Input';
 
 type NavigationProps = NativeStackNavigationProp<
   RootStackParamList,
@@ -23,7 +20,6 @@ interface Props {
 }
 
 const LoginForm: React.FC<Props> = ({ changeForm }) => {
-  const { storeData } = useStorage();
   const { login } = useContext(AuthContext);
   const navigation = useNavigation<NavigationProps>();
 
@@ -31,15 +27,12 @@ const LoginForm: React.FC<Props> = ({ changeForm }) => {
     values: any,
     { resetForm }: { resetForm: Function }
   ) => {
-    const data = await ServerClient.loginUser(values);
-    if (!data.success) {
-      alert(data.message);
-    } else {
-      await storeData(data.data.user.token);
+    // Tutaj zapytać bo nie wiem dlaczego ale musze uzywac Promise<boolean>
+    const isLogged = await login(values);
 
-      login(data.data.user);
+    if (isLogged) {
       resetForm();
-      navigation.navigate('Home');
+      navigation.goBack();
     }
   };
 

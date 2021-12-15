@@ -1,23 +1,35 @@
-import axios from 'axios';
-
 interface LoginCredentials {
   username: string;
   password: string;
 }
 
+type Header = {
+  [key: string]: string;
+};
+
+interface Client {
+  BaseURL: string;
+  post(endpoint: string, body?: any): Promise<any>;
+  get(endpoint: string): Promise<any>;
+  defaultHeaders: Header;
+  headers: Header;
+}
+
 const URL = 'http://192.168.0.12:8080';
 
 class ServerClient {
-  client = (() => ({
+  private client = ((): Client => ({
     BaseURL: URL,
     defaultHeaders: {
       'Content-Type': 'application/json',
     },
-    post: async function (endpoint: string, body: any) {
+    headers: {},
+    post: async function (endpoint: string, body?: any) {
       return await fetch(`${this.BaseURL}/${endpoint}`, {
         method: 'POST',
         headers: {
           ...this.defaultHeaders,
+          ...this.headers,
         },
         body: JSON.stringify(body),
       });
@@ -27,10 +39,19 @@ class ServerClient {
         method: 'GET',
         headers: {
           ...this.defaultHeaders,
+          ...this.headers,
         },
       });
     },
   }))();
+
+  setToken = (token: string) => {
+    this.client.headers['Authorization'] = `Bearer ${token}`;
+  };
+
+  removeToken = () => {
+    delete this.client.headers['Authorization'];
+  };
 
   loginUser = async (data: LoginCredentials) => {
     try {
@@ -74,7 +95,7 @@ class ServerClient {
 
   getAllEvents = async () => {
     try {
-      const response = await this.client.get('event/all');
+      const response = await this.client.get('events/all');
 
       const json = await response.json();
 
@@ -83,6 +104,50 @@ class ServerClient {
       } else throw new Error(json.message);
     } catch (err) {
       return [];
+    }
+  };
+
+  signUserForEvent = async (eventId: string, userId: string) => {
+    try {
+      const response = await this.client.post(
+        `events/${userId}/${eventId}/sign`
+      );
+
+      const json = await response.json();
+
+      if (response.status === 200) {
+        return {
+          success: true,
+          data: json.events,
+        };
+      } else throw new Error(json.message);
+    } catch (err) {
+      return {
+        success: false,
+        message: err,
+      };
+    }
+  };
+
+  signOutUserFromEvent = async (eventId: string, userId: string) => {
+    try {
+      const response = await this.client.post(
+        `events/${userId}/${eventId}/signOut`
+      );
+
+      const json = await response.json();
+
+      if (response.status === 200) {
+        return {
+          success: true,
+          data: json.events,
+        };
+      } else throw new Error(json.message);
+    } catch (err) {
+      return {
+        success: false,
+        message: err,
+      };
     }
   };
 }

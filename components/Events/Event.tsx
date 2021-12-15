@@ -1,27 +1,41 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../../context/authContext';
+import { AppContext } from '../../context/appContext';
 
 import { View, Text, StyleSheet, Button } from 'react-native';
+import { Event as EventType } from '../../types/types';
 
 interface Props {
-  event: {
-    date: string;
-    time: string;
-    game: string;
-    description: string;
-    place: string;
-    createdAt: string;
-    createdBy: string;
-    _id: string;
-  };
+  event: EventType;
 }
 
 const Event: React.FC<Props> = ({ event }) => {
+  const {
+    user: { isAuthenticated, id: userId },
+  } = useContext(AuthContext);
+  const { signUserForEvent, signOutUserFromEvent } =
+    useContext(AppContext);
+
+  const handleSignUp = () => {
+    if (isAuthenticated) {
+      signUserForEvent(event._id, userId);
+    } else {
+      alert('Musisz być zalogowany aby zapisać się na wydarzenie');
+    }
+  };
+
+  const handleSignOut = () => {
+    if (isAuthenticated) {
+      signOutUserFromEvent(event._id, userId);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.text}>Miejsce: {event.place}</Text>
+        <Text style={styles.text}>Miejsce: {event.location}</Text>
 
-        <Text style={styles.text}>Miasto: {event.place}</Text>
+        <Text style={styles.text}>Miasto: {event.town}</Text>
 
         <Text style={styles.text}>
           Organizator: {event.createdBy}
@@ -35,10 +49,33 @@ const Event: React.FC<Props> = ({ event }) => {
         </View>
       </View>
 
-      <Button title="Zapisz się" onPress={() => {}} />
+      {event.signedUsers.includes(userId) ? (
+        <Button
+          color="#e63946"
+          title="Wypisz się"
+          onPress={handleSignOut}
+          disabled={
+            event.signedUsers.length === event.maxPlayers
+              ? true
+              : false
+          }
+        />
+      ) : (
+        <Button
+          title="Zapisz się"
+          onPress={handleSignUp}
+          disabled={
+            event.signedUsers.length === event.maxPlayers
+              ? true
+              : false
+          }
+        />
+      )}
 
       <View style={styles.freePlaces}>
-        <Text style={styles.text}>1 / 4</Text>
+        <Text
+          style={styles.text}
+        >{`${event.signedUsers.length} / ${event.maxPlayers}`}</Text>
       </View>
     </View>
   );
