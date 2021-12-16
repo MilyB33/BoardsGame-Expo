@@ -2,6 +2,7 @@ export type RootStackParamList = {
   Home: undefined;
   Events: undefined;
   Modal: undefined;
+  UserEvents: undefined;
 };
 
 export interface Event {

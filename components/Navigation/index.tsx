@@ -7,6 +7,7 @@ const Stack = createNativeStackNavigator();
 import HomeScreen from '../Screens/HomeScreen';
 import EventsScreen from '../Screens/EventsScreen';
 import ModalScreen from '../Screens/ModalScreen';
+import UserEventsScreen from '../Screens/UserEventsScreen';
 
 const Navigation = () => {
   return (
@@ -20,6 +21,10 @@ const Navigation = () => {
         <Stack.Group>
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Events" component={EventsScreen} />
+          <Stack.Screen
+            name="UserEvents"
+            component={UserEventsScreen}
+          />
         </Stack.Group>
         <Stack.Group
           screenOptions={{ presentation: 'transparentModal' }}

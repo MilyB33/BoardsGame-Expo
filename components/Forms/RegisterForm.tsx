@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { View, TextInput, Text, Button } from 'react-native';
+import {
+  View,
+  TextInput,
+  Text,
+  Button,
+  ActivityIndicator,
+} from 'react-native';
 import { Formik } from 'formik';
 import styles from './Forms.styles';
 
@@ -21,6 +27,7 @@ interface Props {
 
 const RegisterForm: React.FC<Props> = ({ changeForm }) => {
   const navigation = useNavigation<NavigationProps>();
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (
     values: any,
@@ -31,6 +38,8 @@ const RegisterForm: React.FC<Props> = ({ changeForm }) => {
       confirmPassword: null,
     };
 
+    setLoading(true);
+
     const data = await ServerClient.registerUser(userObject);
 
     if (!data.success) {
@@ -40,6 +49,8 @@ const RegisterForm: React.FC<Props> = ({ changeForm }) => {
       resetForm();
       navigation.navigate('Home');
     }
+
+    setLoading(false);
   };
 
   return (
@@ -111,12 +122,16 @@ const RegisterForm: React.FC<Props> = ({ changeForm }) => {
             >
               Masz już konto? Zaloguj się.
             </Text>
-            <Button
-              title="Zaloguj"
-              onPress={() => {
-                props.handleSubmit();
-              }}
-            />
+            {loading ? (
+              <ActivityIndicator color="white" size="large" />
+            ) : (
+              <Button
+                title="Zaloguj"
+                onPress={() => {
+                  props.handleSubmit();
+                }}
+              />
+            )}
           </>
         )}
       </Formik>

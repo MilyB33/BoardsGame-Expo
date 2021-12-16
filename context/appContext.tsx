@@ -6,8 +6,11 @@ import { Event } from '../types/types';
 
 interface Context {
   state: AppState;
-  signUserForEvent(eventId: string, userId: string): void;
-  signOutUserFromEvent(eventId: string, userId: string): void;
+  signUserForEvent(eventId: string, userId: string): Promise<void>;
+  signOutUserFromEvent(
+    eventId: string,
+    userId: string
+  ): Promise<void>;
 }
 
 interface Props {
@@ -39,7 +42,10 @@ export const AppContextProvider: React.FC<Props> = ({ children }) => {
   ) => {
     const data = await ServerClient.signUserForEvent(eventId, userId);
 
-    if (!data.success) alert(data.message);
+    if (!data.success) {
+      alert(data.message);
+      return;
+    }
 
     dispatch({
       type: EventActions.SIGN_USER_TO_EVENT,
@@ -59,7 +65,10 @@ export const AppContextProvider: React.FC<Props> = ({ children }) => {
       userId
     );
 
-    if (!data.success) alert(data.message);
+    if (!data.success) {
+      alert(data.message);
+      return;
+    }
 
     dispatch({
       type: EventActions.SIGN_OUT_USER_FROM_EVENT,

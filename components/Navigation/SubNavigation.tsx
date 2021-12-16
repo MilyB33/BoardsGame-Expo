@@ -9,7 +9,7 @@ import { AuthContext } from '../../context/authContext';
 
 type NavigationProps = NativeStackNavigationProp<
   RootStackParamList,
-  'Home' | 'Events' | 'Modal'
+  'UserEvents' | 'Home'
 >;
 
 interface Props {
@@ -40,6 +40,7 @@ const SubNavigation: React.FC<Props> = ({ closeMenu }) => {
   const handleLogout = () => {
     closeMenu(false);
     logout();
+    navigation.navigate('Home');
   };
 
   return (
@@ -47,7 +48,9 @@ const SubNavigation: React.FC<Props> = ({ closeMenu }) => {
       <TouchableOpacity>
         <NavigationItem>Znajomi</NavigationItem>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('UserEvents')}
+      >
         <NavigationItem>Twoje Wydarzenia</NavigationItem>
       </TouchableOpacity>
       <TouchableOpacity>

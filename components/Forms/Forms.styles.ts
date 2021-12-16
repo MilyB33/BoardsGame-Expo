@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.4)',
     padding: 25,
     borderRadius: 10,
+    width: '80%',
   },
   input: {
     backgroundColor: '#fff',
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     textDecorationLine: 'underline',
     margin: 10,
-    maxWidth: '55%',
+    maxWidth: '100%',
   },
 });
 

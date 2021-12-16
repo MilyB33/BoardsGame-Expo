@@ -1,6 +1,12 @@
 import React, { useContext } from 'react';
 
-import { View, TextInput, Text, Button } from 'react-native';
+import {
+  View,
+  TextInput,
+  Text,
+  Button,
+  ActivityIndicator,
+} from 'react-native';
 import { Formik } from 'formik';
 import styles from './Forms.styles';
 import { AuthContext } from '../../context/authContext';
@@ -20,14 +26,13 @@ interface Props {
 }
 
 const LoginForm: React.FC<Props> = ({ changeForm }) => {
-  const { login } = useContext(AuthContext);
+  const { login, user } = useContext(AuthContext);
   const navigation = useNavigation<NavigationProps>();
 
   const onSubmit = async (
     values: any,
     { resetForm }: { resetForm: Function }
   ) => {
-    // Tutaj zapytać bo nie wiem dlaczego ale musze uzywac Promise<boolean>
     const isLogged = await login(values);
 
     if (isLogged) {
@@ -87,12 +92,16 @@ const LoginForm: React.FC<Props> = ({ changeForm }) => {
             >
               Nie masz jeszcze konta? Załóz je od razu.
             </Text>
-            <Button
-              title="Zaloguj"
-              onPress={() => {
-                props.handleSubmit();
-              }}
-            />
+            {user.loading ? (
+              <ActivityIndicator size="large" color="white" />
+            ) : (
+              <Button
+                title="Zaloguj"
+                onPress={() => {
+                  props.handleSubmit();
+                }}
+              />
+            )}
           </>
         )}
       </Formik>

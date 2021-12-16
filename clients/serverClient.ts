@@ -150,6 +150,36 @@ class ServerClient {
       };
     }
   };
+
+  getUserEvents = async (userId: string) => {
+    try {
+      const response = await this.client.get(`events/${userId}/all`);
+
+      const json = await response.json();
+
+      if (response.status === 200) {
+        return json.events;
+      } else throw new Error(json.message);
+    } catch (err) {
+      return [];
+    }
+  };
+
+  getUserSignedEvents = async (userId: string) => {
+    try {
+      const response = await this.client.get(
+        `events/${userId}/signed/all`
+      );
+
+      const json = await response.json();
+
+      if (response.status === 200) {
+        return json.events;
+      } else throw new Error(json.message);
+    } catch (err) {
+      return [];
+    }
+  };
 }
 
 export default new ServerClient();
