@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types/types';
 import { getColor } from '../../styles/utils';
-import { AuthContext } from '../../context/authContext';
+import { UserContext } from '../../context/userContext';
 
 type NavigationProps = NativeStackNavigationProp<
   RootStackParamList,
@@ -34,7 +34,7 @@ const NavigationItem = styled(Text)`
 `;
 
 const SubNavigation: React.FC<Props> = ({ closeMenu }) => {
-  const { logout } = useContext(AuthContext);
+  const { logout } = useContext(UserContext);
   const navigation = useNavigation<NavigationProps>();
 
   const handleLogout = () => {

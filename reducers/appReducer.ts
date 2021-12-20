@@ -11,7 +11,7 @@ const appReducer = (state: AppState, action: AppAllActions) => {
         ...state,
         events: {
           ...state.events,
-          // filter out duplicates, i don't know how it works but it works (it's temporary)
+          // filter out duplicates (it's temporary)
           items: [...state.events.items, ...action.payload].filter(
             (item, index, self) =>
               self.findIndex((t) => t._id === item._id) === index
@@ -62,6 +62,16 @@ const appReducer = (state: AppState, action: AppAllActions) => {
             }
             return item;
           }),
+        },
+      };
+    case EventActions.DELETE_EVENT:
+      return {
+        ...state,
+        events: {
+          ...state.events,
+          items: state.events.items.filter(
+            (event) => event._id !== action.payload.eventId
+          ),
         },
       };
     default:

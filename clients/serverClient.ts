@@ -11,6 +11,7 @@ interface Client {
   BaseURL: string;
   post(endpoint: string, body?: any): Promise<any>;
   get(endpoint: string): Promise<any>;
+  delete(endpoint: string): Promise<any>;
   defaultHeaders: Header;
   headers: Header;
 }
@@ -37,6 +38,15 @@ class ServerClient {
     get: async function (endpoint: string) {
       return await fetch(`${this.BaseURL}/${endpoint}`, {
         method: 'GET',
+        headers: {
+          ...this.defaultHeaders,
+          ...this.headers,
+        },
+      });
+    },
+    delete: async function (endpoint: string) {
+      return await fetch(`${this.BaseURL}/${endpoint}`, {
+        method: 'DELETE',
         headers: {
           ...this.defaultHeaders,
           ...this.headers,
@@ -178,6 +188,28 @@ class ServerClient {
       } else throw new Error(json.message);
     } catch (err) {
       return [];
+    }
+  };
+
+  deleteUserEvent = async (eventId: string, userId: string) => {
+    try {
+      const response = await this.client.delete(
+        `events/${userId}/${eventId}`
+      );
+
+      const json = await response.json();
+
+      if (response.status === 200) {
+        return {
+          success: true,
+          data: json.event,
+        };
+      } else throw new Error(json.message);
+    } catch (err) {
+      return {
+        success: false,
+        message: err,
+      };
     }
   };
 }

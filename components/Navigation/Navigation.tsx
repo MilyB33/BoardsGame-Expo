@@ -6,7 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import styled from 'styled-components';
 import { getColor } from '../../styles/utils';
 import { RootStackParamList } from '../../types/types';
-import { AuthContext } from '../../context/authContext';
+import { UserContext } from '../../context/userContext';
 import SubNavigation from './SubNavigation';
 
 const NavigationContainer = styled(View)`
@@ -31,7 +31,7 @@ type NavigationProps = NativeStackNavigationProp<
 const Navigation = () => {
   const [subOpen, setSubOpen] = useState(false);
   const navigation = useNavigation<NavigationProps>();
-  const { user } = useContext(AuthContext);
+  const { user } = useContext(UserContext);
 
   return (
     <>

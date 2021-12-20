@@ -1,13 +1,13 @@
 import React, { useContext, useEffect } from 'react';
 
-import { AuthContext } from '../../context/authContext';
+import { UserContext } from '../../context/userContext';
 import UserEvent from './UserEvent';
 import UserSignedEvent from './UserSignedEvent';
 import ScrollContainer from './ScrollContainer';
 // This components probably should be a HOC to avoid repetition (TODO)
 const UserEvents = () => {
   const { user, getUserEvents, getUserSignedEvents } =
-    useContext(AuthContext);
+    useContext(UserContext);
 
   const renderUserEvents = () =>
     user.userEvents.map((event) => (

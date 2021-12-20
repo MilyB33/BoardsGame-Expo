@@ -2,7 +2,6 @@ import React, { createContext, useReducer, useEffect } from 'react';
 import appReducer from '../reducers/appReducer';
 import ServerClient from '../clients/serverClient';
 import { EventActions, AppState } from '../reducers/reducersTypes';
-import { Event } from '../types/types';
 
 interface Context {
   state: AppState;
@@ -11,6 +10,7 @@ interface Context {
     eventId: string,
     userId: string
   ): Promise<void>;
+  deleteEvent(eventId: string): Promise<void>;
 }
 
 interface Props {
@@ -79,6 +79,13 @@ export const AppContextProvider: React.FC<Props> = ({ children }) => {
     });
   };
 
+  const deleteEvent = async (eventId: string) => {
+    dispatch({
+      type: EventActions.DELETE_EVENT,
+      payload: { eventId },
+    });
+  };
+
   useEffect(() => {
     // Probably this use effect rerenders once but it must be checked
     if (state.events.items.length === 0) getInitialEvents();
@@ -86,7 +93,12 @@ export const AppContextProvider: React.FC<Props> = ({ children }) => {
 
   return (
     <AppContext.Provider
-      value={{ state, signUserForEvent, signOutUserFromEvent }}
+      value={{
+        state,
+        signUserForEvent,
+        signOutUserFromEvent,
+        deleteEvent,
+      }}
     >
       {children}
     </AppContext.Provider>

@@ -1,9 +1,10 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useReducer, useContext } from 'react';
 import useStorage from '../hooks/useStorage';
 import ServerClient from '../clients/serverClient';
-import authReducer from '../reducers/authReducer';
-import { AuthActions } from '../reducers/reducersTypes';
+import authReducer from '../reducers/userReducer';
+import { UserActions } from '../reducers/reducersTypes';
 import { Event } from '../types/types';
+import { AppContext } from './appContext';
 
 interface Props {
   children: React.ReactNode;
@@ -24,6 +25,7 @@ interface Context {
   logout(): void;
   getUserEvents(userId?: string): Promise<void>;
   getUserSignedEvents(userId?: string): Promise<void>;
+  deleteUserEvent(eventId: string): Promise<void>;
 }
 
 const initialState = {
@@ -35,23 +37,24 @@ const initialState = {
   userSignedEvents: [],
 };
 
-export const AuthContext = createContext({} as Context);
+export const UserContext = createContext({} as Context);
 
-export const AuthContextProvider: React.FC<Props> = ({
+export const UserContextProvider: React.FC<Props> = ({
   children,
 }) => {
   const { storeData, removeData } = useStorage();
   const [user, dispatch] = useReducer(authReducer, initialState);
+  const { deleteEvent } = useContext(AppContext);
 
   const login = async (values: any) => {
-    dispatch({ type: AuthActions.SET_CURRENT_USER_LOADING });
+    dispatch({ type: UserActions.SET_CURRENT_USER_LOADING });
 
     const data = await ServerClient.loginUser(values);
 
     if (!data.success) {
       alert(data.message);
 
-      dispatch({ type: AuthActions.END_CURRENT_USER_LOADING });
+      dispatch({ type: UserActions.END_CURRENT_USER_LOADING });
 
       return false;
     }
@@ -61,7 +64,7 @@ export const AuthContextProvider: React.FC<Props> = ({
     await storeData(token);
 
     dispatch({
-      type: AuthActions.SET_CURRENT_USER,
+      type: UserActions.SET_CURRENT_USER,
       payload: {
         username,
         id: _id,
@@ -74,7 +77,7 @@ export const AuthContextProvider: React.FC<Props> = ({
   };
 
   const logout = () => {
-    dispatch({ type: AuthActions.LOGOUT_USER });
+    dispatch({ type: UserActions.LOGOUT_USER });
 
     ServerClient.removeToken();
     removeData();
@@ -84,7 +87,7 @@ export const AuthContextProvider: React.FC<Props> = ({
     const data = await ServerClient.getUserEvents(userId || user.id);
 
     dispatch({
-      type: AuthActions.SET_USER_EVENTS,
+      type: UserActions.SET_USER_EVENTS,
       payload: {
         events: data,
         field: 'userEvents',
@@ -98,7 +101,7 @@ export const AuthContextProvider: React.FC<Props> = ({
     );
 
     dispatch({
-      type: AuthActions.SET_USER_EVENTS,
+      type: UserActions.SET_USER_EVENTS,
       payload: {
         events: data,
         field: 'userSignedEvents',
@@ -106,17 +109,43 @@ export const AuthContextProvider: React.FC<Props> = ({
     });
   };
 
+  const deleteUserEvent = async (
+    eventId: string,
+    userId?: string
+  ) => {
+    const data = await ServerClient.deleteUserEvent(
+      eventId,
+      userId || user.id
+    );
+
+    if (!data.success) {
+      alert(data.message);
+      return;
+    }
+
+    dispatch({
+      type: UserActions.DELETE_EVENT,
+      payload: {
+        eventId,
+        field: 'userEvents',
+      },
+    });
+
+    deleteEvent(eventId);
+  };
+
   return (
-    <AuthContext.Provider
+    <UserContext.Provider
       value={{
         user,
         login,
         logout,
         getUserEvents,
         getUserSignedEvents,
+        deleteUserEvent,
       }}
     >
       {children}
-    </AuthContext.Provider>
+    </UserContext.Provider>
   );
 };

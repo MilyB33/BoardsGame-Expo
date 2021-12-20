@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { Formik } from 'formik';
 import styles from './Forms.styles';
-import { AuthContext } from '../../context/authContext';
+import { UserContext } from '../../context/userContext';
 
 import { useNavigation } from '@react-navigation/native';
 import validationSchemas from '../../utils/validationSchemas';
@@ -26,7 +26,7 @@ interface Props {
 }
 
 const LoginForm: React.FC<Props> = ({ changeForm }) => {
-  const { login, user } = useContext(AuthContext);
+  const { login, user } = useContext(UserContext);
   const navigation = useNavigation<NavigationProps>();
 
   const onSubmit = async (
