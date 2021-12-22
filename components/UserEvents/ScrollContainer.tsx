@@ -8,13 +8,25 @@ interface Props {
 }
 
 const ScrollContainer: React.FC<Props> = ({ children, header }) => (
-  <View>
+  <View style={styles.container}>
     {header && <Text style={styles.text}>{header}</Text>}
-    <ScrollView horizontal={true}>{children}</ScrollView>
+    <ScrollView
+      contentContainerStyle={styles.scrollContainer}
+      horizontal={true}
+    >
+      {children}
+    </ScrollView>
   </View>
 );
 
 const styles = StyleSheet.create({
+  container: {
+    marginBottom: 10,
+  },
+  scrollContainer: {
+    minWidth: '100%',
+    justifyContent: 'center',
+  },
   text: {
     color: 'white',
     fontSize: 20,

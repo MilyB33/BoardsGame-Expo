@@ -27,50 +27,25 @@ const appReducer = (state: AppState, action: AppAllActions) => {
           loading: true,
         },
       };
-    case EventActions.SIGN_USER_TO_EVENT:
-      return {
-        ...state,
-        events: {
-          ...state.events,
-          items: state.events.items.map((item) => {
-            if (item._id === action.payload.eventId) {
-              return {
-                ...item,
-                signedUsers: [
-                  ...item.signedUsers,
-                  action.payload.userId,
-                ],
-              };
-            }
-            return item;
-          }),
-        },
-      };
-    case EventActions.SIGN_OUT_USER_FROM_EVENT:
-      return {
-        ...state,
-        events: {
-          ...state.events,
-          items: state.events.items.map((item) => {
-            if (item._id === action.payload.eventId) {
-              return {
-                ...item,
-                signedUsers: item.signedUsers.filter(
-                  (user) => user !== action.payload.userId
-                ),
-              };
-            }
-            return item;
-          }),
-        },
-      };
-    case EventActions.DELETE_EVENT:
+    case EventActions.FILTER_OUT_EVENT:
       return {
         ...state,
         events: {
           ...state.events,
           items: state.events.items.filter(
             (event) => event._id !== action.payload.eventId
+          ),
+        },
+      };
+    case EventActions.REPLACE_EVENT:
+      return {
+        ...state,
+        events: {
+          ...state.events,
+          items: state.events.items.map((event) =>
+            event._id === action.payload.event._id
+              ? action.payload.event
+              : event
           ),
         },
       };

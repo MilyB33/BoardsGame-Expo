@@ -128,7 +128,7 @@ class ServerClient {
       if (response.status === 200) {
         return {
           success: true,
-          data: json.events,
+          data: json.event,
         };
       } else throw new Error(json.message);
     } catch (err) {
@@ -146,11 +146,10 @@ class ServerClient {
       );
 
       const json = await response.json();
-
       if (response.status === 200) {
         return {
           success: true,
-          data: json.events,
+          data: json.event,
         };
       } else throw new Error(json.message);
     } catch (err) {

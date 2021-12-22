@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { UserContext } from '../../context/userContext';
-import { AppContext } from '../../context/appContext';
 
 import { Button, ActivityIndicator } from 'react-native';
 import { Event as EventType } from '../../types/types';
@@ -15,15 +14,16 @@ interface Props {
 const Event: React.FC<Props> = ({ event }) => {
   const {
     user: { isAuthenticated, id: userId },
+    signUserForEvent,
+    signOutUserFromEvent,
   } = useContext(UserContext);
-  const { signUserForEvent, signOutUserFromEvent } =
-    useContext(AppContext);
+
   const [loading, setLoading] = useState(false);
 
   const handleSignUp = async () => {
     if (isAuthenticated) {
       setLoading(true);
-      await signUserForEvent(event._id, userId);
+      await signUserForEvent(event._id);
       setLoading(false);
     } else {
       alert('Musisz być zalogowany aby zapisać się na wydarzenie');
@@ -33,7 +33,7 @@ const Event: React.FC<Props> = ({ event }) => {
   const handleSignOut = async () => {
     if (isAuthenticated) {
       setLoading(true);
-      await signOutUserFromEvent(event._id, userId);
+      await signOutUserFromEvent(event._id);
       setLoading(false);
     }
   };

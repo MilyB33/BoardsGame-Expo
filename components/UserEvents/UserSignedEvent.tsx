@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
+import { UserContext } from '../../context/userContext';
 
-import { View, StyleSheet, Button } from 'react-native';
+import { StyleSheet, Button, ActivityIndicator } from 'react-native';
 
 import EventWrapper from '../Event/EventWrapper';
 import EventInfo from '../Event/EventInfo';
@@ -12,11 +13,28 @@ interface Props {
 }
 
 const UserSignedEvent: React.FC<Props> = ({ event }) => {
+  const { signOutUserFromEvent } = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
+
+  const handleDelete = async () => {
+    setLoading(true);
+    await signOutUserFromEvent(event._id);
+    // There is no need to set loading to false, because component will be unmounted
+  };
+
   return (
     <EventWrapper>
       <EventInfo event={event} />
 
-      <Button title="Wypisz się" onPress={() => {}} color="#e63946" />
+      {loading ? (
+        <ActivityIndicator size="large" color="white" />
+      ) : (
+        <Button
+          title="Wypisz się"
+          onPress={handleDelete}
+          color="#e63946"
+        />
+      )}
 
       <EventFreePlaces event={event} />
     </EventWrapper>

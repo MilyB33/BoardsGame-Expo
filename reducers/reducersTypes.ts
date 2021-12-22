@@ -12,10 +12,8 @@ export interface AppState {
 export enum EventActions {
   GET_EVENTS = 'GET_EVENTS',
   SET_EVENTS_LOADING = 'SET_EVENTS_LOADING',
-  SIGN_USER_TO_EVENT = 'SIGN_USER_TO_EVENT',
-  SIGN_OUT_USER_FROM_EVENT = 'SIGN_OUT_USER_FROM_EVENT',
-  DELETE_EVENT = 'DELETE_EVENT',
-  REPLACE_EDITED_EVENT = 'REPLACE_EDITED_EVENT',
+  FILTER_OUT_EVENT = 'FILTER_OUT_EVENT',
+  REPLACE_EVENT = 'REPLACE_EVENT',
 }
 
 export interface GetEventsAction {
@@ -27,31 +25,27 @@ export interface SetEventsLoadingAction {
   type: EventActions.SET_EVENTS_LOADING;
 }
 
-export interface UserActionEvent<T> {
-  type: T;
-  payload: {
-    eventId: string;
-    userId: string;
-  };
-}
-
 export type AppAllActions =
   | GetEventsAction
   | SetEventsLoadingAction
-  | UserActionEvent<EventActions.SIGN_USER_TO_EVENT>
-  | UserActionEvent<EventActions.SIGN_OUT_USER_FROM_EVENT>
   | DeleteEventAction
   | EditEventAction;
 
 // ========================================================
+
+type EventsType = {
+  [key: string | number]: {
+    items: Event[];
+    loading: boolean;
+  };
+};
 
 export interface UserState {
   id: string;
   username: string;
   isAuthenticated: boolean;
   loading: boolean;
-  userEvents: Event[];
-  userSignedEvents: Event[];
+  events: EventsType;
 }
 
 export enum UserActions {
@@ -60,8 +54,11 @@ export enum UserActions {
   END_CURRENT_USER_LOADING = 'END_CURRENT_USER_LOADING',
   LOGOUT_USER = 'LOGOUT_USER',
   SET_USER_EVENTS = 'SET_USER_EVENTS',
+  SET_EVENTS_LOADING = 'SET_EVENTS_LOADING',
   DELETE_EVENT = 'DELETE_EVENT',
   EDIT_EVENT = 'EDIT_EVENT',
+  SIGN_USER_TO_EVENT = 'SIGN_USER_TO_EVENT',
+  SIGN_OUT_USER_FROM_EVENT = 'SIGN_OUT_USER_FROM_EVENT',
 }
 
 export interface SetCurrentUserAction {
@@ -84,19 +81,39 @@ export interface GetUserEventsAction {
   };
 }
 
+export interface SignUserToEventAction {
+  type: UserActions.SIGN_USER_TO_EVENT;
+  payload: Event;
+}
+
+export interface SignOutUserFromEventAction {
+  type: UserActions.SIGN_OUT_USER_FROM_EVENT;
+  payload: string;
+}
+
+export interface SetLoadingEvents {
+  type: UserActions.SET_EVENTS_LOADING;
+  payload: {
+    field: string;
+  };
+}
+
 export type UserAllActions =
   | SetCurrentUserAction
   | OnlyTypeAction<UserActions.SET_CURRENT_USER_LOADING>
   | OnlyTypeAction<UserActions.END_CURRENT_USER_LOADING>
   | OnlyTypeAction<UserActions.LOGOUT_USER>
+  | SignUserToEventAction
+  | SignOutUserFromEventAction
   | GetUserEventsAction
   | DeleteEventAction
-  | EditEventAction;
+  | EditEventAction
+  | SetLoadingEvents;
 
 // ========================================================
 
 export interface DeleteEventAction {
-  type: EventActions.DELETE_EVENT | UserActions.DELETE_EVENT;
+  type: EventActions.FILTER_OUT_EVENT | UserActions.DELETE_EVENT;
   payload: {
     eventId: string;
     field?: string;
@@ -104,7 +121,7 @@ export interface DeleteEventAction {
 }
 
 export interface EditEventAction {
-  type: EventActions.REPLACE_EDITED_EVENT | UserActions.EDIT_EVENT;
+  type: EventActions.REPLACE_EVENT | UserActions.EDIT_EVENT;
   payload: {
     event: Event;
     field?: string;

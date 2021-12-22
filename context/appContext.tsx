@@ -2,15 +2,12 @@ import React, { createContext, useReducer, useEffect } from 'react';
 import appReducer from '../reducers/appReducer';
 import ServerClient from '../clients/serverClient';
 import { EventActions, AppState } from '../reducers/reducersTypes';
+import { Event } from '../types/types';
 
 interface Context {
   state: AppState;
-  signUserForEvent(eventId: string, userId: string): Promise<void>;
-  signOutUserFromEvent(
-    eventId: string,
-    userId: string
-  ): Promise<void>;
-  deleteEvent(eventId: string): Promise<void>;
+  FilterOutEvent(eventId: string): Promise<void>;
+  replaceEvent(event: Event): Promise<void>;
 }
 
 interface Props {
@@ -36,53 +33,17 @@ export const AppContextProvider: React.FC<Props> = ({ children }) => {
     dispatch({ type: EventActions.GET_EVENTS, payload: data });
   };
 
-  const signUserForEvent = async (
-    eventId: string,
-    userId: string
-  ) => {
-    const data = await ServerClient.signUserForEvent(eventId, userId);
-
-    if (!data.success) {
-      alert(data.message);
-      return;
-    }
-
+  const FilterOutEvent = async (eventId: string) => {
     dispatch({
-      type: EventActions.SIGN_USER_TO_EVENT,
-      payload: {
-        eventId,
-        userId,
-      },
-    });
-  };
-
-  const signOutUserFromEvent = async (
-    eventId: string,
-    userId: string
-  ) => {
-    const data = await ServerClient.signOutUserFromEvent(
-      eventId,
-      userId
-    );
-
-    if (!data.success) {
-      alert(data.message);
-      return;
-    }
-
-    dispatch({
-      type: EventActions.SIGN_OUT_USER_FROM_EVENT,
-      payload: {
-        eventId,
-        userId,
-      },
-    });
-  };
-
-  const deleteEvent = async (eventId: string) => {
-    dispatch({
-      type: EventActions.DELETE_EVENT,
+      type: EventActions.FILTER_OUT_EVENT,
       payload: { eventId },
+    });
+  };
+
+  const replaceEvent = async (event: Event) => {
+    dispatch({
+      type: EventActions.REPLACE_EVENT,
+      payload: { event },
     });
   };
 
@@ -95,9 +56,8 @@ export const AppContextProvider: React.FC<Props> = ({ children }) => {
     <AppContext.Provider
       value={{
         state,
-        signUserForEvent,
-        signOutUserFromEvent,
-        deleteEvent,
+        FilterOutEvent,
+        replaceEvent,
       }}
     >
       {children}

@@ -1,4 +1,6 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
+
+import { ActivityIndicator } from 'react-native';
 
 import { UserContext } from '../../context/userContext';
 import UserEvent from './UserEvent';
@@ -6,31 +8,33 @@ import UserSignedEvent from './UserSignedEvent';
 import ScrollContainer from './ScrollContainer';
 // This components probably should be a HOC to avoid repetition (TODO)
 const UserEvents = () => {
-  const { user, getUserEvents, getUserSignedEvents } =
-    useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   const renderUserEvents = () =>
-    user.userEvents.map((event) => (
+    user.events.userEvents.items.map((event) => (
       <UserEvent key={event._id} event={event} />
     ));
 
   const renderUserSignedEvents = () =>
-    user.userSignedEvents.map((event) => (
+    user.events.userSignedEvents.items.map((event) => (
       <UserSignedEvent key={event._id} event={event} />
     ));
-
-  useEffect(() => {
-    if (user.userEvents.length === 0) getUserEvents();
-    if (user.userSignedEvents.length === 0) getUserSignedEvents();
-  }, []);
 
   return (
     <>
       <ScrollContainer header="Twoje Wydarzenia:">
-        {renderUserEvents()}
+        {user.events.userEvents.loading ? (
+          <ActivityIndicator size="large" color="white" />
+        ) : (
+          renderUserEvents()
+        )}
       </ScrollContainer>
       <ScrollContainer header="Wydarzenia w których uczestniczysz:">
-        {renderUserSignedEvents()}
+        {user.events.userSignedEvents.loading ? (
+          <ActivityIndicator size="large" color="white" />
+        ) : (
+          renderUserSignedEvents()
+        )}
       </ScrollContainer>
     </>
   );
