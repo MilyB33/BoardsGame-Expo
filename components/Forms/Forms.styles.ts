@@ -4,6 +4,7 @@ const styles = StyleSheet.create({
   form: {
     backgroundColor: 'rgba(255, 255, 255, 0.4)',
     padding: 25,
+    marginVertical: 10,
     borderRadius: 10,
     width: '80%',
   },
@@ -36,6 +37,11 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     margin: 10,
     maxWidth: '100%',
+  },
+  group: {
+    flexDirection: 'row',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
 });
 

@@ -3,6 +3,7 @@ export type RootStackParamList = {
   Events: undefined;
   Modal: undefined;
   UserEvents: undefined;
+  AddEvent: undefined;
 };
 
 export interface Event {
@@ -17,4 +18,14 @@ export interface Event {
   _id: string;
   maxPlayers: number;
   signedUsers: string[];
+}
+
+export interface EventPayload {
+  date: string;
+  time: string;
+  game: string;
+  description: string;
+  location: string;
+  town: string;
+  maxPlayers: number;
 }

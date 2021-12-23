@@ -35,7 +35,6 @@ const UserEvent: React.FC<Props> = ({ event }) => {
           text: 'Usuń',
           onPress: async () => {
             await deleteUserEvent(event._id);
-            console.log('delete event');
           },
         },
       ],

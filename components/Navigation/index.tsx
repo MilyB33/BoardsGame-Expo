@@ -8,6 +8,7 @@ import HomeScreen from '../Screens/HomeScreen';
 import EventsScreen from '../Screens/EventsScreen';
 import ModalScreen from '../Screens/ModalScreen';
 import UserEventsScreen from '../Screens/UserEventsScreen';
+import AddEventScreen from '../Screens/AddEventSreen';
 
 const Navigation = () => {
   return (
@@ -30,6 +31,7 @@ const Navigation = () => {
           screenOptions={{ presentation: 'transparentModal' }}
         >
           <Stack.Screen name="Modal" component={ModalScreen} />
+          <Stack.Screen name="AddEvent" component={AddEventScreen} />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>

@@ -5,6 +5,7 @@ import authReducer from '../reducers/userReducer';
 import { UserActions } from '../reducers/reducersTypes';
 import { UserState } from '../reducers/reducersTypes';
 import { AppContext } from './appContext';
+import { EventPayload } from '../types/types';
 
 interface Props {
   children: React.ReactNode;
@@ -19,6 +20,7 @@ interface Context {
   deleteUserEvent(eventId: string): Promise<void>;
   signUserForEvent(eventId: string): Promise<void>;
   signOutUserFromEvent(eventId: string): Promise<void>;
+  addEvent(event: EventPayload): Promise<boolean>;
 }
 
 const initialState = {
@@ -123,14 +125,8 @@ export const UserContextProvider: React.FC<Props> = ({
     });
   };
 
-  const deleteUserEvent = async (
-    eventId: string,
-    userId?: string
-  ) => {
-    const data = await ServerClient.deleteUserEvent(
-      eventId,
-      userId || user.id
-    );
+  const deleteUserEvent = async (eventId: string) => {
+    const data = await ServerClient.deleteUserEvent(eventId, user.id);
 
     if (!data.success) {
       alert(data.message);
@@ -186,6 +182,24 @@ export const UserContextProvider: React.FC<Props> = ({
     replaceEvent(data.data);
   };
 
+  const addEvent = async (event: EventPayload) => {
+    const data = await ServerClient.addEvent(event, user.id);
+
+    if (!data.success) {
+      alert(data.message);
+      return false;
+    }
+
+    dispatch({
+      type: UserActions.ADD_EVENT,
+      payload: data.data,
+    });
+
+    getUserEvents(user.id);
+
+    return true;
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -197,6 +211,7 @@ export const UserContextProvider: React.FC<Props> = ({
         deleteUserEvent,
         signUserForEvent,
         signOutUserFromEvent,
+        addEvent,
       }}
     >
       {children}

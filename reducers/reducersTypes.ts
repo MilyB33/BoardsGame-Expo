@@ -59,6 +59,7 @@ export enum UserActions {
   EDIT_EVENT = 'EDIT_EVENT',
   SIGN_USER_TO_EVENT = 'SIGN_USER_TO_EVENT',
   SIGN_OUT_USER_FROM_EVENT = 'SIGN_OUT_USER_FROM_EVENT',
+  ADD_EVENT = 'ADD_EVENT',
 }
 
 export interface SetCurrentUserAction {
@@ -98,6 +99,11 @@ export interface SetLoadingEvents {
   };
 }
 
+export interface AddEvent {
+  type: UserActions.ADD_EVENT;
+  payload: Event;
+}
+
 export type UserAllActions =
   | SetCurrentUserAction
   | OnlyTypeAction<UserActions.SET_CURRENT_USER_LOADING>
@@ -108,7 +114,8 @@ export type UserAllActions =
   | GetUserEventsAction
   | DeleteEventAction
   | EditEventAction
-  | SetLoadingEvents;
+  | SetLoadingEvents
+  | AddEvent;
 
 // ========================================================
 

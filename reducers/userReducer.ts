@@ -57,9 +57,15 @@ const userReducer = (state: UserState, action: UserAllActions) => {
       if (!action.payload.field) return state; // temporary because i'm tired for today
       return {
         ...state,
-        [action.payload.field]: state.events.userEvents.items.filter(
-          (event) => event._id !== action.payload.eventId
-        ),
+        events: {
+          ...state.events,
+          [action.payload.field]: {
+            ...state.events[action.payload.field],
+            items: state.events[action.payload.field].items.filter(
+              (event) => action.payload.eventId !== event._id
+            ),
+          },
+        },
       };
     case UserActions.SET_EVENTS_LOADING:
       return {
@@ -96,6 +102,17 @@ const userReducer = (state: UserState, action: UserAllActions) => {
               (event) => event._id !== action.payload
             ),
             loading: false,
+          },
+        },
+      };
+    case UserActions.ADD_EVENT:
+      return {
+        ...state,
+        events: {
+          ...state.events,
+          userEvents: {
+            ...state.events.userEvents,
+            items: [...state.events.userEvents.items, action.payload],
           },
         },
       };

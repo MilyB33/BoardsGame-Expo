@@ -1,3 +1,5 @@
+import { EventPayload } from '../types/types';
+
 interface LoginCredentials {
   username: string;
   password: string;
@@ -65,6 +67,7 @@ class ServerClient {
 
   loginUser = async (data: LoginCredentials) => {
     try {
+      console.log(data);
       const response = await this.client.post('login', data);
 
       const json = await response.json();
@@ -197,6 +200,31 @@ class ServerClient {
       );
 
       const json = await response.json();
+
+      if (response.status === 200) {
+        return {
+          success: true,
+          data: json.event,
+        };
+      } else throw new Error(json.message);
+    } catch (err) {
+      return {
+        success: false,
+        message: err,
+      };
+    }
+  };
+
+  addEvent = async (event: EventPayload, userId: string) => {
+    try {
+      console.log(event);
+
+      const response = await this.client.post(`events/${userId}`, {
+        event,
+      });
+
+      const json = await response.json();
+      console.log(json);
 
       if (response.status === 200) {
         return {

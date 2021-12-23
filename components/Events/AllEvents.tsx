@@ -9,10 +9,12 @@ import {
   Button,
 } from 'react-native';
 import Event from './Event';
+import RefreshButton from '../Generic/RefreshButton';
 import { Event as EventType } from '../../types/types';
 
 const AllEvents = () => {
   const {
+    reloadEvents,
     state: {
       events: { items: events, loading },
     },
@@ -25,6 +27,8 @@ const AllEvents = () => {
 
   return (
     <View style={styles.container}>
+      <RefreshButton pressCallback={reloadEvents} />
+
       {renderEvents()}
 
       {loading && (

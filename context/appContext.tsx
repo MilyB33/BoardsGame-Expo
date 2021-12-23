@@ -8,6 +8,7 @@ interface Context {
   state: AppState;
   FilterOutEvent(eventId: string): Promise<void>;
   replaceEvent(event: Event): Promise<void>;
+  reloadEvents(): Promise<void>;
 }
 
 interface Props {
@@ -27,6 +28,14 @@ export const AppContextProvider: React.FC<Props> = ({ children }) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
   const getInitialEvents = async () => {
+    dispatch({ type: EventActions.SET_EVENTS_LOADING });
+    const data = await ServerClient.getAllEvents();
+
+    dispatch({ type: EventActions.GET_EVENTS, payload: data });
+  };
+
+  // This function is same as above but it would probably changed in the future
+  const reloadEvents = async () => {
     dispatch({ type: EventActions.SET_EVENTS_LOADING });
     const data = await ServerClient.getAllEvents();
 
@@ -58,6 +67,7 @@ export const AppContextProvider: React.FC<Props> = ({ children }) => {
         state,
         FilterOutEvent,
         replaceEvent,
+        reloadEvents,
       }}
     >
       {children}
