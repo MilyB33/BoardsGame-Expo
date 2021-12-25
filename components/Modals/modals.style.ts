@@ -10,9 +10,16 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,.9)',
+    alignItems: 'center',
+    paddingVertical: 15,
+    minHeight: '100%',
+  },
+  scrollViewContainer: {
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100%',
   },
 });
 

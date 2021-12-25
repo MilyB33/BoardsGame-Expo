@@ -116,6 +116,21 @@ const userReducer = (state: UserState, action: UserAllActions) => {
           },
         },
       };
+    case UserActions.EDIT_EVENT:
+      return {
+        ...state,
+        events: {
+          ...state.events,
+          userEvents: {
+            ...state.events.userEvents,
+            items: state.events.userEvents.items.map((item) =>
+              item._id === action.payload.event._id
+                ? action.payload.event
+                : item
+            ),
+          },
+        },
+      };
     default:
       return state;
   }

@@ -1,11 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import styled from 'styled-components';
 import { getColor } from '../../styles/utils';
-import { RootStackParamList } from '../../types/types';
+import { NavigationProps } from '../../types/types';
 import { UserContext } from '../../context/userContext';
 import SubNavigation from './SubNavigation';
 
@@ -22,11 +21,6 @@ const NavigationItem = styled(Text)`
   margin: 0 15px;
   padding: 20px 0;
 `;
-
-type NavigationProps = NativeStackNavigationProp<
-  RootStackParamList,
-  'Home' | 'Events' | 'Modal'
->;
 
 const Navigation = () => {
   const [subOpen, setSubOpen] = useState(false);
@@ -54,7 +48,7 @@ const Navigation = () => {
         ) : (
           <TouchableOpacity
             style={{ marginLeft: 'auto' }}
-            onPress={() => navigation.navigate('Modal')}
+            onPress={() => navigation.navigate('UserModal')}
           >
             <NavigationItem>Zaloguj</NavigationItem>
           </TouchableOpacity>

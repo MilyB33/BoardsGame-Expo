@@ -1,6 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../../context/userContext';
 import { Formik } from 'formik';
+import { useRoute, RouteProp } from '@react-navigation/native';
+import { RootStackParamList } from '../../types/types';
+
+type EditEventRouteProp = RouteProp<RootStackParamList, 'EditEvent'>;
 
 import {
   View,
@@ -32,35 +36,37 @@ interface State {
   maxPlayers: number;
 }
 
-const TODAYS_DATE = new Date();
-
-const initialValues: State = {
-  location: '',
-  description: '',
-  date: {
-    day: TODAYS_DATE.getDate(),
-    month: TODAYS_DATE.getMonth() + 1,
-    year: TODAYS_DATE.getFullYear(),
-  },
-  time: {
-    hour: 0,
-    minute: 0,
-  },
-  game: '',
-  town: '',
-  maxPlayers: 1,
-};
-
 const AddEventForm = () => {
-  const { addEvent } = useContext(UserContext);
+  const { editEvent } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
+  const route = useRoute<EditEventRouteProp>();
+
+  const { event } = route.params;
+
+  const eventDate = new Date(event.date);
+
+  const initialValues: State = {
+    location: event.location,
+    description: event.description,
+    date: {
+      day: eventDate.getDate(),
+      month: eventDate.getMonth() + 1,
+      year: eventDate.getFullYear(),
+    },
+    time: {
+      hour: Number(event.time.split(':')[0]),
+      minute: Number(event.time.split(':')[1]),
+    },
+    game: event.game,
+    town: event.town,
+    maxPlayers: event.maxPlayers,
+  };
 
   const submitForm = async (
     values: State,
     { resetForm }: { resetForm: Function }
   ) => {
     setIsLoading(true);
-    console.log(values);
 
     const transformedValues = {
       ...values,
@@ -69,7 +75,7 @@ const AddEventForm = () => {
       maxPlayers: Number(values.maxPlayers), // TODO: fix this
     };
 
-    const isAdded = await addEvent(transformedValues);
+    const isAdded = await editEvent(transformedValues, event._id);
 
     if (isAdded) {
       resetForm();
@@ -80,7 +86,7 @@ const AddEventForm = () => {
 
   return (
     <View style={[styles.form, additionalStyles.form]}>
-      <Text style={styles.header}>Dodaj wydarzenie</Text>
+      <Text style={styles.header}>Edytuj Wydarzenie</Text>
 
       <Formik
         initialValues={initialValues}
@@ -191,7 +197,7 @@ const AddEventForm = () => {
                 <ActivityIndicator size="large" color="white" />
               ) : (
                 <Button
-                  title="Dodaj wydarzenie"
+                  title="Zaktualizuj"
                   onPress={() => props.handleSubmit()}
                 />
               )}

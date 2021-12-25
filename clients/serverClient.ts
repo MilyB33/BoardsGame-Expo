@@ -1,4 +1,4 @@
-import { EventPayload } from '../types/types';
+import { EventPayload, Event } from '../types/types';
 
 interface LoginCredentials {
   username: string;
@@ -14,6 +14,7 @@ interface Client {
   post(endpoint: string, body?: any): Promise<any>;
   get(endpoint: string): Promise<any>;
   delete(endpoint: string): Promise<any>;
+  patch(endpoint: string, body?: any): Promise<any>;
   defaultHeaders: Header;
   headers: Header;
 }
@@ -55,6 +56,16 @@ class ServerClient {
         },
       });
     },
+    patch: async function (endpoint: string, body?: any) {
+      return await fetch(`${this.BaseURL}/${endpoint}`, {
+        method: 'PATCH',
+        headers: {
+          ...this.defaultHeaders,
+          ...this.headers,
+        },
+        body: JSON.stringify(body),
+      });
+    },
   }))();
 
   setToken = (token: string) => {
@@ -67,7 +78,6 @@ class ServerClient {
 
   loginUser = async (data: LoginCredentials) => {
     try {
-      console.log(data);
       const response = await this.client.post('login', data);
 
       const json = await response.json();
@@ -75,7 +85,7 @@ class ServerClient {
       if (response.status === 200) {
         return {
           success: true,
-          data: json,
+          result: json.result,
         };
       } else throw new Error(json.message);
     } catch (err) {
@@ -95,7 +105,7 @@ class ServerClient {
       if (response.status === 200) {
         return {
           success: true,
-          data: json,
+          result: json.result,
         };
       } else throw new Error(json.message);
     } catch (err) {
@@ -113,10 +123,16 @@ class ServerClient {
       const json = await response.json();
 
       if (response.status === 200) {
-        return json.events;
+        return {
+          success: true,
+          result: json.result,
+        };
       } else throw new Error(json.message);
     } catch (err) {
-      return [];
+      return {
+        success: false,
+        message: err,
+      };
     }
   };
 
@@ -131,7 +147,7 @@ class ServerClient {
       if (response.status === 200) {
         return {
           success: true,
-          data: json.event,
+          result: json.result,
         };
       } else throw new Error(json.message);
     } catch (err) {
@@ -149,10 +165,11 @@ class ServerClient {
       );
 
       const json = await response.json();
+
       if (response.status === 200) {
         return {
           success: true,
-          data: json.event,
+          result: json.result,
         };
       } else throw new Error(json.message);
     } catch (err) {
@@ -170,10 +187,16 @@ class ServerClient {
       const json = await response.json();
 
       if (response.status === 200) {
-        return json.events;
+        return {
+          success: true,
+          result: json.result,
+        };
       } else throw new Error(json.message);
     } catch (err) {
-      return [];
+      return {
+        success: false,
+        message: err,
+      };
     }
   };
 
@@ -186,10 +209,16 @@ class ServerClient {
       const json = await response.json();
 
       if (response.status === 200) {
-        return json.events;
+        return {
+          success: true,
+          result: json.result,
+        };
       } else throw new Error(json.message);
     } catch (err) {
-      return [];
+      return {
+        success: false,
+        message: err,
+      };
     }
   };
 
@@ -204,7 +233,7 @@ class ServerClient {
       if (response.status === 200) {
         return {
           success: true,
-          data: json.event,
+          result: json.result,
         };
       } else throw new Error(json.message);
     } catch (err) {
@@ -217,19 +246,45 @@ class ServerClient {
 
   addEvent = async (event: EventPayload, userId: string) => {
     try {
-      console.log(event);
-
       const response = await this.client.post(`events/${userId}`, {
         event,
       });
 
       const json = await response.json();
-      console.log(json);
 
       if (response.status === 200) {
         return {
           success: true,
-          data: json.event,
+          result: json.result,
+        };
+      } else throw new Error(json.message);
+    } catch (err) {
+      return {
+        success: false,
+        message: err,
+      };
+    }
+  };
+
+  editEvent = async (
+    event: EventPayload,
+    userId: string,
+    eventId: string
+  ) => {
+    try {
+      const response = await this.client.patch(
+        `events/${userId}/${eventId}`,
+        {
+          event,
+        }
+      );
+
+      const json = await response.json();
+
+      if (response.status === 200) {
+        return {
+          success: true,
+          result: json.result,
         };
       } else throw new Error(json.message);
     } catch (err) {

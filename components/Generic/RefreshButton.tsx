@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   View,
   StyleSheet,
@@ -40,7 +40,7 @@ const RefreshButton: React.FC<Props> = ({ pressCallback }) => {
   };
 
   const handlePress = async () => {
-    // I think this is working but get 304 error so I don't know
+    // I think this is working but get 304 response so I don't know
     startAnimation();
     await pressCallback();
     stopAnimation();

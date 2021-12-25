@@ -99,8 +99,8 @@ export interface SetLoadingEvents {
   };
 }
 
-export interface AddEvent {
-  type: UserActions.ADD_EVENT;
+export interface EventPayloadAction<T> {
+  type: T;
   payload: Event;
 }
 
@@ -115,7 +115,30 @@ export type UserAllActions =
   | DeleteEventAction
   | EditEventAction
   | SetLoadingEvents
-  | AddEvent;
+  | EventPayloadAction<UserActions.ADD_EVENT>;
+
+// ========================================================
+
+export interface ModalsState {
+  [key: string]: boolean;
+}
+
+export enum ModalsActions {
+  OPEN_LOGIN_MODAL = 'OPEN_LOGIN_MODAL',
+  OPEN_REGISTER_MODAL = 'OPEN_REGISTER_MODAL',
+  OPEN_ADD_EVENT_MODAL = 'OPEN_ADD_EVENT_MODAL',
+  CLOSE_MODAL = 'CLOSE_MODAL',
+}
+
+export interface ModalsAction<E> {
+  type: E;
+}
+
+export type ModalsAllActions =
+  | ModalsAction<ModalsActions.OPEN_LOGIN_MODAL>
+  | ModalsAction<ModalsActions.CLOSE_MODAL>
+  | ModalsAction<ModalsActions.OPEN_REGISTER_MODAL>
+  | ModalsAction<ModalsActions.OPEN_ADD_EVENT_MODAL>;
 
 // ========================================================
 

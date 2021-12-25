@@ -1,25 +1,14 @@
 import React, { useContext } from 'react';
 
-import {
-  View,
-  TextInput,
-  Text,
-  Button,
-  ActivityIndicator,
-} from 'react-native';
+import { View, Text, Button, ActivityIndicator } from 'react-native';
 import { Formik } from 'formik';
 import styles from './Forms.styles';
 import { UserContext } from '../../context/userContext';
 
 import { useNavigation } from '@react-navigation/native';
 import validationSchemas from '../../utils/validationSchemas';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../types/types';
-
-type NavigationProps = NativeStackNavigationProp<
-  RootStackParamList,
-  'Home'
->;
+import { NavigationProps } from '../../types/types';
+import Field from './Field';
 
 interface Props {
   changeForm: React.Dispatch<React.SetStateAction<boolean>>;
@@ -55,37 +44,25 @@ const LoginForm: React.FC<Props> = ({ changeForm }) => {
       >
         {(props) => (
           <>
-            <View>
-              <Text style={styles.label}>Nazwa użytkownika: </Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Nazwa użytkownika"
-                autoCapitalize="none"
-                onChangeText={props.handleChange('username')}
-                value={props.values.username}
-              />
-              {props.errors.username && props.touched.username && (
-                <Text style={styles.errorField}>
-                  {props.errors.username}
-                </Text>
-              )}
-            </View>
-            <View>
-              <Text style={styles.label}>Hasło: </Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Hasło"
-                autoCapitalize="none"
-                onChangeText={props.handleChange('password')}
-                value={props.values.password}
-                secureTextEntry={true}
-              />
-              {props.errors.password && props.touched.password && (
-                <Text style={styles.errorField}>
-                  {props.errors.password}
-                </Text>
-              )}
-            </View>
+            <Field
+              label="Nazwa użytkownika"
+              onChangeCallback={props.handleChange('username')}
+              value={props.values.username}
+              placeholder="Nazwa użytkownika"
+              error={props.errors.username}
+              touched={props.touched.username}
+            />
+
+            <Field
+              label="Hasło"
+              onChangeCallback={props.handleChange('password')}
+              value={props.values.password}
+              placeholder="Hasło"
+              error={props.errors.password}
+              touched={props.touched.password}
+              isSecure={true}
+            />
+
             <Text
               style={styles.link}
               onPress={() => changeForm(false)}

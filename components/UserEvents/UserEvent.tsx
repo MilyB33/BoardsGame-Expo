@@ -12,6 +12,8 @@ import { Event } from '../../types/types';
 import EventInfo from '../Event/EventInfo';
 import EventFreePlaces from '../Event/EventFreePlaces';
 import EventWarpper from '../Event/EventWrapper';
+import { useNavigation } from '@react-navigation/native';
+import { NavigationProps } from '../../types/types';
 
 interface Props {
   event: Event;
@@ -20,10 +22,14 @@ interface Props {
 const UserEvent: React.FC<Props> = ({ event }) => {
   const { deleteUserEvent } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
+  const navigation = useNavigation<NavigationProps>();
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     setLoading(true);
+    await deleteUserEvent(event._id);
+  };
 
+  const handleDeletePress = () => {
     Alert.alert(
       'Usuwanie wydarzenia',
       'Czy na pewno chcesz usunąć to wydarzenie?',
@@ -33,9 +39,7 @@ const UserEvent: React.FC<Props> = ({ event }) => {
         },
         {
           text: 'Usuń',
-          onPress: async () => {
-            await deleteUserEvent(event._id);
-          },
+          onPress: handleDelete,
         },
       ],
       { cancelable: false }
@@ -54,14 +58,16 @@ const UserEvent: React.FC<Props> = ({ event }) => {
             <View style={styles.button}>
               <Button
                 title="Usuń"
-                onPress={handleDelete}
+                onPress={handleDeletePress}
                 color="#e63946"
               />
             </View>
             <View style={styles.button}>
               <Button
                 title="Edytuj"
-                onPress={() => {}}
+                onPress={() =>
+                  navigation.navigate('EditEvent', { event })
+                }
                 color="#2b9348"
               />
             </View>

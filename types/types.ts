@@ -1,10 +1,23 @@
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
 export type RootStackParamList = {
   Home: undefined;
   Events: undefined;
-  Modal: undefined;
+  UserModal: undefined;
   UserEvents: undefined;
   AddEvent: undefined;
+  EditEvent: { event: Event };
 };
+
+export type NavigationProps = NativeStackNavigationProp<
+  RootStackParamList,
+  | 'Home'
+  | 'Events'
+  | 'UserModal'
+  | 'UserEvents'
+  | 'AddEvent'
+  | 'EditEvent'
+>;
 
 export interface Event {
   date: string;

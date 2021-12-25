@@ -29,17 +29,29 @@ export const AppContextProvider: React.FC<Props> = ({ children }) => {
 
   const getInitialEvents = async () => {
     dispatch({ type: EventActions.SET_EVENTS_LOADING });
-    const data = await ServerClient.getAllEvents();
 
-    dispatch({ type: EventActions.GET_EVENTS, payload: data });
+    const result = await ServerClient.getAllEvents();
+
+    if (!result.success) return;
+
+    dispatch({
+      type: EventActions.GET_EVENTS,
+      payload: result.result,
+    });
   };
 
   // This function is same as above but it would probably changed in the future
   const reloadEvents = async () => {
     dispatch({ type: EventActions.SET_EVENTS_LOADING });
-    const data = await ServerClient.getAllEvents();
 
-    dispatch({ type: EventActions.GET_EVENTS, payload: data });
+    const result = await ServerClient.getAllEvents();
+
+    if (!result.success) return;
+
+    dispatch({
+      type: EventActions.GET_EVENTS,
+      payload: result.result,
+    });
   };
 
   const FilterOutEvent = async (eventId: string) => {

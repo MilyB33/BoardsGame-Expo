@@ -36,26 +36,26 @@ const EventSchema = Yup.object().shape({
     .required('Required'),
   date: Yup.object().shape({
     day: Yup.number()
-      .min(1, 'Too Short!')
-      .max(31, 'Too Long!')
+      .min(1, 'Too Small!')
+      .max(31, 'Too Big!')
       .required('Required'),
     month: Yup.number()
-      .min(1, 'Too Short!')
-      .max(12, 'Too Long!')
+      .min(1, 'Too Small!')
+      .max(12, 'Too Big!')
       .required('Required'),
     year: Yup.number()
-      .min(2020, 'Too Short!')
-      .max(2050, 'Too Long!')
+      .min(2020, 'Too Small!')
+      .max(2050, 'Too Big!')
       .required('Required'),
   }),
   time: Yup.object().shape({
     hour: Yup.number()
-      .min(0, 'Too Short!')
-      .max(23, 'Too Long!')
+      .min(0, 'Too Small!')
+      .max(23, 'Too Big!')
       .required('Required'),
     minute: Yup.number()
-      .min(0, 'Too Short!')
-      .max(59, 'Too Long!')
+      .min(0, 'Too Small!')
+      .max(59, 'Too Big!')
       .required('Required'),
   }),
   game: Yup.string()
@@ -67,8 +67,8 @@ const EventSchema = Yup.object().shape({
     .max(50, 'Too Long!')
     .required('Required'),
   maxPlayers: Yup.number()
-    .min(1, 'Too Short!')
-    .max(50, 'Too Long!')
+    .min(1, 'Too Small!')
+    .max(50, 'Too Big!')
     .required('Required'),
 });
 

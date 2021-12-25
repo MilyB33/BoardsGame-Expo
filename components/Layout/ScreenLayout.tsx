@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 import { CustomBackground } from '../Layout/Layout.styles';
 import Navigation from '../Navigation/Navigation';
+import Modals from '../Modals/Modals';
 
 interface Props {
   children: React.ReactNode;
@@ -26,6 +27,7 @@ const ScreenLayout: React.FC<Props> = ({ children }) => {
       <ScrollView contentContainerStyle={styles.contentContainer}>
         {children}
       </ScrollView>
+      <Modals />
     </Container>
   );
 };

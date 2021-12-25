@@ -5,7 +5,7 @@ import authReducer from '../reducers/userReducer';
 import { UserActions } from '../reducers/reducersTypes';
 import { UserState } from '../reducers/reducersTypes';
 import { AppContext } from './appContext';
-import { EventPayload } from '../types/types';
+import { EventPayload, Event } from '../types/types';
 
 interface Props {
   children: React.ReactNode;
@@ -21,6 +21,7 @@ interface Context {
   signUserForEvent(eventId: string): Promise<void>;
   signOutUserFromEvent(eventId: string): Promise<void>;
   addEvent(event: EventPayload): Promise<boolean>;
+  editEvent(event: EventPayload, eventId: string): Promise<boolean>;
 }
 
 const initialState = {
@@ -52,17 +53,17 @@ export const UserContextProvider: React.FC<Props> = ({
   const login = async (values: any) => {
     dispatch({ type: UserActions.SET_CURRENT_USER_LOADING });
 
-    const data = await ServerClient.loginUser(values);
+    const result = await ServerClient.loginUser(values);
 
-    if (!data.success) {
-      alert(data.message);
+    if (!result.success) {
+      alert(result.message);
 
       dispatch({ type: UserActions.END_CURRENT_USER_LOADING });
 
       return false;
     }
 
-    const { username, _id, token } = data.data.user;
+    const { username, _id, token } = result.result;
 
     await storeData(token);
 
@@ -76,8 +77,8 @@ export const UserContextProvider: React.FC<Props> = ({
 
     ServerClient.setToken(token);
 
-    getUserEvents(data.data.user._id);
-    getUserSignedEvents(data.data.user._id);
+    getUserEvents(_id);
+    getUserSignedEvents(_id);
 
     return true;
   };
@@ -95,12 +96,14 @@ export const UserContextProvider: React.FC<Props> = ({
       payload: { field: 'userEvents' },
     });
 
-    const data = await ServerClient.getUserEvents(userId || user.id);
+    const result = await ServerClient.getUserEvents(
+      userId || user.id
+    );
 
     dispatch({
       type: UserActions.SET_USER_EVENTS,
       payload: {
-        events: data,
+        events: result.result,
         field: 'userEvents',
       },
     });
@@ -112,24 +115,27 @@ export const UserContextProvider: React.FC<Props> = ({
       payload: { field: 'userSignedEvents' },
     });
 
-    const data = await ServerClient.getUserSignedEvents(
+    const result = await ServerClient.getUserSignedEvents(
       userId || user.id
     );
 
     dispatch({
       type: UserActions.SET_USER_EVENTS,
       payload: {
-        events: data,
+        events: result.result,
         field: 'userSignedEvents',
       },
     });
   };
 
   const deleteUserEvent = async (eventId: string) => {
-    const data = await ServerClient.deleteUserEvent(eventId, user.id);
+    const result = await ServerClient.deleteUserEvent(
+      eventId,
+      user.id
+    );
 
-    if (!data.success) {
-      alert(data.message);
+    if (!result.success) {
+      alert(result.message);
       return;
     }
 
@@ -145,32 +151,32 @@ export const UserContextProvider: React.FC<Props> = ({
   };
 
   const signUserForEvent = async (eventId: string) => {
-    const data = await ServerClient.signUserForEvent(
+    const result = await ServerClient.signUserForEvent(
       eventId,
       user.id
     );
 
-    if (!data.success) {
-      alert(data.message);
+    if (!result.success) {
+      alert(result.message);
       return;
     }
 
     dispatch({
       type: UserActions.SIGN_USER_TO_EVENT,
-      payload: data.data,
+      payload: result.result,
     });
 
-    replaceEvent(data.data);
+    replaceEvent(result.result);
   };
 
   const signOutUserFromEvent = async (eventId: string) => {
-    const data = await ServerClient.signOutUserFromEvent(
+    const result = await ServerClient.signOutUserFromEvent(
       eventId,
       user.id
     );
 
-    if (!data.success) {
-      alert(data.message);
+    if (!result.success) {
+      alert(result.message);
       return;
     }
 
@@ -179,23 +185,49 @@ export const UserContextProvider: React.FC<Props> = ({
       payload: eventId,
     });
 
-    replaceEvent(data.data);
+    replaceEvent(result.result);
   };
 
   const addEvent = async (event: EventPayload) => {
-    const data = await ServerClient.addEvent(event, user.id);
+    const result = await ServerClient.addEvent(event, user.id);
 
-    if (!data.success) {
-      alert(data.message);
+    if (!result.success) {
+      alert(result.message);
       return false;
     }
 
     dispatch({
       type: UserActions.ADD_EVENT,
-      payload: data.data,
+      payload: result.result,
     });
 
     getUserEvents(user.id);
+
+    return true;
+  };
+
+  const editEvent = async (event: EventPayload, eventId: string) => {
+    const result = await ServerClient.editEvent(
+      event,
+      user.id,
+      eventId
+    );
+
+    console.log(result);
+
+    if (!result.success) {
+      alert(result.message);
+      return false;
+    }
+
+    dispatch({
+      type: UserActions.EDIT_EVENT,
+      payload: {
+        event: result.result,
+      },
+    });
+
+    replaceEvent(result.result);
 
     return true;
   };
@@ -212,6 +244,7 @@ export const UserContextProvider: React.FC<Props> = ({
         signUserForEvent,
         signOutUserFromEvent,
         addEvent,
+        editEvent,
       }}
     >
       {children}
