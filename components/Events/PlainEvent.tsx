@@ -3,15 +3,13 @@ import { UserContext } from '../../context/userContext';
 
 import { Button, ActivityIndicator } from 'react-native';
 import { Event as EventType } from '../../types/types';
-import EventInfo from '../Event/EventInfo';
-import EventWrapper from '../Event/EventWrapper';
-import EventFreePlaces from '../Event/EventFreePlaces';
+import Event from '../Event/Event';
 
 interface Props {
   event: EventType;
 }
 
-const Event: React.FC<Props> = ({ event }) => {
+const PlainEvent: React.FC<Props> = ({ event }) => {
   const {
     user: { isAuthenticated, id: userId },
     signUserForEvent,
@@ -42,7 +40,7 @@ const Event: React.FC<Props> = ({ event }) => {
     switch (true) {
       case loading:
         return <ActivityIndicator size="large" color="white" />;
-      case event.createdBy === userId:
+      case event.createdBy._id === userId:
         return (
           <Button
             title="Twoje wydarzenie"
@@ -51,7 +49,7 @@ const Event: React.FC<Props> = ({ event }) => {
             disabled={true}
           />
         );
-      case event.signedUsers.includes(userId):
+      case event.signedUsers.map((user) => user._id).includes(userId):
         return (
           <Button
             title="Wypisz się"
@@ -73,15 +71,7 @@ const Event: React.FC<Props> = ({ event }) => {
     }
   };
 
-  return (
-    <EventWrapper>
-      <EventInfo event={event} />
-
-      {renderButton()}
-
-      <EventFreePlaces event={event} />
-    </EventWrapper>
-  );
+  return <Event event={event} Button={renderButton()} />;
 };
 
-export default Event;
+export default PlainEvent;

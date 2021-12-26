@@ -8,7 +8,7 @@ import {
   StyleSheet,
   Button,
 } from 'react-native';
-import Event from './Event';
+import PlainEvent from './PlainEvent';
 import RefreshButton from '../Generic/RefreshButton';
 import { Event as EventType } from '../../types/types';
 
@@ -22,7 +22,7 @@ const AllEvents = () => {
 
   const renderEvents = () =>
     events.map((event: EventType) => (
-      <Event event={event} key={event._id} />
+      <PlainEvent event={event} key={event._id} />
     ));
 
   return (

@@ -8,15 +8,13 @@ import {
 } from 'react-native';
 import { UserContext } from '../../context/userContext';
 
-import { Event } from '../../types/types';
-import EventInfo from '../Event/EventInfo';
-import EventFreePlaces from '../Event/EventFreePlaces';
-import EventWarpper from '../Event/EventWrapper';
+import { Event as EventType } from '../../types/types';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationProps } from '../../types/types';
+import Event from '../Event/Event';
 
 interface Props {
-  event: Event;
+  event: EventType;
 }
 
 const UserEvent: React.FC<Props> = ({ event }) => {
@@ -46,38 +44,34 @@ const UserEvent: React.FC<Props> = ({ event }) => {
     );
   };
 
-  return (
-    <EventWarpper>
-      <EventInfo event={event} />
-
-      <View style={styles.operationBox}>
-        {loading ? (
-          <ActivityIndicator size="large" color="white" />
-        ) : (
-          <>
-            <View style={styles.button}>
-              <Button
-                title="Usuń"
-                onPress={handleDeletePress}
-                color="#e63946"
-              />
-            </View>
-            <View style={styles.button}>
-              <Button
-                title="Edytuj"
-                onPress={() =>
-                  navigation.navigate('EditEvent', { event })
-                }
-                color="#2b9348"
-              />
-            </View>
-          </>
-        )}
-      </View>
-
-      <EventFreePlaces event={event} />
-    </EventWarpper>
+  const renderButton = (
+    <View style={styles.operationBox}>
+      {loading ? (
+        <ActivityIndicator size="large" color="white" />
+      ) : (
+        <>
+          <View style={styles.button}>
+            <Button
+              title="Usuń"
+              onPress={handleDeletePress}
+              color="#e63946"
+            />
+          </View>
+          <View style={styles.button}>
+            <Button
+              title="Edytuj"
+              onPress={() =>
+                navigation.navigate('EditEvent', { event })
+              }
+              color="#2b9348"
+            />
+          </View>
+        </>
+      )}
+    </View>
   );
+
+  return <Event event={event} Button={renderButton} />;
 };
 
 const styles = StyleSheet.create({

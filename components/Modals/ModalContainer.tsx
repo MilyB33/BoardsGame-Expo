@@ -15,19 +15,17 @@ interface Props {
 
 const LoginContainer: React.FC<Props> = ({ children }) => {
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{ flex: 1 }}
-    >
-      <View style={styles.modalContainer}>
-        <ScrollView
-          contentContainerStyle={styles.scrollViewContainer}
-        >
-          <CloseButton />
-          {children}
-        </ScrollView>
-      </View>
-    </KeyboardAvoidingView>
+    // <KeyboardAvoidingView
+    //   behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    //   style={{ flex: 1 }}
+    // >
+    <View style={styles.modalContainer}>
+      <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+        <CloseButton />
+        {children}
+      </ScrollView>
+    </View>
+    // </KeyboardAvoidingView>
   );
 };
 

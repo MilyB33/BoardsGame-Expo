@@ -27,10 +27,16 @@ export interface Event {
   location: string;
   town: string;
   createdAt: string;
-  createdBy: string;
+  createdBy: {
+    _id: string;
+    username: string;
+  };
   _id: string;
   maxPlayers: number;
-  signedUsers: string[];
+  signedUsers: {
+    _id: string;
+    username: string;
+  }[];
 }
 
 export interface EventPayload {

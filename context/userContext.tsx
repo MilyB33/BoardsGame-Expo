@@ -5,7 +5,7 @@ import authReducer from '../reducers/userReducer';
 import { UserActions } from '../reducers/reducersTypes';
 import { UserState } from '../reducers/reducersTypes';
 import { AppContext } from './appContext';
-import { EventPayload, Event } from '../types/types';
+import { EventPayload } from '../types/types';
 
 interface Props {
   children: React.ReactNode;
@@ -99,6 +99,8 @@ export const UserContextProvider: React.FC<Props> = ({
     const result = await ServerClient.getUserEvents(
       userId || user.id
     );
+
+    console.log(result);
 
     dispatch({
       type: UserActions.SET_USER_EVENTS,

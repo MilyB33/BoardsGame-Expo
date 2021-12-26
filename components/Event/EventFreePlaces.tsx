@@ -1,18 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { View, StyleSheet, Text } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  Modal,
+  TouchableOpacity,
+} from 'react-native';
 import { Event } from '../../types/types';
 
 interface Props {
   event: Event;
+  changeView: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const EventInfo: React.FC<Props> = ({ event }) => {
+const EventInfo: React.FC<Props> = ({ event, changeView }) => {
   return (
     <View style={styles.freePlaces}>
-      <Text
-        style={styles.text}
-      >{`${event.signedUsers.length} / ${event.maxPlayers}`}</Text>
+      <TouchableOpacity onPress={() => changeView(true)}>
+        <Text
+          style={styles.text}
+        >{`${event.signedUsers.length} / ${event.maxPlayers}`}</Text>
+      </TouchableOpacity>
     </View>
   );
 };

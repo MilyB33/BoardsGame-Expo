@@ -34,7 +34,7 @@ const ScreenLayout: React.FC<Props> = ({ children }) => {
 
 const styles = StyleSheet.create({
   contentContainer: {
-    minHeight: '90%',
+    minHeight: '92%',
   },
 });
 

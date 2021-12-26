@@ -13,7 +13,9 @@ const EventInfo: React.FC<Props> = ({ event }) => {
 
       <Text style={styles.text}>Miasto: {event.town}</Text>
 
-      <Text style={styles.text}>Organizator: {event.createdBy}</Text>
+      <Text style={styles.text}>
+        Organizator: {event.createdBy.username}
+      </Text>
 
       <Text style={styles.text}>Gra: {event.game}</Text>
 
