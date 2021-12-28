@@ -19,9 +19,7 @@ class ServerClient {
       get: {},
       delete: {},
       patch: {},
-      all: {
-        ...this.client.defaultHeaders,
-      },
+      all: {},
     },
 
     returnHeaders: function (method: string) {
