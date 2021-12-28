@@ -3,38 +3,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../types/types';
-
-type NavigationProps = NativeStackNavigationProp<
-  RootStackParamList,
-  'AddEvent'
->;
+import { NavigationProps } from '../../types/types';
+import { FAB } from 'react-native-paper';
 
 const AddEventButton = () => {
   const navigation = useNavigation<NavigationProps>();
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
+      <FAB
+        icon="plus"
         onPress={() => navigation.navigate('AddEvent')}
-        style={styles.button}
-      >
-        <FontAwesomeIcon icon={faPlus} size={35} color="white" />
-      </TouchableOpacity>
+        style={styles.fab}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: 25,
-  },
-  button: {
+    position: 'relative',
     marginLeft: 'auto',
     marginRight: 'auto',
-    padding: 15,
-    borderRadius: 50,
+    marginVertical: 10,
+  },
+  fab: {
     backgroundColor: 'dodgerblue',
   },
 });

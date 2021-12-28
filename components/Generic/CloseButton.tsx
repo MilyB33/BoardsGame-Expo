@@ -29,6 +29,8 @@ const privateStyles = StyleSheet.create({
     padding: 10,
     backgroundColor: 'dodgerblue',
     borderRadius: 10,
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
 });
 

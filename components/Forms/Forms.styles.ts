@@ -2,30 +2,22 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   form: {
-    backgroundColor: 'rgba(255, 255, 255, 0.4)',
     padding: 25,
     marginVertical: 10,
     borderRadius: 10,
-    width: '80%',
+    minWidth: '90%',
+    elevation: 4,
   },
   input: {
-    backgroundColor: '#fff',
-    color: '#000',
-    padding: 10,
-    paddingHorizontal: 30,
-    marginVertical: 15,
+    margin: 10,
   },
   header: {
-    color: '#fff',
     fontSize: 20,
     marginBottom: 30,
     textAlign: 'center',
   },
-  label: {
-    color: '#fff',
-  },
+  label: {},
   errorField: {
-    color: '#fff',
     backgroundColor: '#e63946',
     paddingVertical: 5,
     textAlign: 'center',
@@ -33,15 +25,19 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   link: {
-    color: '#fff',
     textDecorationLine: 'underline',
     margin: 10,
+    marginBottom: 30,
     maxWidth: '100%',
+    textAlign: 'center',
   },
   group: {
     flexDirection: 'row',
     marginLeft: 'auto',
     marginRight: 'auto',
+  },
+  invalid: {
+    borderColor: '#e63946',
   },
 });
 

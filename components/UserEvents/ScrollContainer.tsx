@@ -22,6 +22,7 @@ const ScrollContainer: React.FC<Props> = ({ children, header }) => (
 const styles = StyleSheet.create({
   container: {
     marginBottom: 10,
+    minWidth: '100%',
   },
   scrollContainer: {
     minWidth: '100%',

@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 
-import { View, Text, Button, ActivityIndicator } from 'react-native';
-import { Formik } from 'formik';
+import { Text, Button, ActivityIndicator } from 'react-native';
+import { Formik, Field } from 'formik';
 import styles from './Forms.styles';
 
 import ServerClient from '../../clients/serverClient';
 import { useNavigation } from '@react-navigation/native';
 import validationSchemas from '../../utils/validationSchemas';
+import { Surface } from 'react-native-paper';
 
 import { NavigationProps } from '../../types/types';
-import Field from './Field';
+import CustomInput from './CustomInput';
 
 interface Props {
   changeForm: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,8 +26,9 @@ const RegisterForm: React.FC<Props> = ({ changeForm }) => {
   ) => {
     const userObject = {
       ...values,
-      confirmPassword: null,
     };
+
+    delete userObject.confirmPassword;
 
     setLoading(true);
 
@@ -44,7 +46,7 @@ const RegisterForm: React.FC<Props> = ({ changeForm }) => {
   };
 
   return (
-    <View style={styles.form}>
+    <Surface style={styles.form}>
       <Text style={styles.header}>Załóż konto</Text>
 
       <Formik
@@ -59,31 +61,28 @@ const RegisterForm: React.FC<Props> = ({ changeForm }) => {
         {(props) => (
           <>
             <Field
+              component={CustomInput}
+              name="username"
               label="Nazwa użytkownika"
-              onChangeCallback={props.handleChange('username')}
-              value={props.values.username}
               placeholder="Nazwa użytkownika"
-              error={props.errors.username}
-              touched={props.touched.username}
+              setFieldValue={props.setFieldValue}
             />
 
             <Field
+              component={CustomInput}
+              name="password"
               label="Hasło"
-              onChangeCallback={props.handleChange('password')}
-              value={props.values.password}
               placeholder="Hasło"
-              error={props.errors.password}
-              touched={props.touched.password}
-              isSecure={true}
+              setFieldValue={props.setFieldValue}
+              isSecure
             />
 
             <Field
+              component={CustomInput}
+              name="confirmPassword"
               label="Potwierdź hasło"
-              onChangeCallback={props.handleChange('confirmPassword')}
-              value={props.values.confirmPassword}
               placeholder="Potwierdź hasło"
-              error={props.errors.confirmPassword}
-              touched={props.touched.confirmPassword}
+              setFieldValue={props.setFieldValue}
               isSecure={true}
             />
 
@@ -97,7 +96,7 @@ const RegisterForm: React.FC<Props> = ({ changeForm }) => {
               <ActivityIndicator color="white" size="large" />
             ) : (
               <Button
-                title="Zaloguj"
+                title="Zarejestruj się"
                 onPress={() => {
                   props.handleSubmit();
                 }}
@@ -106,7 +105,7 @@ const RegisterForm: React.FC<Props> = ({ changeForm }) => {
           </>
         )}
       </Formik>
-    </View>
+    </Surface>
   );
 };
 

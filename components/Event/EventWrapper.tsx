@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(86,79,79,.6)',
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,.4)',
-    minWidth: '80%',
+    width: 350,
   },
 });
 

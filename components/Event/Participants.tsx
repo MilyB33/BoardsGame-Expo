@@ -39,7 +39,7 @@ const Participants: React.FC<Props> = ({ users, changeView }) => {
           />
         </TouchableOpacity>
       </View>
-      <ScrollView>{renderParticipants()}</ScrollView>
+      <ScrollView style={{}}>{renderParticipants()}</ScrollView>
     </View>
   );
 };

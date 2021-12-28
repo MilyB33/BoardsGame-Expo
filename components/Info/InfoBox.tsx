@@ -1,9 +1,8 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
-import styled from 'styled-components';
-import { getColor } from '../../styles/utils';
 import { Typography } from '../Typography/Typography.styles';
+import { Surface } from 'react-native-paper';
 
 interface Props {
   text: string;
@@ -11,23 +10,27 @@ interface Props {
   additional?: React.ReactNode;
 }
 
-const Box = styled(View)`
-  margin: 15px auto;
-  padding: 25px;
-  border-radius: 10px;
-  background-color: ${getColor('primary')};
-  border: 1px solid ${getColor('primary-border')};
-  max-width: 90%;
-`;
-
 const InfoBox: React.FC<Props> = ({ text, link, additional }) => {
   return (
-    <Box>
+    <Surface style={styles.container}>
       <Typography>{text}</Typography>
       {link}
       {additional}
-    </Box>
+    </Surface>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    margin: 15,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    padding: 25,
+    borderRadius: 10,
+    backgroundColor: 'rgba(86,79,79,.6)',
+    maxWidth: '90%',
+    elevation: 10,
+  },
+});
 
 export default InfoBox;

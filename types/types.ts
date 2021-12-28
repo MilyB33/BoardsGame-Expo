@@ -19,6 +19,8 @@ export type NavigationProps = NativeStackNavigationProp<
   | 'EditEvent'
 >;
 
+export type Roots = keyof RootStackParamList;
+
 export interface Event {
   date: string;
   time: string;
@@ -48,3 +50,96 @@ export interface EventPayload {
   town: string;
   maxPlayers: number;
 }
+
+// ========================================================
+
+// Custom Input Props
+
+type KeboardType = 'default' | 'numeric' | 'phone-pad' | 'number-pad';
+
+export interface CustomInputProps {
+  label?: string;
+  placeholder: string;
+  isSecure?: boolean;
+  keyboardType?: KeboardType;
+  isNumeric?: boolean;
+  setFieldValue: (
+    field: string,
+    value: string | number,
+    validation: boolean
+  ) => void;
+  field: {
+    name: string;
+    onBlur: Function;
+    onChange: Function;
+    value: string | number;
+  };
+  form: {
+    errors: { [key: string]: string };
+    touched: { [key: string]: boolean };
+    setFieldTouched: Function;
+  };
+}
+
+// ========================================================
+
+// Event Form Props
+
+export interface EventFormState {
+  location: string;
+  description: string;
+  date: {
+    day: number;
+    month: number;
+    year: number;
+  };
+  time: {
+    hour: number;
+    minute: number;
+  };
+  game: string;
+  town: string;
+  maxPlayers: number;
+}
+
+// ========================================================
+
+// Client
+
+export interface LoginCredentials {
+  username: string;
+  password: string;
+}
+
+export type Header = {
+  [key: string]: string;
+};
+
+export type Headers = {
+  [key: string]: Header;
+};
+
+export interface Options {
+  headers?: Header;
+}
+
+type Body = {
+  [key: string]: any;
+};
+
+export interface OptionsWithBody extends Options {
+  body: Body | null;
+}
+
+export interface Client {
+  BaseURL: string;
+  post(endpoint: string, options?: OptionsWithBody): Promise<any>;
+  get(endpoint: string, options?: Options): Promise<any>;
+  delete(endpoint: string, options?: Options): Promise<any>;
+  patch(endpoint: string, options?: OptionsWithBody): Promise<any>;
+  defaultHeaders: Header;
+  headers: Headers;
+  returnHeaders(method: string): Header;
+}
+
+// ========================================================

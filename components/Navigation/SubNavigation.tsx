@@ -60,7 +60,7 @@ const SubNavigation: React.FC<Props> = ({ closeMenu }) => {
         style={{ marginLeft: 'auto' }}
         onPress={handleLogout}
       >
-        <NavigationItem>Ustawienia</NavigationItem>
+        <NavigationItem>Wyloguj</NavigationItem>
       </TouchableOpacity>
     </NavigationContainer>
   );

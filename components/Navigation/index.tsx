@@ -1,5 +1,8 @@
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import {
+  NavigationContainer,
+  DefaultTheme,
+} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { RootStackParamList } from '../../types/types';
 
@@ -19,6 +22,7 @@ const Navigation = () => {
         initialRouteName="Home"
         screenOptions={{
           headerShown: false,
+          cardStyle: { backgroundColor: 'transparent' },
         }}
       >
         <Stack.Group>
@@ -30,7 +34,9 @@ const Navigation = () => {
           />
         </Stack.Group>
         <Stack.Group
-          screenOptions={{ presentation: 'transparentModal' }}
+          screenOptions={{
+            presentation: 'transparentModal',
+          }}
         >
           <Stack.Screen name="UserModal" component={UserModal} />
           <Stack.Screen name="AddEvent" component={AddEventScreen} />

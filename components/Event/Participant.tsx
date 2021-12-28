@@ -23,26 +23,30 @@ const Participant: React.FC<Props> = ({ user }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
-    <View style={styles.participant}>
-      <Text style={styles.text}>{user.username}</Text>
-
+    <>
       <TouchableOpacity
-        style={styles.icon}
+        style={styles.participant}
         onPress={() => setModalVisible(true)}
       >
-        <FontAwesomeIcon icon={faUser} size={20} color="white" />
-      </TouchableOpacity>
+        <Text style={styles.text}>{user.username}</Text>
+        <View style={styles.icon}>
+          <FontAwesomeIcon icon={faUser} size={20} color="white" />
 
-      <Modal
-        animationType="fade"
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(false);
-        }}
-      >
-        <ParticipantModal user={user} closeModal={setModalVisible} />
-      </Modal>
-    </View>
+          <Modal
+            animationType="fade"
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(false);
+            }}
+          >
+            <ParticipantModal
+              user={user}
+              closeModal={setModalVisible}
+            />
+          </Modal>
+        </View>
+      </TouchableOpacity>
+    </>
   );
 };
 

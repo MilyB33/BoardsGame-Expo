@@ -57,7 +57,7 @@ const PlainEvent: React.FC<Props> = ({ event }) => {
             color="#e63946"
           />
         );
-      case event.maxPlayers === event.signedUsers.length:
+      case Number(event.maxPlayers) === event.signedUsers.length:
         return (
           <Button
             title="Maksymalna ilość osób"

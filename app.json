@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.Prometeusz2424.BoardsGames"
     },
     "web": {
       "favicon": "./assets/favicon.png"
