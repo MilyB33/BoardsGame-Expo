@@ -1,6 +1,6 @@
 import React from 'react';
-import { ScrollView, View } from 'react-native';
 
+import { ScrollView, View } from 'react-native';
 import ModalContainer from '../Modals/ModalContainer';
 import AddEventForm from '../Forms/AddEventForm';
 

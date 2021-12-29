@@ -3,6 +3,7 @@ import React from 'react';
 import { View, Text, TextInput } from 'react-native';
 
 import styles from './Forms.styles';
+import { KeyboardType } from '../../types/types';
 
 interface Props {
   label?: string;
@@ -12,12 +13,7 @@ interface Props {
   error: string | undefined;
   touched: boolean | undefined;
   isSecure?: boolean;
-  keyboardType?:
-    | 'default'
-    | 'email-address'
-    | 'numeric'
-    | 'phone-pad'
-    | 'number-pad';
+  keyboardType?: KeyboardType;
 }
 
 const Field: React.FC<Props> = ({

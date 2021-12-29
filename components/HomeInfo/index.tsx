@@ -1,16 +1,18 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+
+import { View, StyleSheet, Text } from 'react-native';
 
 import InfoBox from '../Info/InfoBox';
-import { Link, Typography } from '../Typography/Typography.styles';
 import Banner from '../Generic/Banner';
 
 import informations from '../../data/mockedData';
 
 const HomeInfo = () => {
-  const LinkElement = <Link>Zaloguj się</Link>;
+  const LinkElement = (
+    <Text style={[styles.text, styles.link]}>Zaloguj się</Text>
+  );
   const AdditionalInfoElement = (
-    <Typography>Email: Przyklad@gmail.com</Typography>
+    <Text style={styles.text}>Email: Przyklad@gmail.com</Text>
   );
 
   return (
@@ -30,6 +32,16 @@ const HomeInfo = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  text: {
+    fontSize: 16,
+    color: 'white',
+    textAlign: 'center',
+    lineHeight: 24,
+  },
+  link: {
+    textDecorationLine: 'underline',
+    marginTop: 10,
   },
 });
 

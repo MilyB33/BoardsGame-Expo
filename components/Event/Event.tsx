@@ -4,6 +4,7 @@ import EventFreePlaces from './EventFreePlaces';
 import EventInfo from './EventInfo';
 import EventWrapper from './EventWrapper';
 import Participants from './Participants';
+
 import { Event as EventType } from '../../types/types';
 
 interface Props {

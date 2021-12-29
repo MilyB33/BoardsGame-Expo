@@ -1,8 +1,7 @@
 import React from 'react';
-import { AppContainer } from './Layout.styles';
 
 import { StatusBar } from 'react-native';
-
+import { AppContainer } from './Layout.styles';
 import Navigation from '../Navigation';
 
 const Layout = () => {

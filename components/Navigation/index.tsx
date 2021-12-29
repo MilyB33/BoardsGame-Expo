@@ -1,12 +1,6 @@
 import * as React from 'react';
-import {
-  NavigationContainer,
-  DefaultTheme,
-} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { RootStackParamList } from '../../types/types';
-
-const Stack = createStackNavigator<RootStackParamList>();
 
 import HomeScreen from '../Screens/HomeScreen';
 import EventsScreen from '../Screens/EventsScreen';
@@ -14,6 +8,10 @@ import UserEventsScreen from '../Screens/UserEventsScreen';
 import UserModal from '../Screens/UserModal';
 import AddEventScreen from '../Screens/AddEventSreen';
 import EditEventScreen from '../Screens/EditEventScreen';
+
+import { RootStackParamList } from '../../types/types';
+
+const Stack = createStackNavigator<RootStackParamList>();
 
 const Navigation = () => {
   return (

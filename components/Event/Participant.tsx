@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Modal,
 } from 'react-native';
-
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import ParticipantModal from '../Modals/ParticipantModal';
@@ -31,21 +30,18 @@ const Participant: React.FC<Props> = ({ user }) => {
         <Text style={styles.text}>{user.username}</Text>
         <View style={styles.icon}>
           <FontAwesomeIcon icon={faUser} size={20} color="white" />
-
-          <Modal
-            animationType="fade"
-            visible={modalVisible}
-            onRequestClose={() => {
-              setModalVisible(false);
-            }}
-          >
-            <ParticipantModal
-              user={user}
-              closeModal={setModalVisible}
-            />
-          </Modal>
         </View>
       </TouchableOpacity>
+
+      <Modal
+        animationType="fade"
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(false);
+        }}
+      >
+        <ParticipantModal user={user} closeModal={setModalVisible} />
+      </Modal>
     </>
   );
 };

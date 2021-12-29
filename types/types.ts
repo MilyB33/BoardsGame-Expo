@@ -1,4 +1,6 @@
+import React from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RouteProp } from '@react-navigation/native';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -8,18 +10,18 @@ export type RootStackParamList = {
   AddEvent: undefined;
   EditEvent: { event: Event };
 };
+export type Roots = keyof RootStackParamList;
 
 export type NavigationProps = NativeStackNavigationProp<
   RootStackParamList,
-  | 'Home'
-  | 'Events'
-  | 'UserModal'
-  | 'UserEvents'
-  | 'AddEvent'
-  | 'EditEvent'
+  Roots
 >;
 
-export type Roots = keyof RootStackParamList;
+export type RouteProps = RouteProp<RootStackParamList, 'EditEvent'>; // Probably not needed
+
+// ========================================================
+
+// Events
 
 export interface Event {
   date: string;
@@ -143,3 +145,14 @@ export interface Client {
 }
 
 // ========================================================
+
+// Additionals
+
+export type KeyboardType =
+  | 'default'
+  | 'email-address'
+  | 'numeric'
+  | 'phone-pad'
+  | 'number-pad';
+
+export type DispatchType<T> = React.Dispatch<React.SetStateAction<T>>;

@@ -1,4 +1,7 @@
 import React, { useContext, useState } from 'react';
+import { UserContext } from '../../context/userContext';
+import { useNavigation } from '@react-navigation/native';
+
 import {
   View,
   StyleSheet,
@@ -6,12 +9,12 @@ import {
   Alert,
   ActivityIndicator,
 } from 'react-native';
-import { UserContext } from '../../context/userContext';
-
-import { Event as EventType } from '../../types/types';
-import { useNavigation } from '@react-navigation/native';
-import { NavigationProps } from '../../types/types';
 import Event from '../Event/Event';
+
+import {
+  Event as EventType,
+  NavigationProps,
+} from '../../types/types';
 
 interface Props {
   event: EventType;

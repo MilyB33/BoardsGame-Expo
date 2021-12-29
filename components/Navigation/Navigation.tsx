@@ -1,12 +1,13 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { UserContext } from '../../context/userContext';
+
+import { NavigationProps } from '../../types/types';
+import { View, Text, TouchableOpacity } from 'react-native';
+import SubNavigation from './SubNavigation';
 
 import styled from 'styled-components';
 import { getColor } from '../../styles/utils';
-import { NavigationProps } from '../../types/types';
-import { UserContext } from '../../context/userContext';
-import SubNavigation from './SubNavigation';
 
 const NavigationContainer = styled(View)`
   width: 100%;

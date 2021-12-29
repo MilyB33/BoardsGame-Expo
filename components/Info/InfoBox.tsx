@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
 
-import { Typography } from '../Typography/Typography.styles';
-import { Surface } from 'react-native-paper';
+import { StyleSheet } from 'react-native';
+import { Surface, Text } from 'react-native-paper';
 
 interface Props {
   text: string;
@@ -13,7 +12,7 @@ interface Props {
 const InfoBox: React.FC<Props> = ({ text, link, additional }) => {
   return (
     <Surface style={styles.container}>
-      <Typography>{text}</Typography>
+      <Text style={styles.text}>{text}</Text>
       {link}
       {additional}
     </Surface>
@@ -30,6 +29,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(86,79,79,.6)',
     maxWidth: '90%',
     elevation: 10,
+  },
+  text: {
+    fontSize: 16,
+    color: 'white',
+    textAlign: 'center',
+    lineHeight: 24,
   },
 });
 

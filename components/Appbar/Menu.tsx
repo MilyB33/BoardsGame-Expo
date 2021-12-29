@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { UserContext } from '../../context/userContext';
-import { NavigationProps, Roots } from '../../types/types';
-
-import { Menu, Divider, IconButton } from 'react-native-paper';
 
 import { View } from 'react-native';
+import { Menu, Divider, IconButton } from 'react-native-paper';
+
+import { NavigationProps, Roots } from '../../types/types';
 
 const CustomMenu = () => {
   const navigation = useNavigation<NavigationProps>();

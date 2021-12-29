@@ -1,13 +1,9 @@
 import React, { useContext } from 'react';
-import ModalContainer from './ModalContainer';
-
-import LoginForm from '../Forms/LoginForm';
-import RegisterForm from '../Forms/RegisterForm';
-import AddEventForm from '../Forms/AddEventForm';
-
-import { Modal } from 'react-native';
-
 import { ModalsContext } from '../../context/modalsContext';
+
+import ModalContainer from './ModalContainer';
+import AddEventForm from '../Forms/AddEventForm';
+import { Modal } from 'react-native';
 
 const Modals = () => {
   const { modals } = useContext(ModalsContext);

@@ -1,22 +1,22 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../../context/userContext';
+
+import { View, Text, Button } from 'react-native';
+import { Surface } from 'react-native-paper';
 import { Formik, Field } from 'formik';
 import { useRoute, RouteProp } from '@react-navigation/native';
+import CustomInput from './CustomInput';
+import ActivityIndicator from '../Generic/ActivityIndicator';
+
+import styles from './Forms.styles';
 import {
   RootStackParamList,
   EventFormState,
 } from '../../types/types';
 import { transformFormValues } from '../../utils/transformers';
-import { Surface } from 'react-native-paper';
-
-type EditEventRouteProp = RouteProp<RootStackParamList, 'EditEvent'>;
-
-import { View, Text, Button, ActivityIndicator } from 'react-native';
-import CustomInput from './CustomInput';
-
 import validationSchemas from '../../utils/validationSchemas';
 
-import styles from './Forms.styles';
+type EditEventRouteProp = RouteProp<RootStackParamList, 'EditEvent'>;
 
 const AddEventForm = () => {
   const { editEvent } = useContext(UserContext);
@@ -164,7 +164,7 @@ const AddEventForm = () => {
             />
 
             {isLoading ? (
-              <ActivityIndicator size="large" color="white" />
+              <ActivityIndicator />
             ) : (
               <Button
                 title="Zaktualizuj"

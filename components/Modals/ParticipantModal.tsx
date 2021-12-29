@@ -1,11 +1,7 @@
 import React, { useEffect } from 'react';
 
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { Button, Paragraph, Avatar } from 'react-native-paper';
 
 interface Props {
   user: {
@@ -23,31 +19,37 @@ const ParticipantModal: React.FC<Props> = ({ user, closeModal }) => {
   return (
     <View style={styles.container}>
       <View>
-        <View style={styles.avatarPlaceholder} />
-        <Text style={styles.header}>{user.username}</Text>
+        <Avatar.Text
+          size={100}
+          label={user.username}
+          labelStyle={{ fontSize: 32 }}
+        />
       </View>
 
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity
-          style={[styles.closeButton, styles.button]}
+        <Button
+          style={[styles.button]}
+          mode="contained"
           onPress={() => {}}
         >
-          <Text style={styles.text}>Wyświetl Profil</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.closeButton, styles.button]}
+          Wyświetl Profil
+        </Button>
+
+        <Button
+          style={[styles.button]}
+          mode="contained"
           onPress={() => {}}
         >
-          <Text style={styles.text}>Dodaj do znajomych</Text>
-        </TouchableOpacity>
+          Dodaj do znajomych
+        </Button>
       </View>
 
-      <TouchableOpacity
-        style={styles.closeButton}
+      <Button
+        style={[styles.button, styles.closeButton]}
         onPress={() => closeModal(false)}
       >
-        <Text style={styles.text}>Zamknij</Text>
-      </TouchableOpacity>
+        <Paragraph style={styles.text}>Zamknij</Paragraph>
+      </Button>
     </View>
   );
 };
@@ -66,27 +68,18 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
   },
-  avatarPlaceholder: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: '#ccc',
-    marginBottom: 20,
-  },
   buttonsContainer: {
     marginTop: 20,
   },
   button: {
+    backgroundColor: 'dodgerblue',
     marginTop: 0,
     borderRadius: 5,
     padding: 10,
     marginVertical: 10,
   },
   closeButton: {
-    backgroundColor: 'dodgerblue',
     marginTop: 'auto',
-    padding: 20,
-    borderRadius: 50,
   },
 });
 

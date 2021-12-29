@@ -11,12 +11,13 @@ const appReducer = (state: AppState, action: AppAllActions) => {
         ...state,
         events: {
           ...state.events,
-          // filter out duplicates (it's temporary)
-          items: [...state.events.items, ...action.payload].filter(
-            (item, index, self) =>
-              self.findIndex((t) => t._id === item._id) === index
-          ),
+          items: [...action.payload],
           loading: false,
+          query: {
+            ...state.events.query,
+            offset:
+              state.events.query.offset + state.events.query.limit,
+          },
         },
       };
     case EventActions.SET_EVENTS_LOADING:
@@ -35,6 +36,11 @@ const appReducer = (state: AppState, action: AppAllActions) => {
           items: state.events.items.filter(
             (event) => event._id !== action.payload.eventId
           ),
+          query: {
+            ...state.events.query,
+            limit: 3,
+            offset: 0,
+          },
         },
       };
     case EventActions.REPLACE_EVENT:
@@ -47,6 +53,20 @@ const appReducer = (state: AppState, action: AppAllActions) => {
               ? action.payload.event
               : event
           ),
+        },
+      };
+    case EventActions.LOAD_EVENTS:
+      return {
+        ...state,
+        events: {
+          ...state.events,
+          items: [...state.events.items, ...action.payload],
+          loading: false,
+          query: {
+            ...state.events.query,
+            offset:
+              state.events.query.offset + state.events.query.limit,
+          },
         },
       };
     default:

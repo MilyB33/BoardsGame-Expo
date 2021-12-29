@@ -213,8 +213,6 @@ export const UserContextProvider: React.FC<Props> = ({
       eventId
     );
 
-    console.log(result);
-
     if (!result.success) {
       alert(result.message);
       return false;

@@ -2,8 +2,9 @@ import React, { useContext, useState } from 'react';
 import { UserContext } from '../../context/userContext';
 
 import { Button, ActivityIndicator } from 'react-native';
-import { Event as EventType } from '../../types/types';
 import Event from '../Event/Event';
+
+import { Event as EventType } from '../../types/types';
 
 interface Props {
   event: EventType;
@@ -44,7 +45,7 @@ const PlainEvent: React.FC<Props> = ({ event }) => {
         return (
           <Button
             title="Twoje wydarzenie"
-            onPress={handleSignOut}
+            onPress={() => {}}
             color="red"
             disabled={true}
           />

@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
 
-import { ActivityIndicator } from 'react-native';
-
 import { UserContext } from '../../context/userContext';
 import UserEvent from './UserEvent';
 import UserSignedEvent from './UserSignedEvent';
 import ScrollContainer from './ScrollContainer';
+import ActivityIndicator from '../Generic/ActivityIndicator';
 // This components probably should be a HOC to avoid repetition (TODO)
 const UserEvents = () => {
   const { user } = useContext(UserContext);
@@ -24,7 +23,7 @@ const UserEvents = () => {
     <>
       <ScrollContainer header="Twoje Wydarzenia:">
         {user.events.userEvents.loading ? (
-          <ActivityIndicator size="large" color="white" />
+          <ActivityIndicator />
         ) : (
           renderUserEvents()
         )}

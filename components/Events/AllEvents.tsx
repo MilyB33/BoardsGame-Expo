@@ -1,15 +1,11 @@
 import React, { useContext } from 'react';
-
 import { AppContext } from '../../context/appContext';
 
-import {
-  View,
-  ActivityIndicator,
-  StyleSheet,
-  Button,
-} from 'react-native';
+import { View, StyleSheet, Button } from 'react-native';
 import PlainEvent from './PlainEvent';
 import RefreshButton from '../Generic/RefreshButton';
+import ActivityIndicator from '../Generic/ActivityIndicator';
+
 import { Event as EventType } from '../../types/types';
 
 const AllEvents = () => {
@@ -18,6 +14,7 @@ const AllEvents = () => {
     state: {
       events: { items: events, loading },
     },
+    loadEvents,
   } = useContext(AppContext);
 
   const renderEvents = () =>
@@ -31,17 +28,11 @@ const AllEvents = () => {
 
       {renderEvents()}
 
-      {loading && (
-        <ActivityIndicator
-          style={styles.spinner}
-          size="large"
-          color="white"
-        />
-      )}
+      {loading && <ActivityIndicator style={styles.spinner} />}
 
       {loading || (
         <View style={styles.moreButton}>
-          <Button title="Pokaż więcej" onPress={() => {}} />
+          <Button title="Pokaż więcej" onPress={loadEvents} />
         </View>
       )}
     </View>
@@ -54,6 +45,7 @@ const styles = StyleSheet.create({
   },
   spinner: {
     marginTop: 50,
+    marginBottom: 50,
   },
   moreButton: {
     marginTop: 'auto',

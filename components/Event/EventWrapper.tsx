@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     margin: 15,
     padding: 15,
-    minHeight: 100,
+    minHeight: 220,
     borderRadius: 5,
     backgroundColor: 'rgba(86,79,79,.6)',
     borderWidth: 1,

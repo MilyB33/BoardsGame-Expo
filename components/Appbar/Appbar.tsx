@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { UserContext } from '../../context/userContext';
 
 import { Appbar } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
-import { UserContext } from '../../context/userContext';
 import Menu from './Menu';
 
 import { NavigationProps } from '../../types/types';

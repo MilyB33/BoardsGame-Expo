@@ -1,16 +1,16 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../../context/userContext';
-import { Formik, Field } from 'formik';
-import { EventFormState } from '../../types/types';
-import { transformFormValues } from '../../utils/transformers';
-import CustomInput from './CustomInput';
+
+import { View, Text, Button } from 'react-native';
 import { Surface } from 'react-native-paper';
-
-import { View, Text, Button, ActivityIndicator } from 'react-native';
-
-import validationSchemas from '../../utils/validationSchemas';
+import { Formik, Field } from 'formik';
+import CustomInput from './CustomInput';
+import ActivityIndicator from '../Generic/ActivityIndicator';
 
 import styles from './Forms.styles';
+import { EventFormState } from '../../types/types';
+import validationSchemas from '../../utils/validationSchemas';
+import { transformFormValues } from '../../utils/transformers';
 
 const TODAYS_DATE = new Date();
 
@@ -157,7 +157,7 @@ const AddEventForm = () => {
             />
 
             {isLoading ? (
-              <ActivityIndicator size="large" color="white" />
+              <ActivityIndicator />
             ) : (
               <Button
                 title="Dodaj wydarzenie"

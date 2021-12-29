@@ -1,10 +1,10 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { NavigationProps } from '../../types/types';
+
+import { View, StyleSheet } from 'react-native';
 import { FAB } from 'react-native-paper';
+
+import { NavigationProps } from '../../types/types';
 
 const AddEventButton = () => {
   const navigation = useNavigation<NavigationProps>();

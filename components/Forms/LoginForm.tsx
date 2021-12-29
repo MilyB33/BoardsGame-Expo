@@ -1,16 +1,16 @@
 import React, { useContext } from 'react';
-
-import { Text, Button } from 'react-native';
-import { Formik, Field } from 'formik';
-import styles from './Forms.styles';
+import { useNavigation } from '@react-navigation/native';
 import { UserContext } from '../../context/userContext';
 
-import { useNavigation } from '@react-navigation/native';
-import validationSchemas from '../../utils/validationSchemas';
-import { NavigationProps } from '../../types/types';
-import CustomInput from './CustomInput';
 import { Surface } from 'react-native-paper';
+import { Text, Button } from 'react-native';
+import { Formik, Field } from 'formik';
+import CustomInput from './CustomInput';
 import ActivityIndicator from '../Generic/ActivityIndicator';
+
+import styles from './Forms.styles';
+import { NavigationProps } from '../../types/types';
+import validationSchemas from '../../utils/validationSchemas';
 
 interface Props {
   changeForm: React.Dispatch<React.SetStateAction<boolean>>;
@@ -70,7 +70,7 @@ const LoginForm: React.FC<Props> = ({ changeForm }) => {
               Nie masz jeszcze konta? Załóz je od razu.
             </Text>
             {user.loading ? (
-              <ActivityIndicator size="large" />
+              <ActivityIndicator />
             ) : (
               <Button
                 title="Zaloguj"

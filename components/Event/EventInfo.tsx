@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { View, Text, StyleSheet } from 'react-native';
+
 import { Event } from '../../types/types';
 
 interface Props {

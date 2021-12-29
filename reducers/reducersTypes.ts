@@ -3,6 +3,10 @@ import { Event } from '../types/types';
 export interface EventsState {
   items: Array<Event>;
   loading: boolean;
+  query: {
+    offset: number;
+    limit: number;
+  };
 }
 
 export interface AppState {
@@ -14,10 +18,11 @@ export enum EventActions {
   SET_EVENTS_LOADING = 'SET_EVENTS_LOADING',
   FILTER_OUT_EVENT = 'FILTER_OUT_EVENT',
   REPLACE_EVENT = 'REPLACE_EVENT',
+  LOAD_EVENTS = 'LOAD_EVENTS',
 }
 
 export interface GetEventsAction {
-  type: EventActions.GET_EVENTS;
+  type: EventActions.GET_EVENTS | EventActions.LOAD_EVENTS;
   payload: Array<Event>;
 }
 

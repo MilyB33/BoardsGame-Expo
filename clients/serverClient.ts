@@ -9,6 +9,7 @@ import {
 const URL = 'http://192.168.0.12:3000';
 
 class ServerClient {
+  // This client probably is overkill, but I wanted to make it :)
   private client = ((): Client => ({
     BaseURL: URL,
     defaultHeaders: {
@@ -68,8 +69,7 @@ class ServerClient {
       return await fetch(`${this.BaseURL}/${endpoint}`, {
         method: 'PATCH',
         headers: {
-          ...this.headers.patch,
-          ...this.headers.all,
+          ...this.returnHeaders('patch'),
           ...(options.headers || {}),
         },
         body: JSON.stringify(options.body),
@@ -137,9 +137,12 @@ class ServerClient {
     }
   };
 
-  getAllEvents = async () => {
+  getAllEvents = async (offset?: number, limit?: number) => {
     try {
-      const response = await this.client.get('events/all');
+      console.log(offset, limit);
+      const response = await this.client.get(
+        `events/all?offset=${offset}&limit=${limit}`
+      );
 
       const json = await response.json();
 

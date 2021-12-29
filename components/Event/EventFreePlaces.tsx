@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
   View,
   StyleSheet,
   Text,
-  Modal,
   TouchableOpacity,
 } from 'react-native';
-import { Event } from '../../types/types';
+
+import { Event, DispatchType } from '../../types/types';
 
 interface Props {
   event: Event;
-  changeView: React.Dispatch<React.SetStateAction<boolean>>;
+  changeView: DispatchType<boolean>;
 }
 
 const EventInfo: React.FC<Props> = ({ event, changeView }) => {

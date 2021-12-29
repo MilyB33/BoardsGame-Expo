@@ -1,11 +1,13 @@
 import React, { useContext } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import styled from 'styled-components';
 import { useNavigation } from '@react-navigation/native';
+import { UserContext } from '../../context/userContext';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
+import { View, Text, TouchableOpacity } from 'react-native';
+
 import { RootStackParamList } from '../../types/types';
 import { getColor } from '../../styles/utils';
-import { UserContext } from '../../context/userContext';
+import styled from 'styled-components';
 
 type NavigationProps = NativeStackNavigationProp<
   RootStackParamList,

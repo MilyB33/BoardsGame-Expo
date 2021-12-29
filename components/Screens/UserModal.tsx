@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { ScrollView, View } from 'react-native';
 
+import { ScrollView, View } from 'react-native';
 import ModalContainer from '../Modals/ModalContainer';
 import LoginForm from '../Forms/LoginForm';
 import RegisterForm from '../Forms/RegisterForm';

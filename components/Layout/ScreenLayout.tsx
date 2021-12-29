@@ -1,12 +1,11 @@
 import React from 'react';
 
 import { View, ScrollView, StyleSheet } from 'react-native';
-
-import styled from 'styled-components';
-
-import { CustomBackground } from '../Layout/Layout.styles';
 import Modals from '../Modals/Modals';
 import Appbar from '../Appbar/Appbar';
+
+import { CustomBackground } from '../Layout/Layout.styles';
+import styled from 'styled-components';
 
 interface Props {
   children: React.ReactNode;

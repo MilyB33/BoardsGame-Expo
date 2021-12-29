@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-
-import { Text, Button, ActivityIndicator } from 'react-native';
-import { Formik, Field } from 'formik';
-import styles from './Forms.styles';
-
-import ServerClient from '../../clients/serverClient';
 import { useNavigation } from '@react-navigation/native';
-import validationSchemas from '../../utils/validationSchemas';
-import { Surface } from 'react-native-paper';
+import ServerClient from '../../clients/serverClient';
 
-import { NavigationProps } from '../../types/types';
+import { Text, Button } from 'react-native';
+import { Surface } from 'react-native-paper';
+import { Formik, Field } from 'formik';
 import CustomInput from './CustomInput';
+import ActivityIndicator from '../Generic/ActivityIndicator';
+
+import styles from './Forms.styles';
+import { NavigationProps } from '../../types/types';
+import validationSchemas from '../../utils/validationSchemas';
 
 interface Props {
   changeForm: React.Dispatch<React.SetStateAction<boolean>>;
@@ -93,7 +93,7 @@ const RegisterForm: React.FC<Props> = ({ changeForm }) => {
               Masz już konto? Zaloguj się.
             </Text>
             {loading ? (
-              <ActivityIndicator color="white" size="large" />
+              <ActivityIndicator />
             ) : (
               <Button
                 title="Zarejestruj się"

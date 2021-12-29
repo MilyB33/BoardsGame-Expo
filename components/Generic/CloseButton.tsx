@@ -1,8 +1,8 @@
 import React from 'react';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useNavigation } from '@react-navigation/native';
-import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+
+import { StyleSheet } from 'react-native';
+import { IconButton, Colors, Surface } from 'react-native-paper';
 
 interface Props {
   styles?: any;
@@ -13,20 +13,20 @@ const CloseButton: React.FC<Props> = ({ styles }) => {
   const handlePress = () => navigation.goBack();
 
   return (
-    <TouchableOpacity
-      style={[privateStyles.container, styles]}
-      onPress={handlePress}
-    >
-      <Text>
-        <FontAwesomeIcon icon={faTimes} color="white" size={32} />
-      </Text>
-    </TouchableOpacity>
+    <Surface style={privateStyles.container}>
+      <IconButton
+        icon="close"
+        onPress={handlePress}
+        size={30}
+        color={Colors.white}
+        style={styles}
+      />
+    </Surface>
   );
 };
 
 const privateStyles = StyleSheet.create({
   container: {
-    padding: 10,
     backgroundColor: 'dodgerblue',
     borderRadius: 10,
     marginLeft: 'auto',
