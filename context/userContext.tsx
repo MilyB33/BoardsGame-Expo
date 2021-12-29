@@ -100,8 +100,6 @@ export const UserContextProvider: React.FC<Props> = ({
       userId || user.id
     );
 
-    console.log(result);
-
     dispatch({
       type: UserActions.SET_USER_EVENTS,
       payload: {

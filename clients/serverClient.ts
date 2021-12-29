@@ -26,6 +26,7 @@ class ServerClient {
       return {
         ...this.headers[method],
         ...this.defaultHeaders,
+        ...this.headers.all,
       };
     },
 
@@ -85,11 +86,11 @@ class ServerClient {
   };
 
   setHeader = (method: string, header: string, value: string) => {
-    this.client.headers[method][header] = value;
+    this.client.headers[method.toLowerCase()][header] = value;
   };
 
   removeHeader = (method: string, header: string) => {
-    delete this.client.headers[method][header];
+    delete this.client.headers[method.toLowerCase()][header];
   };
 
   loginUser = async (data: LoginCredentials) => {
@@ -159,8 +160,7 @@ class ServerClient {
   signUserForEvent = async (eventId: string, userId: string) => {
     try {
       const response = await this.client.post(
-        `events/${userId}/${eventId}/sign`,
-        { body: null }
+        `events/${userId}/${eventId}/sign`
       );
 
       const json = await response.json();
