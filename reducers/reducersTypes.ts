@@ -19,10 +19,14 @@ export enum EventActions {
   FILTER_OUT_EVENT = 'FILTER_OUT_EVENT',
   REPLACE_EVENT = 'REPLACE_EVENT',
   LOAD_EVENTS = 'LOAD_EVENTS',
+  REFERESH_EVENTS = 'REFERESH_EVENTS',
 }
 
 export interface GetEventsAction {
-  type: EventActions.GET_EVENTS | EventActions.LOAD_EVENTS;
+  type:
+    | EventActions.GET_EVENTS
+    | EventActions.LOAD_EVENTS
+    | EventActions.REFERESH_EVENTS;
   payload: Array<Event>;
 }
 

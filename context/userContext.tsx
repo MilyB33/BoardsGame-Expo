@@ -22,6 +22,7 @@ interface Context {
   signOutUserFromEvent(eventId: string): Promise<void>;
   addEvent(event: EventPayload): Promise<boolean>;
   editEvent(event: EventPayload, eventId: string): Promise<boolean>;
+  deleteAccount(): Promise<void>;
 }
 
 const initialState = {
@@ -230,6 +231,17 @@ export const UserContextProvider: React.FC<Props> = ({
     return true;
   };
 
+  const deleteAccount = async () => {
+    const result = await ServerClient.deleteAccount(user.id);
+
+    if (!result.success) {
+      alert(result.message);
+      return;
+    }
+
+    logout();
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -243,6 +255,7 @@ export const UserContextProvider: React.FC<Props> = ({
         signOutUserFromEvent,
         addEvent,
         editEvent,
+        deleteAccount,
       }}
     >
       {children}

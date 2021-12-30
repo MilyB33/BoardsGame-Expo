@@ -56,7 +56,7 @@ export const AppContextProvider: React.FC<Props> = ({ children }) => {
     if (!result.success) return;
 
     dispatch({
-      type: EventActions.GET_EVENTS,
+      type: EventActions.REFERESH_EVENTS,
       payload: result.result,
     });
   };

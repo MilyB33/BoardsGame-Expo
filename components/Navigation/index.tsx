@@ -8,6 +8,7 @@ import UserEventsScreen from '../Screens/UserEventsScreen';
 import UserModal from '../Screens/UserModal';
 import AddEventScreen from '../Screens/AddEventSreen';
 import EditEventScreen from '../Screens/EditEventScreen';
+import UserAccountScreen from '../Screens/UserAccountScreen';
 
 import { RootStackParamList } from '../../types/types';
 
@@ -29,6 +30,10 @@ const Navigation = () => {
           <Stack.Screen
             name="UserEvents"
             component={UserEventsScreen}
+          />
+          <Stack.Screen
+            name="UserAccount"
+            component={UserAccountScreen}
           />
         </Stack.Group>
         <Stack.Group

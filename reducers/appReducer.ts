@@ -38,8 +38,6 @@ const appReducer = (state: AppState, action: AppAllActions) => {
           ),
           query: {
             ...state.events.query,
-            limit: 3,
-            offset: 0,
           },
         },
       };
@@ -66,6 +64,19 @@ const appReducer = (state: AppState, action: AppAllActions) => {
             ...state.events.query,
             offset:
               state.events.query.offset + state.events.query.limit,
+          },
+        },
+      };
+    case EventActions.REFERESH_EVENTS:
+      return {
+        ...state,
+        events: {
+          ...state.events,
+          items: [...action.payload],
+          loading: false,
+          query: {
+            ...state.events.query,
+            offset: 3,
           },
         },
       };

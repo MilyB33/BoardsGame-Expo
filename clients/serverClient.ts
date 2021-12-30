@@ -33,7 +33,7 @@ class ServerClient {
 
     post: async function (
       endpoint: string,
-      options: OptionsWithBody = { body: null }
+      options: OptionsWithBody = { body: {} }
     ) {
       return await fetch(`${this.BaseURL}/${endpoint}`, {
         method: 'POST',
@@ -64,7 +64,7 @@ class ServerClient {
     },
     patch: async function (
       endpoint: string,
-      options: OptionsWithBody = { body: null }
+      options: OptionsWithBody = { body: {} }
     ) {
       return await fetch(`${this.BaseURL}/${endpoint}`, {
         method: 'PATCH',
@@ -162,6 +162,7 @@ class ServerClient {
 
   signUserForEvent = async (eventId: string, userId: string) => {
     try {
+      console.log(eventId, userId);
       const response = await this.client.post(
         `events/${userId}/${eventId}/sign`
       );
@@ -302,6 +303,26 @@ class ServerClient {
           body: { event },
         }
       );
+
+      const json = await response.json();
+
+      if (response.status === 200) {
+        return {
+          success: true,
+          result: json.result,
+        };
+      } else throw new Error(json.message);
+    } catch (err) {
+      return {
+        success: false,
+        message: err,
+      };
+    }
+  };
+
+  deleteAccount = async (userId: string) => {
+    try {
+      const response = await this.client.delete(`users/${userId}`);
 
       const json = await response.json();
 

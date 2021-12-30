@@ -85,4 +85,27 @@ const EventSchema = Yup.object().shape({
     .required('Required'),
 });
 
-export default { LoginSchema, RegisterSchema, EventSchema };
+const ChangePasswordSchema = Yup.object().shape({
+  oldPassword: Yup.string()
+    .min(8, minLog(8, 'Old Password'))
+    .max(50, maxLog(50, 'Old Password'))
+    .required('Required'),
+  newPassword: Yup.string()
+    .min(8, minLog(8, 'Password'))
+    .max(50, maxLog(50, 'Password'))
+    .matches(
+      PASSWORD_REGEX,
+      'Password must contain at least 8 characters, one uppercase, one lowercase and one number'
+    )
+    .required('Required'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    .required('Required'),
+});
+
+export default {
+  LoginSchema,
+  RegisterSchema,
+  EventSchema,
+  ChangePasswordSchema,
+};

@@ -8,6 +8,7 @@ export type RootStackParamList = {
   UserModal: undefined;
   UserEvents: undefined;
   AddEvent: undefined;
+  UserAccount: undefined;
   EditEvent: { event: Event };
 };
 export type Roots = keyof RootStackParamList;
