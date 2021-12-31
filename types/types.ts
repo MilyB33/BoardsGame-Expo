@@ -66,6 +66,7 @@ export interface CustomInputProps {
   isSecure?: boolean;
   keyboardType?: KeboardType;
   isNumeric?: boolean;
+  multiline?: boolean;
   setFieldValue: (
     field: string,
     value: string | number,

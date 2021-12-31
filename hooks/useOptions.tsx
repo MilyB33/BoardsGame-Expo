@@ -25,7 +25,7 @@ const useOptions = () => {
     });
   };
 
-  return { toggleOption };
+  return { options, toggleOption };
 };
 
 export default useOptions;

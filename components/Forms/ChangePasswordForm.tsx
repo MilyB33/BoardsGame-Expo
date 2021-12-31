@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { UserContext } from '../../context/userContext';
 
 import { StyleSheet } from 'react-native';
-import { Button, Surface } from 'react-native-paper';
+import { Button, Surface, Text } from 'react-native-paper';
 import { Formik, Field } from 'formik';
 import CustomInput from './CustomInput';
 
+import validationSchemas from '../../utils/validationSchemas';
+
+import styles from './Forms.styles';
+
 const ChangePasswordForm = () => {
+  const { updatePassword } = useContext(UserContext);
+
   return (
-    <Surface style={styles.form}>
+    <Surface style={privateStyles.form}>
+      <Text style={styles.header}>Dodaj wydarzenie</Text>
+
       <Formik
         initialValues={{
           oldPassword: '',
@@ -16,8 +25,14 @@ const ChangePasswordForm = () => {
         }}
         onSubmit={(values, actions) => {
           console.log(values);
+          updatePassword({
+            oldPassword: values.oldPassword,
+            newPassword: values.newPassword,
+          });
           actions.setSubmitting(false);
+          actions.resetForm();
         }}
+        validationSchema={validationSchemas.ChangePasswordSchema}
       >
         {(props) => (
           <>
@@ -28,6 +43,7 @@ const ChangePasswordForm = () => {
               placeholder="Stare hasło"
               secureTextEntry
               setFieldValue={props.setFieldValue}
+              isSecure
             />
             <Field
               name="newPassword"
@@ -36,6 +52,7 @@ const ChangePasswordForm = () => {
               placeholder="Nowe hasło"
               secureTextEntry
               setFieldValue={props.setFieldValue}
+              isSecure
             />
             <Field
               name="confirmPassword"
@@ -44,6 +61,7 @@ const ChangePasswordForm = () => {
               placeholder="Potwierdź hasło"
               secureTextEntry
               setFieldValue={props.setFieldValue}
+              isSecure
             />
 
             <Button mode="contained" onPress={props.handleSubmit}>
@@ -56,7 +74,7 @@ const ChangePasswordForm = () => {
   );
 };
 
-const styles = StyleSheet.create({
+const privateStyles = StyleSheet.create({
   form: {
     marginTop: 20,
     marginLeft: 'auto',

@@ -23,6 +23,10 @@ interface Context {
   addEvent(event: EventPayload): Promise<boolean>;
   editEvent(event: EventPayload, eventId: string): Promise<boolean>;
   deleteAccount(): Promise<void>;
+  updatePassword(newPassword: {
+    oldPassword: string;
+    newPassword: string;
+  }): Promise<void>;
 }
 
 const initialState = {
@@ -242,6 +246,18 @@ export const UserContextProvider: React.FC<Props> = ({
     logout();
   };
 
+  const updatePassword = async (data: {
+    oldPassword: string;
+    newPassword: string;
+  }) => {
+    const result = await ServerClient.updatePassword(user.id, data);
+
+    if (!result.success) {
+      alert(result.message);
+      return;
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -256,6 +272,7 @@ export const UserContextProvider: React.FC<Props> = ({
         addEvent,
         editEvent,
         deleteAccount,
+        updatePassword,
       }}
     >
       {children}

@@ -3,13 +3,17 @@ import { UserContext } from '../../context/userContext';
 import { useNavigation } from '@react-navigation/native';
 
 import { StyleSheet } from 'react-native';
-import { Surface } from 'react-native-paper';
+import { Surface, Portal } from 'react-native-paper';
 import OptionItem from './OptionItem';
 import DeleteDialog from './DeleteDialog';
 
 import { NavigationProps } from '../../types/types';
 
-const Options = () => {
+interface Props {
+  handleOptionChange: (option: string) => void;
+}
+
+const Options: React.FC<Props> = ({ handleOptionChange }) => {
   const [visible, setVisible] = useState(false);
   const { logout, deleteAccount } = useContext(UserContext);
   const navigation = useNavigation<NavigationProps>();
@@ -32,13 +36,13 @@ const Options = () => {
         <OptionItem
           title="Zmień opis"
           icon="account-circle"
-          onPress={() => {}}
+          onPress={() => handleOptionChange('description')}
         />
 
         <OptionItem
           title="Zmień hasło"
           icon="lock"
-          onPress={() => {}}
+          onPress={() => handleOptionChange('password')}
         />
 
         <OptionItem
@@ -55,11 +59,13 @@ const Options = () => {
         />
       </Surface>
 
-      <DeleteDialog
-        visible={visible}
-        onDismiss={() => setVisible(false)}
-        callbackAction={handleDeleteAccount}
-      />
+      <Portal>
+        <DeleteDialog
+          visible={visible}
+          onDismiss={() => setVisible(false)}
+          callbackAction={handleDeleteAccount}
+        />
+      </Portal>
     </>
   );
 };

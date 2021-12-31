@@ -91,6 +91,10 @@ const ChangePasswordSchema = Yup.object().shape({
     .max(50, maxLog(50, 'Old Password'))
     .required('Required'),
   newPassword: Yup.string()
+    .notOneOf(
+      [Yup.ref('oldPassword'), null],
+      'Passwords cannot match'
+    )
     .min(8, minLog(8, 'Password'))
     .max(50, maxLog(50, 'Password'))
     .matches(
@@ -99,8 +103,12 @@ const ChangePasswordSchema = Yup.object().shape({
     )
     .required('Required'),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
     .required('Required'),
+});
+
+const ChangeDescriptionSchema = Yup.object().shape({
+  description: Yup.string().max(150, 'Too Long!'),
 });
 
 export default {
@@ -108,4 +116,5 @@ export default {
   RegisterSchema,
   EventSchema,
   ChangePasswordSchema,
+  ChangeDescriptionSchema,
 };

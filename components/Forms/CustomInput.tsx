@@ -16,6 +16,7 @@ const CustomInput: React.FC<CustomInputProps> = (props) => {
     isSecure = false,
     keyboardType = 'default',
     isNumeric = false,
+    multiline = false,
 
     setFieldValue,
   } = props;
@@ -49,6 +50,7 @@ const CustomInput: React.FC<CustomInputProps> = (props) => {
         keyboardType={keyboardType}
         right={isSecure && <TextInput.Icon name="eye" />}
         error={hasError}
+        multiline={multiline}
       />
       <HelperText type="error" visible={hasError}>
         {getIn(errors, name)}

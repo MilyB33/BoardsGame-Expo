@@ -339,6 +339,37 @@ class ServerClient {
       };
     }
   };
+
+  updatePassword = async (
+    userId: string,
+    data: {
+      oldPassword: string;
+      newPassword: string;
+    }
+  ) => {
+    try {
+      const response = await this.client.patch(
+        `users/${userId}/password`,
+        {
+          body: { data },
+        }
+      );
+
+      const json = await response.json();
+
+      if (response.status === 200) {
+        return {
+          success: true,
+          result: json.result,
+        };
+      } else throw new Error(json.message);
+    } catch (err) {
+      return {
+        success: false,
+        message: err,
+      };
+    }
+  };
 }
 
 export default new ServerClient();

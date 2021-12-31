@@ -6,7 +6,7 @@ interface Props {
   title: string;
   content: string;
   visible: boolean;
-  onDismiss: () => void;
+  onDismiss?: () => void;
   actions?: React.ReactElement | React.ReactElement[];
 }
 
