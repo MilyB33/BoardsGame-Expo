@@ -17,8 +17,14 @@ const OptionItem: React.FC<Props> = ({
   buttonColor,
   ...rest
 }) => {
+  const titleLength = title.length;
+
+  const width = {
+    width: titleLength > 10 ? '70%' : '45%',
+  };
+
   return (
-    <Surface style={[styles.container]} {...rest}>
+    <Surface style={[styles.container, width]} {...rest}>
       <Button
         mode="contained"
         onPress={onPress}

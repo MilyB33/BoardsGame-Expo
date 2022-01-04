@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { StyleSheet } from 'react-native';
 import { Surface, Portal } from 'react-native-paper';
-import OptionItem from './OptionItem';
+import OptionItem from '../Generic/OptionItem';
 import DeleteDialog from './DeleteDialog';
 
 import { NavigationProps } from '../../types/types';

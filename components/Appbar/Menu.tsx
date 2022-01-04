@@ -47,7 +47,7 @@ const CustomMenu = () => {
           icon="account-circle"
         />
         <Menu.Item
-          onPress={() => {}}
+          onPress={() => handleNavigate('Contacts')}
           title="Znajomi"
           icon="contacts"
         />

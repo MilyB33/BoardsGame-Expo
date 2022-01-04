@@ -1,27 +1,33 @@
 import React, { useState } from 'react';
 
 interface State {
-  [key: string]: any;
+  [key: string]: {
+    visible: boolean;
+    component: React.FC;
+  };
 }
 
-const useOptions = () => {
-  const [options, setOptions] = useState<State>({
-    description: false,
-    password: false,
-  });
+const useOptions = (initialState: State) => {
+  const [options, setOptions] = useState<State>(initialState);
 
   const toggleOption = (option: string) => {
     const newOptions = {} as State;
 
     for (const key in options) {
       if (key !== option) {
-        newOptions[key] = false;
+        newOptions[key] = {
+          ...options[key],
+          visible: false,
+        };
       }
     }
 
     setOptions({
       ...newOptions,
-      [option]: !options[option],
+      [option]: {
+        ...options[option],
+        visible: !options[option].visible,
+      },
     });
   };
 

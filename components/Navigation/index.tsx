@@ -9,6 +9,7 @@ import UserModal from '../Screens/UserModal';
 import AddEventScreen from '../Screens/AddEventSreen';
 import EditEventScreen from '../Screens/EditEventScreen';
 import UserAccountScreen from '../Screens/UserAccountScreen';
+import ContactsScreen from '../Screens/ContactsScreen';
 
 import { RootStackParamList } from '../../types/types';
 
@@ -35,6 +36,7 @@ const Navigation = () => {
             name="UserAccount"
             component={UserAccountScreen}
           />
+          <Stack.Screen name="Contacts" component={ContactsScreen} />
         </Stack.Group>
         <Stack.Group
           screenOptions={{

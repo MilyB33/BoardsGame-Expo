@@ -9,27 +9,46 @@ import ActivityIndicator from '../Generic/ActivityIndicator';
 const UserEvents = () => {
   const { user } = useContext(UserContext);
 
+  const {
+    events: {
+      userEvents: { loading: userEventsLoading, items: userEvents },
+      userSignedEvents: {
+        loading: userSignedEventsLoading,
+        items: userSignedEvents,
+      },
+    },
+  } = user;
+
+  const isUserEvents = userEvents.length > 0;
+  const isUserSignedEvents = userSignedEvents.length > 0;
+
   const renderUserEvents = () =>
-    user.events.userEvents.items.map((event) => (
+    userEvents.map((event) => (
       <UserEvent key={event._id} event={event} />
     ));
 
   const renderUserSignedEvents = () =>
-    user.events.userSignedEvents.items.map((event) => (
+    userSignedEvents.map((event) => (
       <UserSignedEvent key={event._id} event={event} />
     ));
 
   return (
     <>
-      <ScrollContainer header="Twoje Wydarzenia:">
-        {user.events.userEvents.loading ? (
+      <ScrollContainer
+        header="Twoje Wydarzenia:"
+        isDisplayed={isUserEvents}
+      >
+        {userEventsLoading ? (
           <ActivityIndicator />
         ) : (
           renderUserEvents()
         )}
       </ScrollContainer>
-      <ScrollContainer header="Wydarzenia w których uczestniczysz:">
-        {user.events.userSignedEvents.loading ? (
+      <ScrollContainer
+        header="Wydarzenia w których uczestniczysz:"
+        isDisplayed={isUserSignedEvents}
+      >
+        {userSignedEventsLoading ? (
           <ActivityIndicator size="large" color="white" />
         ) : (
           renderUserSignedEvents()

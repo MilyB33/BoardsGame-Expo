@@ -1,23 +1,12 @@
 import React from 'react';
 import useOptions from '../../hooks/useOptions';
 
-import ChangePasswordForm from '../Forms/ChangePasswordForm';
-import ChangeAccountDesc from '../Forms/ChangeAccountDesc';
 import OptionActionWrapper from '../Generic/OptionActionWrapper';
 import Options from './Options';
 
-const initialState = {
-  description: {
-    visible: false,
-    component: ChangeAccountDesc,
-  },
-  password: {
-    visible: false,
-    component: ChangePasswordForm,
-  },
-};
+const initialState = {};
 
-const AccountWrapper = () => {
+const ContactsWrapper = () => {
   const { options, toggleOption } = useOptions(initialState);
 
   return (
@@ -28,4 +17,4 @@ const AccountWrapper = () => {
   );
 };
 
-export default AccountWrapper;
+export default ContactsWrapper;

@@ -22,13 +22,13 @@ const Container = styled(View)`
 const ScreenLayout: React.FC<Props> = ({ children }) => {
   return (
     <>
-      <Appbar />
       <Container>
         <CustomBackground source={backgroundImage} />
         <ScrollView contentContainerStyle={styles.contentContainer}>
           {children}
         </ScrollView>
         <Modals />
+        <Appbar />
       </Container>
     </>
   );

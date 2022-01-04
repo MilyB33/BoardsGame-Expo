@@ -1,81 +1,10 @@
-import {
-  EventPayload,
-  Client,
-  LoginCredentials,
-  Options,
-  OptionsWithBody,
-} from '../types/types';
+import { EventPayload, LoginCredentials } from '../types/types';
+import CustomClient from './CustomClient';
 
-const URL = 'http://192.168.0.12:3000';
-
-class ServerClient {
-  // This client probably is overkill, but I wanted to make it :)
-  private client = ((): Client => ({
-    BaseURL: URL,
-    defaultHeaders: {
-      'Content-Type': 'application/json',
-    },
-    headers: {
-      post: {},
-      get: {},
-      delete: {},
-      patch: {},
-      all: {},
-    },
-
-    returnHeaders: function (method: string) {
-      return {
-        ...this.headers[method],
-        ...this.defaultHeaders,
-        ...this.headers.all,
-      };
-    },
-
-    post: async function (
-      endpoint: string,
-      options: OptionsWithBody = { body: {} }
-    ) {
-      return await fetch(`${this.BaseURL}/${endpoint}`, {
-        method: 'POST',
-        headers: {
-          ...this.returnHeaders('post'),
-          ...(options.headers || {}),
-        },
-        body: JSON.stringify(options.body),
-      });
-    },
-    get: async function (endpoint: string, options: Options = {}) {
-      return await fetch(`${this.BaseURL}/${endpoint}`, {
-        method: 'GET',
-        headers: {
-          ...this.returnHeaders('get'),
-          ...(options.headers || {}),
-        },
-      });
-    },
-    delete: async function (endpoint: string, options: Options = {}) {
-      return await fetch(`${this.BaseURL}/${endpoint}`, {
-        method: 'DELETE',
-        headers: {
-          ...this.returnHeaders('delete'),
-          ...(options.headers || {}),
-        },
-      });
-    },
-    patch: async function (
-      endpoint: string,
-      options: OptionsWithBody = { body: {} }
-    ) {
-      return await fetch(`${this.BaseURL}/${endpoint}`, {
-        method: 'PATCH',
-        headers: {
-          ...this.returnHeaders('patch'),
-          ...(options.headers || {}),
-        },
-        body: JSON.stringify(options.body),
-      });
-    },
-  }))();
+class ClientBase {
+  private BaseURL = 'https://boards-game-server.herokuapp.com';
+  private LocalURL = 'http://192.168.0.12:3000';
+  client = CustomClient(this.LocalURL);
 
   setToken = (token: string) => {
     this.client.headers.all['Authorization'] = `Bearer ${token}`;
@@ -92,7 +21,10 @@ class ServerClient {
   removeHeader = (method: string, header: string) => {
     delete this.client.headers[method.toLowerCase()][header];
   };
+}
 
+class ServerClient extends ClientBase {
+  // LOGIN / REGISTER
   loginUser = async (data: LoginCredentials) => {
     try {
       const response = await this.client.post('login', {
@@ -137,56 +69,18 @@ class ServerClient {
     }
   };
 
+  // ================================
+
+  // EVENTS
+
+  // ================================
+
+  // Getting events
+
   getAllEvents = async (offset?: number, limit?: number) => {
     try {
-      console.log(offset, limit);
       const response = await this.client.get(
         `events/all?offset=${offset}&limit=${limit}`
-      );
-
-      const json = await response.json();
-
-      if (response.status === 200) {
-        return {
-          success: true,
-          result: json.result,
-        };
-      } else throw new Error(json.message);
-    } catch (err) {
-      return {
-        success: false,
-        message: err,
-      };
-    }
-  };
-
-  signUserForEvent = async (eventId: string, userId: string) => {
-    try {
-      console.log(eventId, userId);
-      const response = await this.client.post(
-        `events/${userId}/${eventId}/sign`
-      );
-
-      const json = await response.json();
-
-      if (response.status === 200) {
-        return {
-          success: true,
-          result: json.result,
-        };
-      } else throw new Error(json.message);
-    } catch (err) {
-      return {
-        success: false,
-        message: err,
-      };
-    }
-  };
-
-  signOutUserFromEvent = async (eventId: string, userId: string) => {
-    try {
-      const response = await this.client.post(
-        `events/${userId}/${eventId}/signOut`
       );
 
       const json = await response.json();
@@ -229,6 +123,54 @@ class ServerClient {
     try {
       const response = await this.client.get(
         `events/${userId}/signed/all`
+      );
+
+      const json = await response.json();
+
+      if (response.status === 200) {
+        return {
+          success: true,
+          result: json.result,
+        };
+      } else throw new Error(json.message);
+    } catch (err) {
+      return {
+        success: false,
+        message: err,
+      };
+    }
+  };
+
+  // ================================
+
+  // Event actions
+
+  signUserForEvent = async (eventId: string, userId: string) => {
+    try {
+      const response = await this.client.post(
+        `events/${userId}/${eventId}/sign`
+      );
+
+      const json = await response.json();
+
+      if (response.status === 200) {
+        return {
+          success: true,
+          result: json.result,
+        };
+      } else throw new Error(json.message);
+    } catch (err) {
+      return {
+        success: false,
+        message: err,
+      };
+    }
+  };
+
+  signOutUserFromEvent = async (eventId: string, userId: string) => {
+    try {
+      const response = await this.client.post(
+        `events/${userId}/${eventId}/signOut`
       );
 
       const json = await response.json();
@@ -319,6 +261,10 @@ class ServerClient {
       };
     }
   };
+
+  // ================================
+
+  // USERS
 
   deleteAccount = async (userId: string) => {
     try {

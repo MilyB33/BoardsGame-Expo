@@ -78,8 +78,6 @@ export const AppContextProvider: React.FC<Props> = ({ children }) => {
   const loadEvents = async () => {
     const { offset, limit } = state.events.query;
 
-    console.log(offset);
-
     dispatch({ type: EventActions.SET_EVENTS_LOADING });
 
     const result = await ServerClient.getAllEvents(offset, limit);
