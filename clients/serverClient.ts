@@ -266,6 +266,28 @@ class ServerClient extends ClientBase {
 
   // USERS
 
+  getUsers = async (offset?: number, limit?: number) => {
+    try {
+      const response = await this.client.get(
+        `users/all?offset=${offset}&limit=${limit}`
+      );
+
+      const json = await response.json();
+
+      if (response.status === 200) {
+        return {
+          success: true,
+          result: json.result,
+        };
+      } else throw new Error(json.message);
+    } catch (err) {
+      return {
+        success: false,
+        message: err,
+      };
+    }
+  };
+
   deleteAccount = async (userId: string) => {
     try {
       const response = await this.client.delete(`users/${userId}`);

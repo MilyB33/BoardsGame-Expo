@@ -1,4 +1,4 @@
-import { Event } from '../types/types';
+import { Event, User } from '../types/types';
 
 export interface EventsState {
   items: Array<Event>;
@@ -55,6 +55,8 @@ export interface UserState {
   isAuthenticated: boolean;
   loading: boolean;
   events: EventsType;
+  contacts: string[]; // TODO: change to array of contacts
+  contactRequests: string[];
 }
 
 export enum UserActions {
@@ -151,6 +153,29 @@ export type ModalsAllActions =
 
 // ========================================================
 
+export interface ContactsState {
+  users: {
+    items: User[];
+    loading: boolean;
+  };
+}
+
+export enum ContactsActions {
+  GET_USERS = 'GET_USERS',
+  SET_USERS_LOADING = 'SET_USERS_LOADING',
+}
+
+export interface GetUsers {
+  type: ContactsActions.GET_USERS;
+  payload: User[];
+}
+
+export type ContactsAllActions =
+  | GetUsers
+  | ActionWithoutPayload<ContactsActions.SET_USERS_LOADING>;
+
+// ========================================================
+
 export interface DeleteEventAction {
   type: EventActions.FILTER_OUT_EVENT | UserActions.DELETE_EVENT;
   payload: {
@@ -165,4 +190,8 @@ export interface EditEventAction {
     event: Event;
     field?: string;
   };
+}
+
+export interface ActionWithoutPayload<T> {
+  type: T;
 }

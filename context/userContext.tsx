@@ -44,6 +44,7 @@ const initialState = {
       loading: false,
     },
   },
+  contacts: [],
 };
 
 export const UserContext = createContext({} as Context);

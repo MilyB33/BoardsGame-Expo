@@ -23,6 +23,16 @@ export type RouteProps = RouteProp<RootStackParamList, 'EditEvent'>; // Probably
 
 // ========================================================
 
+// Users
+
+export interface User {
+  _id: string;
+  username: string;
+  events?: Event[];
+  contacts?: User[];
+  contactRequests?: string[];
+}
+
 // Events
 
 export interface Event {

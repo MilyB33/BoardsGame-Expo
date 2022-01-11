@@ -1,34 +1,28 @@
-import React, { useContext, useState } from 'react';
-import { UserContext } from '../../context/userContext';
-import { useNavigation } from '@react-navigation/native';
+import React from 'react';
 
 import { StyleSheet } from 'react-native';
-import { Surface, Portal } from 'react-native-paper';
+import { Surface } from 'react-native-paper';
 import OptionItem from '../Generic/OptionItem';
-
-import { NavigationProps } from '../../types/types';
 
 interface Props {
   handleOptionChange: (option: string) => void;
 }
 
 const Options: React.FC<Props> = ({ handleOptionChange }) => {
-  const navigation = useNavigation<NavigationProps>();
-
   return (
     <>
       <Surface style={styles.container}>
         <OptionItem
           title="Lista znajomych"
           icon="account-multiple"
-          onPress={() => {}}
+          onPress={() => handleOptionChange('list')}
         />
 
         <OptionItem
           title="Szukaj znajomych"
           icon="account-search"
           buttonColor="#279927"
-          onPress={() => {}}
+          onPress={() => handleOptionChange('search')}
         />
       </Surface>
     </>

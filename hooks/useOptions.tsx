@@ -26,7 +26,7 @@ const useOptions = (initialState: State) => {
       ...newOptions,
       [option]: {
         ...options[option],
-        visible: !options[option].visible,
+        visible: true,
       },
     });
   };

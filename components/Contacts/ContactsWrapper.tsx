@@ -3,8 +3,19 @@ import useOptions from '../../hooks/useOptions';
 
 import OptionActionWrapper from '../Generic/OptionActionWrapper';
 import Options from './Options';
+import List from './List';
+import SearchUser from './SearchUser';
 
-const initialState = {};
+const initialState = {
+  list: {
+    visible: false,
+    component: List,
+  },
+  search: {
+    visible: false,
+    component: SearchUser,
+  },
+};
 
 const ContactsWrapper = () => {
   const { options, toggleOption } = useOptions(initialState);
