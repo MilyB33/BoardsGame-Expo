@@ -1,16 +1,11 @@
-import {
-  UserState,
-  UserAllActions,
-  UserActions,
-} from './reducersTypes';
+import { UserState, UserAllActions, UserActions } from "./reducersTypes";
 
 const userReducer = (state: UserState, action: UserAllActions) => {
   switch (action.type) {
     case UserActions.SET_CURRENT_USER:
       return {
         ...state,
-        id: action.payload.id,
-        username: action.payload.username,
+        ...action.payload,
         isAuthenticated: true,
         loading: false,
       };
@@ -27,8 +22,8 @@ const userReducer = (state: UserState, action: UserAllActions) => {
     case UserActions.LOGOUT_USER:
       return {
         ...state,
-        id: '',
-        username: '',
+        id: "",
+        username: "",
         isAuthenticated: false,
         loading: false,
         events: {
@@ -84,10 +79,7 @@ const userReducer = (state: UserState, action: UserAllActions) => {
         events: {
           ...state.events,
           userSignedEvents: {
-            items: [
-              ...state.events.userSignedEvents.items,
-              action.payload,
-            ],
+            items: [...state.events.userSignedEvents.items, action.payload],
             loading: false,
           },
         },
@@ -129,6 +121,14 @@ const userReducer = (state: UserState, action: UserAllActions) => {
                 : item
             ),
           },
+        },
+      };
+    case UserActions.SEND_FRIEND_REQUEST:
+      return {
+        ...state,
+        friendsRequests: {
+          ...state.friendsRequests,
+          sent: [...state.friendsRequests.sent, action.payload],
         },
       };
     default:

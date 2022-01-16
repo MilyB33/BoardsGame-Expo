@@ -1,15 +1,15 @@
-import React, { createContext, useReducer, useEffect } from 'react';
-import appReducer from '../reducers/appReducer';
-import ServerClient from '../clients/serverClient';
-import { EventActions, AppState } from '../reducers/reducersTypes';
-import { Event } from '../types/types';
+import React, { createContext, useReducer, useEffect } from "react";
+import appReducer from "../reducers/appReducer";
+import ServerClient from "../clients/serverClient";
+import { EventActions, AppState } from "../reducers/reducersTypes";
+import { Event, P } from "../types/types";
 
 interface Context {
   state: AppState;
-  FilterOutEvent(eventId: string): Promise<void>;
-  replaceEvent(event: Event): Promise<void>;
-  reloadEvents(): Promise<void>;
-  loadEvents(): Promise<void>;
+  FilterOutEvent(eventId: string): P;
+  replaceEvent(event: Event): P;
+  reloadEvents(): P;
+  loadEvents(): P;
 }
 
 interface Props {
@@ -25,7 +25,15 @@ const initialState = {
       limit: 3,
     },
   },
-};
+  users: {
+    items: [],
+    loading: false,
+    query: {
+      offset: 0,
+      limit: 3,
+    },
+  },
+} as AppState;
 
 export const AppContext = createContext({} as Context);
 
@@ -33,10 +41,13 @@ export const AppContextProvider: React.FC<Props> = ({ children }) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
   const getInitialEvents = async () => {
-    const { offset, limit } = state.events.query;
-    dispatch({ type: EventActions.SET_EVENTS_LOADING });
+    const { query } = state.events;
 
-    const result = await ServerClient.getAllEvents(offset, limit);
+    dispatch({
+      type: EventActions.SET_EVENTS_LOADING,
+    });
+
+    const result = await ServerClient.getAllEvents(query);
 
     if (!result.success) return;
 
@@ -49,9 +60,11 @@ export const AppContextProvider: React.FC<Props> = ({ children }) => {
   // This function is same as above but it would probably changed in the future
   const reloadEvents = async () => {
     const { limit } = state.events.query;
-    dispatch({ type: EventActions.SET_EVENTS_LOADING });
+    dispatch({
+      type: EventActions.SET_EVENTS_LOADING,
+    });
 
-    const result = await ServerClient.getAllEvents(0, limit);
+    const result = await ServerClient.getAllEvents({ offset: 0, limit });
 
     if (!result.success) return;
 
@@ -76,11 +89,13 @@ export const AppContextProvider: React.FC<Props> = ({ children }) => {
   };
 
   const loadEvents = async () => {
-    const { offset, limit } = state.events.query;
+    const { query } = state.events;
 
-    dispatch({ type: EventActions.SET_EVENTS_LOADING });
+    dispatch({
+      type: EventActions.SET_EVENTS_LOADING,
+    });
 
-    const result = await ServerClient.getAllEvents(offset, limit);
+    const result = await ServerClient.getAllEvents(query);
 
     if (!result.success) return;
 

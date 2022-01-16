@@ -1,21 +1,30 @@
-import React from 'react';
+import React from "react";
 
-import CloseButton from '../Generic/CloseButton';
-import { View, ScrollView } from 'react-native';
+import CloseButton from "../Generic/CloseButton";
+import { View, ScrollView } from "react-native";
 
-import styles from './modals.style';
+import styles from "./modals.style";
 
 interface Props {
   children: React.ReactNode;
+  isScrolled?: boolean;
 }
 
-const LoginContainer: React.FC<Props> = ({ children }) => {
+const LoginContainer: React.FC<Props> = ({ children, isScrolled = true }) => {
+  const Container = isScrolled ? ScrollView : View;
+
+  const containerProps = isScrolled
+    ? {
+        contentContainerStyle: styles.scrollViewContainer,
+      }
+    : { style: styles.scrollViewContainer };
+
   return (
     <View style={styles.modalContainer}>
-      <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+      <Container {...containerProps}>
         <CloseButton />
         {children}
-      </ScrollView>
+      </Container>
     </View>
   );
 };

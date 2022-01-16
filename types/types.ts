@@ -1,6 +1,6 @@
-import React from 'react';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RouteProp } from '@react-navigation/native';
+import React from "react";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RouteProp } from "@react-navigation/native";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -12,26 +12,49 @@ export type RootStackParamList = {
   Contacts: undefined;
   EditEvent: { event: Event };
 };
+
 export type Roots = keyof RootStackParamList;
+
+export type FriendsStackParamList = {
+  ContactsHome: undefined;
+  SearchUser: undefined;
+};
+
+export type Friends = keyof FriendsStackParamList;
+
+export type FriendsNavigationProps = NativeStackNavigationProp<
+  FriendsStackParamList,
+  Friends
+>;
 
 export type NavigationProps = NativeStackNavigationProp<
   RootStackParamList,
   Roots
 >;
 
-export type RouteProps = RouteProp<RootStackParamList, 'EditEvent'>; // Probably not needed
+export type RouteProps = RouteProp<RootStackParamList, "EditEvent">; // Probably not needed
 
 // ========================================================
 
 // Users
 
-export interface User {
+export interface UserEntry {
+  _id: string;
+  username: string;
+}
+
+export type FriendsRequest = {
+  sent: UserEntry[];
+  received: UserEntry[];
+};
+
+export type User = {
   _id: string;
   username: string;
   events?: Event[];
-  contacts?: User[];
-  contactRequests?: string[];
-}
+  friends?: UserEntry[];
+  friendsRequests?: FriendsRequest;
+};
 
 // Events
 
@@ -69,7 +92,7 @@ export interface EventPayload {
 
 // Custom Input Props
 
-type KeboardType = 'default' | 'numeric' | 'phone-pad' | 'number-pad';
+type KeboardType = "default" | "numeric" | "phone-pad" | "number-pad";
 
 export interface CustomInputProps {
   label?: string;
@@ -148,24 +171,36 @@ export interface OptionsWithBody extends Options {
 
 export interface Client {
   BaseURL: string;
-  post(endpoint: string, options?: OptionsWithBody): Promise<any>;
-  get(endpoint: string, options?: Options): Promise<any>;
-  delete(endpoint: string, options?: Options): Promise<any>;
-  patch(endpoint: string, options?: OptionsWithBody): Promise<any>;
+  post(endpoint: string, options?: OptionsWithBody): P<any>;
+  get(endpoint: string, options?: Options): P<any>;
+  delete(endpoint: string, options?: Options): P<any>;
+  patch(endpoint: string, options?: OptionsWithBody): P<any>;
   defaultHeaders: Header;
   headers: Headers;
   returnHeaders(method: string): Header;
 }
+
+export type PaginationQuery = {
+  offset?: number;
+  limit?: number;
+};
+
+export type ExtendedQuery<F, T> = PaginationQuery &
+  Partial<{
+    [F: string]: T;
+  }>;
 
 // ========================================================
 
 // Additionals
 
 export type KeyboardType =
-  | 'default'
-  | 'email-address'
-  | 'numeric'
-  | 'phone-pad'
-  | 'number-pad';
+  | "default"
+  | "email-address"
+  | "numeric"
+  | "phone-pad"
+  | "number-pad";
 
 export type DispatchType<T> = React.Dispatch<React.SetStateAction<T>>;
+
+export type P<T = void> = Promise<T>; // Promise alias

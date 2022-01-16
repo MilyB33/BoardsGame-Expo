@@ -1,29 +1,13 @@
-import React from 'react';
-import useOptions from '../../hooks/useOptions';
+import React from "react";
 
-import OptionActionWrapper from '../Generic/OptionActionWrapper';
-import Options from './Options';
-import List from './List';
-import SearchUser from './SearchUser';
-
-const initialState = {
-  list: {
-    visible: false,
-    component: List,
-  },
-  search: {
-    visible: false,
-    component: SearchUser,
-  },
-};
+import SearchUserButton from "./SearchUserButton";
+import FriendsWrapper from "./FriendsWrapper";
 
 const ContactsWrapper = () => {
-  const { options, toggleOption } = useOptions(initialState);
-
   return (
     <>
-      <Options handleOptionChange={toggleOption} />
-      <OptionActionWrapper options={options} />
+      <SearchUserButton small />
+      <FriendsWrapper />
     </>
   );
 };

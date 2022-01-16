@@ -1,17 +1,23 @@
-import { EventPayload, LoginCredentials } from '../types/types';
-import CustomClient from './CustomClient';
+import {
+  EventPayload,
+  LoginCredentials,
+  PaginationQuery,
+  ExtendedQuery,
+} from "../types/types";
+import CustomClient from "./CustomClient";
+import { transformQuery } from "../utils/transformers";
 
 class ClientBase {
-  private BaseURL = 'https://boards-game-server.herokuapp.com';
-  private LocalURL = 'http://192.168.0.12:3000';
+  private BaseURL = "https://boards-game-server.herokuapp.com";
+  private LocalURL = "http://192.168.0.12:3000";
   client = CustomClient(this.LocalURL);
 
   setToken = (token: string) => {
-    this.client.headers.all['Authorization'] = `Bearer ${token}`;
+    this.client.headers.all["Authorization"] = `Bearer ${token}`;
   };
 
   removeToken = () => {
-    delete this.client.headers.all['Authorization'];
+    delete this.client.headers.all["Authorization"];
   };
 
   setHeader = (method: string, header: string, value: string) => {
@@ -27,7 +33,7 @@ class ServerClient extends ClientBase {
   // LOGIN / REGISTER
   loginUser = async (data: LoginCredentials) => {
     try {
-      const response = await this.client.post('login', {
+      const response = await this.client.post("login", {
         body: data,
       });
 
@@ -49,7 +55,7 @@ class ServerClient extends ClientBase {
 
   registerUser = async (data: LoginCredentials) => {
     try {
-      const response = await this.client.post('register', {
+      const response = await this.client.post("register", {
         body: data,
       });
 
@@ -77,11 +83,13 @@ class ServerClient extends ClientBase {
 
   // Getting events
 
-  getAllEvents = async (offset?: number, limit?: number) => {
+  getAllEvents = async (query: PaginationQuery) => {
+    const { offset, limit } = query;
+
+    const newQuery = transformQuery`events/all?offset=${offset}&limit=${limit}`;
+
     try {
-      const response = await this.client.get(
-        `events/all?offset=${offset}&limit=${limit}`
-      );
+      const response = await this.client.get(newQuery);
 
       const json = await response.json();
 
@@ -121,9 +129,7 @@ class ServerClient extends ClientBase {
 
   getUserSignedEvents = async (userId: string) => {
     try {
-      const response = await this.client.get(
-        `events/${userId}/signed/all`
-      );
+      const response = await this.client.get(`events/${userId}/signed/all`);
 
       const json = await response.json();
 
@@ -191,9 +197,7 @@ class ServerClient extends ClientBase {
 
   deleteUserEvent = async (eventId: string, userId: string) => {
     try {
-      const response = await this.client.delete(
-        `events/${userId}/${eventId}`
-      );
+      const response = await this.client.delete(`events/${userId}/${eventId}`);
 
       const json = await response.json();
 
@@ -233,18 +237,11 @@ class ServerClient extends ClientBase {
     }
   };
 
-  editEvent = async (
-    event: EventPayload,
-    userId: string,
-    eventId: string
-  ) => {
+  editEvent = async (event: EventPayload, userId: string, eventId: string) => {
     try {
-      const response = await this.client.patch(
-        `events/${userId}/${eventId}`,
-        {
-          body: { event },
-        }
-      );
+      const response = await this.client.patch(`events/${userId}/${eventId}`, {
+        body: { event },
+      });
 
       const json = await response.json();
 
@@ -265,12 +262,13 @@ class ServerClient extends ClientBase {
   // ================================
 
   // USERS
-
-  getUsers = async (offset?: number, limit?: number) => {
+  getUsers = async (query: ExtendedQuery<"username", string>) => {
     try {
-      const response = await this.client.get(
-        `users/all?offset=${offset}&limit=${limit}`
-      );
+      const { offset, limit, username } = query;
+
+      const newQuery = transformQuery`users/all?offset=${offset}&limit=${limit}&username=${username}`;
+
+      const response = await this.client.get(newQuery.toString());
 
       const json = await response.json();
 
@@ -316,11 +314,31 @@ class ServerClient extends ClientBase {
     }
   ) => {
     try {
-      const response = await this.client.patch(
-        `users/${userId}/password`,
-        {
-          body: { data },
-        }
+      const response = await this.client.patch(`users/${userId}/password`, {
+        body: { data },
+      });
+
+      const json = await response.json();
+
+      if (response.status === 200) {
+        return {
+          success: true,
+          result: json.result,
+        };
+      } else throw new Error(json.message);
+    } catch (err) {
+      return {
+        success: false,
+        message: err,
+      };
+    }
+  };
+
+  sendFriendRequest = async (userId: string, friendId: string) => {
+    try {
+      console.log(userId, friendId);
+      const response = await this.client.post(
+        `users/${userId}/friends/${friendId}/request`
       );
 
       const json = await response.json();

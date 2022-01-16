@@ -1,8 +1,4 @@
-import {
-  AppAllActions,
-  EventActions,
-  AppState,
-} from './reducersTypes';
+import { AppAllActions, EventActions, AppState } from "./reducersTypes";
 
 const appReducer = (state: AppState, action: AppAllActions) => {
   switch (action.type) {
@@ -15,8 +11,7 @@ const appReducer = (state: AppState, action: AppAllActions) => {
           loading: false,
           query: {
             ...state.events.query,
-            offset:
-              state.events.query.offset + state.events.query.limit,
+            offset: state.events.query.offset + state.events.query.limit,
           },
         },
       };
@@ -53,7 +48,7 @@ const appReducer = (state: AppState, action: AppAllActions) => {
           ),
         },
       };
-    case EventActions.LOAD_EVENTS:
+    case EventActions.LOAD_EVENTS: // Rename to Expand
       return {
         ...state,
         events: {
@@ -62,8 +57,7 @@ const appReducer = (state: AppState, action: AppAllActions) => {
           loading: false,
           query: {
             ...state.events.query,
-            offset:
-              state.events.query.offset + state.events.query.limit,
+            offset: state.events.query.offset + state.events.query.limit,
           },
         },
       };

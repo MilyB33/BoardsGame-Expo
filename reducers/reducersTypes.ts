@@ -1,7 +1,7 @@
-import { Event, User } from '../types/types';
+import { Event, User, FriendsRequest, UserEntry } from "../types/types";
 
-export interface EventsState {
-  items: Array<Event>;
+export interface AppFieldState<T> {
+  items: Array<T>;
   loading: boolean;
   query: {
     offset: number;
@@ -9,34 +9,52 @@ export interface EventsState {
   };
 }
 
+export enum AppStateKeys {
+  EVENTS = "events",
+}
+
 export interface AppState {
-  events: EventsState;
+  [AppStateKeys.EVENTS]: AppFieldState<Event>;
 }
 
 export enum EventActions {
-  GET_EVENTS = 'GET_EVENTS',
-  SET_EVENTS_LOADING = 'SET_EVENTS_LOADING',
-  FILTER_OUT_EVENT = 'FILTER_OUT_EVENT',
-  REPLACE_EVENT = 'REPLACE_EVENT',
-  LOAD_EVENTS = 'LOAD_EVENTS',
-  REFERESH_EVENTS = 'REFERESH_EVENTS',
+  GET_EVENTS = "GET_EVENTS",
+  SET_EVENTS_LOADING = "SET_EVENTS_LOADING",
+  FILTER_OUT_EVENT = "FILTER_OUT_EVENT",
+  REPLACE_EVENT = "REPLACE_EVENT",
+  LOAD_EVENTS = "LOAD_EVENTS",
+  REFERESH_EVENTS = "REFERESH_EVENTS",
 }
 
-export interface GetEventsAction {
-  type:
-    | EventActions.GET_EVENTS
-    | EventActions.LOAD_EVENTS
-    | EventActions.REFERESH_EVENTS;
-  payload: Array<Event>;
+// PT = Payload Type
+// PTA = Payload Type Array
+// E = Enum
+// T = Type
+// EK = Enum Key
+
+export interface ArrayPayload<E, PT> {
+  type: E;
+  payload: Array<PT>;
 }
 
-export interface SetEventsLoadingAction {
-  type: EventActions.SET_EVENTS_LOADING;
+// Type for if the actions are identical so key is from the enum
+export type GetDataAction<E, PT, EK> = {
+  type: E;
+  payload: {
+    field: EK;
+    items: Array<PT>;
+  };
+};
+
+export interface SetLoadingAction<E> {
+  type: E;
 }
 
 export type AppAllActions =
-  | GetEventsAction
-  | SetEventsLoadingAction
+  | ArrayPayload<EventActions.REFERESH_EVENTS, Event>
+  | ArrayPayload<EventActions.GET_EVENTS, Event>
+  | ArrayPayload<EventActions.LOAD_EVENTS, Event>
+  | SetLoadingAction<EventActions.SET_EVENTS_LOADING>
   | DeleteEventAction
   | EditEventAction;
 
@@ -49,40 +67,43 @@ type EventsType = {
   };
 };
 
-export interface UserState {
+export type UserState = {
   id: string;
   username: string;
   isAuthenticated: boolean;
   loading: boolean;
   events: EventsType;
-  contacts: string[]; // TODO: change to array of contacts
-  contactRequests: string[];
-}
+  friends: UserEntry[];
+  friendsRequests: FriendsRequest;
+};
 
 export enum UserActions {
-  SET_CURRENT_USER = 'SET_CURRENT_USER',
-  SET_CURRENT_USER_LOADING = 'SET_CURRENT_USER_LOADING',
-  END_CURRENT_USER_LOADING = 'END_CURRENT_USER_LOADING',
-  LOGOUT_USER = 'LOGOUT_USER',
-  SET_USER_EVENTS = 'SET_USER_EVENTS',
-  SET_EVENTS_LOADING = 'SET_EVENTS_LOADING',
-  DELETE_EVENT = 'DELETE_EVENT',
-  EDIT_EVENT = 'EDIT_EVENT',
-  SIGN_USER_TO_EVENT = 'SIGN_USER_TO_EVENT',
-  SIGN_OUT_USER_FROM_EVENT = 'SIGN_OUT_USER_FROM_EVENT',
-  ADD_EVENT = 'ADD_EVENT',
+  SET_CURRENT_USER = "SET_CURRENT_USER",
+  SET_CURRENT_USER_LOADING = "SET_CURRENT_USER_LOADING",
+  END_CURRENT_USER_LOADING = "END_CURRENT_USER_LOADING",
+  LOGOUT_USER = "LOGOUT_USER",
+  SET_USER_EVENTS = "SET_USER_EVENTS",
+  SET_EVENTS_LOADING = "SET_EVENTS_LOADING",
+  DELETE_EVENT = "DELETE_EVENT",
+  EDIT_EVENT = "EDIT_EVENT",
+  SIGN_USER_TO_EVENT = "SIGN_USER_TO_EVENT",
+  SIGN_OUT_USER_FROM_EVENT = "SIGN_OUT_USER_FROM_EVENT",
+  SEND_FRIEND_REQUEST = "SEND_FRIEND_REQUEST",
+  ADD_EVENT = "ADD_EVENT",
 }
 
 export interface SetCurrentUserAction {
   type: UserActions.SET_CURRENT_USER;
-  payload: {
-    id: string;
-    username: string;
-  };
+  payload: {}; // TODO: Change to User type
 }
 
 export interface OnlyTypeAction<T> {
   type: T;
+}
+
+export interface SendFriendRequestAction {
+  type: UserActions.SEND_FRIEND_REQUEST;
+  payload: UserEntry;
 }
 
 export interface GetUserEventsAction {
@@ -126,7 +147,8 @@ export type UserAllActions =
   | DeleteEventAction
   | EditEventAction
   | SetLoadingEvents
-  | EventPayloadAction<UserActions.ADD_EVENT>;
+  | EventPayloadAction<UserActions.ADD_EVENT>
+  | SendFriendRequestAction;
 
 // ========================================================
 
@@ -135,10 +157,10 @@ export interface ModalsState {
 }
 
 export enum ModalsActions {
-  OPEN_LOGIN_MODAL = 'OPEN_LOGIN_MODAL',
-  OPEN_REGISTER_MODAL = 'OPEN_REGISTER_MODAL',
-  OPEN_ADD_EVENT_MODAL = 'OPEN_ADD_EVENT_MODAL',
-  CLOSE_MODAL = 'CLOSE_MODAL',
+  OPEN_LOGIN_MODAL = "OPEN_LOGIN_MODAL",
+  OPEN_REGISTER_MODAL = "OPEN_REGISTER_MODAL",
+  OPEN_ADD_EVENT_MODAL = "OPEN_ADD_EVENT_MODAL",
+  CLOSE_MODAL = "CLOSE_MODAL",
 }
 
 export interface ModalsAction<E> {
@@ -161,8 +183,8 @@ export interface ContactsState {
 }
 
 export enum ContactsActions {
-  GET_USERS = 'GET_USERS',
-  SET_USERS_LOADING = 'SET_USERS_LOADING',
+  GET_USERS = "GET_USERS",
+  SET_USERS_LOADING = "SET_USERS_LOADING",
 }
 
 export interface GetUsers {

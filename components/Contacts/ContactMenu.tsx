@@ -1,17 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from "react";
+import { UserContext } from "../../context/userContext";
 
-import { View, StyleSheet } from 'react-native';
-import { Menu, Divider, IconButton } from 'react-native-paper';
+import { View, StyleSheet } from "react-native";
+import { Menu, Divider, IconButton } from "react-native-paper";
 
 interface Props {
-  isSearch?: boolean;
+  userId: string;
 }
 
-const ContactMenu: React.FC<Props> = ({ isSearch = false }) => {
+const ContactMenu: React.FC<Props> = ({ userId }) => {
+  const { user, sendFriendRequest } = useContext(UserContext);
   const [visible, setVisible] = useState(false);
 
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
+
+  const isFriend = user.friends.some((friend) => friend._id === userId);
+  const isFriendRequestSent = user.friendsRequests.sent.some(
+    (user) => user._id === userId
+  );
 
   return (
     <View style={styles.menuButton}>
@@ -28,24 +35,24 @@ const ContactMenu: React.FC<Props> = ({ isSearch = false }) => {
           />
         }
       >
-        <Menu.Item
-          onPress={() => {}}
-          title="Konto"
-          icon="account-circle"
-        />
+        <Menu.Item onPress={() => {}} title="Konto" icon="account-circle" />
         <Menu.Item
           onPress={() => {}}
           title="Zaproś na wydarzenie"
           icon="email-plus"
+          disabled={!isFriend}
         />
 
         <Divider style={styles.divider} />
 
-        {isSearch || (
+        {isFriend ? (
+          <Menu.Item onPress={() => {}} title="Usuń znajomego" icon="delete" />
+        ) : (
           <Menu.Item
-            onPress={() => {}}
-            title="Usuń znajomego"
-            icon="delete"
+            onPress={() => sendFriendRequest(userId)}
+            title={isFriendRequestSent ? "Zaproszono" : "Zaproś"}
+            icon="account-plus"
+            disabled={isFriendRequestSent}
           />
         )}
       </Menu>
@@ -55,16 +62,16 @@ const ContactMenu: React.FC<Props> = ({ isSearch = false }) => {
 
 const styles = StyleSheet.create({
   menu: {
-    backgroundColor: '#bdd5ea',
+    backgroundColor: "#bdd5ea",
   },
   menuButton: {
-    marginLeft: 'auto',
+    marginLeft: "auto",
   },
   button: {
-    backgroundColor: '#212529',
+    backgroundColor: "#212529",
   },
   divider: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     height: 2,
   },
 });
