@@ -37,6 +37,11 @@ export interface ArrayPayload<E, PT> {
   payload: Array<PT>;
 }
 
+export interface Payload<E, P> {
+  type: E;
+  payload: P;
+}
+
 // Type for if the actions are identical so key is from the enum
 export type GetDataAction<E, PT, EK> = {
   type: E;
@@ -67,14 +72,25 @@ type EventsType = {
   };
 };
 
+export interface EventEntry {
+  user: UserEntry;
+  eventId: string;
+}
+
+type EventsRequest = {
+  sent: EventEntry[];
+  received: EventEntry[];
+};
+
 export type UserState = {
-  id: string;
+  _id: string;
   username: string;
   isAuthenticated: boolean;
   loading: boolean;
   events: EventsType;
   friends: UserEntry[];
   friendsRequests: FriendsRequest;
+  eventsRequests: EventsRequest;
 };
 
 export enum UserActions {
@@ -90,6 +106,9 @@ export enum UserActions {
   SIGN_OUT_USER_FROM_EVENT = "SIGN_OUT_USER_FROM_EVENT",
   SEND_FRIEND_REQUEST = "SEND_FRIEND_REQUEST",
   ADD_EVENT = "ADD_EVENT",
+  ACCEPT_FRIEND_REQUEST = "ACCEPT_FRIEND_REQUEST",
+  REJECT_FRIEND_REQUEST = "REJECT_FRIEND_REQUEST",
+  DELETE_FRIEND = "DELETE_FRIEND",
 }
 
 export interface SetCurrentUserAction {
@@ -148,7 +167,10 @@ export type UserAllActions =
   | EditEventAction
   | SetLoadingEvents
   | EventPayloadAction<UserActions.ADD_EVENT>
-  | SendFriendRequestAction;
+  | SendFriendRequestAction
+  | Payload<UserActions.ACCEPT_FRIEND_REQUEST, UserEntry>
+  | Payload<UserActions.REJECT_FRIEND_REQUEST, string>
+  | Payload<UserActions.DELETE_FRIEND, string>;
 
 // ========================================================
 
@@ -179,6 +201,10 @@ export interface ContactsState {
   users: {
     items: User[];
     loading: boolean;
+    query: {
+      offset: number;
+      limit: number;
+    };
   };
 }
 

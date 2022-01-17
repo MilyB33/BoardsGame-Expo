@@ -262,11 +262,13 @@ class ServerClient extends ClientBase {
   // ================================
 
   // USERS
-  getUsers = async (query: ExtendedQuery<"username", string>) => {
+  getUsers = async (query: ExtendedQuery<{ username: string }>) => {
     try {
       const { offset, limit, username } = query;
 
       const newQuery = transformQuery`users/all?offset=${offset}&limit=${limit}&username=${username}`;
+
+      console.log(newQuery);
 
       const response = await this.client.get(newQuery.toString());
 
@@ -336,9 +338,75 @@ class ServerClient extends ClientBase {
 
   sendFriendRequest = async (userId: string, friendId: string) => {
     try {
-      console.log(userId, friendId);
       const response = await this.client.post(
         `users/${userId}/friends/${friendId}/request`
+      );
+
+      const json = await response.json();
+
+      if (response.status === 200) {
+        return {
+          success: true,
+          result: json.result,
+        };
+      } else throw new Error(json.message);
+    } catch (err) {
+      return {
+        success: false,
+        message: err,
+      };
+    }
+  };
+
+  acceptFriendRequest = async (userId: string, friendId: string) => {
+    try {
+      console.log(userId);
+      const response = await this.client.post(
+        `users/${userId}/friends/${friendId}/accept`
+      );
+
+      const json = await response.json();
+
+      if (response.status === 200) {
+        return {
+          success: true,
+          result: json.result,
+        };
+      } else throw new Error(json.message);
+    } catch (err) {
+      return {
+        success: false,
+        message: err,
+      };
+    }
+  };
+
+  rejectFriendRequest = async (userId: string, friendId: string) => {
+    try {
+      const response = await this.client.delete(
+        `users/${userId}/friends/${friendId}/request`
+      );
+
+      const json = await response.json();
+
+      if (response.status === 200) {
+        return {
+          success: true,
+          result: json.result,
+        };
+      } else throw new Error(json.message);
+    } catch (err) {
+      return {
+        success: false,
+        message: err,
+      };
+    }
+  };
+
+  deleteFriend = async (userId: string, friendId: string) => {
+    try {
+      const response = await this.client.delete(
+        `users/${userId}/friends/${friendId}`
       );
 
       const json = await response.json();

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { UserContext } from "../../context/userContext";
 
 import { StyleSheet } from "react-native";
 import { Surface, Text, IconButton } from "react-native-paper";
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const ContactItem: React.FC<Props> = ({ user, isRequest = false }) => {
+  const { acceptFriendRequest, rejectFriendRequest } = useContext(UserContext);
   const { _id, username } = user;
 
   const Request = (
@@ -19,14 +21,14 @@ const ContactItem: React.FC<Props> = ({ user, isRequest = false }) => {
       <IconButton
         icon="check"
         size={20}
-        onPress={() => {}}
+        onPress={() => acceptFriendRequest(_id)}
         style={styles.approveButton}
         color="white"
       />
       <IconButton
         icon="close"
         size={20}
-        onPress={() => {}}
+        onPress={() => rejectFriendRequest(_id)}
         style={styles.rejectButton}
         color="white"
       />
@@ -39,7 +41,7 @@ const ContactItem: React.FC<Props> = ({ user, isRequest = false }) => {
 
       {isRequest ? Request : null}
 
-      <ContactMenu userId={_id} />
+      <ContactMenu listedUser={user} />
     </Surface>
   );
 };

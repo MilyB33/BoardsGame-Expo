@@ -15,13 +15,14 @@ export const transformFormValues = (values: EventFormState) => {
   };
 };
 
-export const transformQuery = (parts: any, ...vars: any) => {
+export const transformQuery = (parts: TemplateStringsArray, ...vars: any[]) => {
   let str = "";
 
   let partsArr = [...parts] as any[];
 
   str = `${parts.join("").slice(0, parts.join("").indexOf("?"))}`;
 
+  // Check this
   if (vars.some((item: any) => item === undefined || item === null)) str += "?";
   else return str;
 

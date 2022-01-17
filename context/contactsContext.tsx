@@ -1,12 +1,9 @@
-import React, { createContext, useEffect, useReducer } from 'react';
-import usePagination from '../hooks/usePagination';
-import contactsReducer from '../reducers/contactsReducer';
-import serverClient from '../clients/serverClient';
+import React, { createContext, useEffect, useReducer } from "react";
+import usePagination from "../hooks/usePagination";
+import contactsReducer from "../reducers/contactsReducer";
+import serverClient from "../clients/serverClient";
 
-import {
-  ContactsState,
-  ContactsActions,
-} from '../reducers/reducersTypes';
+import { ContactsState, ContactsActions } from "../reducers/reducersTypes";
 
 interface Props {
   children: React.ReactNode;
@@ -21,27 +18,26 @@ const initialState: ContactsState = {
   users: {
     items: [],
     loading: false,
+    query: {
+      offset: 0,
+      limit: 5,
+    },
   },
 };
 
 export const ContactsContext = createContext({} as Context);
 
-export const ContactsContextProvider: React.FC<Props> = ({
-  children,
-}) => {
+export const ContactsContextProvider: React.FC<Props> = ({ children }) => {
   const [state, dispatch] = useReducer(contactsReducer, initialState);
-  const { pagination, setOffset } = usePagination();
 
   const getUsers = async () => {
-    const { offset, limit } = pagination; // Think about adding this to reducer
-    const result = await serverClient.getUsers(offset, limit);
+    const { query } = state.users; // Think about adding this to reducer
+    const result = await serverClient.getUsers(query);
 
     if (!result.success) {
       alert(result.message);
       return;
     }
-
-    setOffset();
 
     dispatch({
       type: ContactsActions.GET_USERS,

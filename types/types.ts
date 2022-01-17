@@ -54,6 +54,7 @@ export type User = {
   events?: Event[];
   friends?: UserEntry[];
   friendsRequests?: FriendsRequest;
+  eventsRequests?: FriendsRequest;
 };
 
 // Events
@@ -185,9 +186,9 @@ export type PaginationQuery = {
   limit?: number;
 };
 
-export type ExtendedQuery<F, T> = PaginationQuery &
+export type ExtendedQuery<T> = PaginationQuery &
   Partial<{
-    [F: string]: T;
+    [Key in keyof T]: T[Key];
   }>;
 
 // ========================================================

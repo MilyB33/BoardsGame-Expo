@@ -25,12 +25,15 @@ interface Context {
   deleteAccount(): P;
   updatePassword(newPassword: { oldPassword: string; newPassword: string }): P;
   sendFriendRequest(requestedUserId: string): P;
+  acceptFriendRequest(requestedUserId: string): P;
+  rejectFriendRequest(requestedUserId: string): P;
+  deleteFriend(requestedUserId: string): P;
 }
 
 const initialState = {
   isAuthenticated: false,
   username: "",
-  id: "",
+  _id: "",
   loading: false,
   events: {
     userEvents: {
@@ -44,6 +47,10 @@ const initialState = {
   },
   friends: [],
   friendsRequests: {
+    sent: [],
+    received: [],
+  },
+  eventsRequests: {
     sent: [],
     received: [],
   },
@@ -102,7 +109,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
       payload: { field: "userEvents" },
     });
 
-    const result = await ServerClient.getUserEvents(userId || user.id);
+    const result = await ServerClient.getUserEvents(userId || user._id);
 
     dispatch({
       type: UserActions.SET_USER_EVENTS,
@@ -119,7 +126,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
       payload: { field: "userSignedEvents" },
     });
 
-    const result = await ServerClient.getUserSignedEvents(userId || user.id);
+    const result = await ServerClient.getUserSignedEvents(userId || user._id);
 
     dispatch({
       type: UserActions.SET_USER_EVENTS,
@@ -131,7 +138,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
   };
 
   const deleteUserEvent = async (eventId: string) => {
-    const result = await ServerClient.deleteUserEvent(eventId, user.id);
+    const result = await ServerClient.deleteUserEvent(eventId, user._id);
 
     if (!result.success) {
       alert(result.message);
@@ -150,7 +157,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
   };
 
   const signUserForEvent = async (eventId: string) => {
-    const result = await ServerClient.signUserForEvent(eventId, user.id);
+    const result = await ServerClient.signUserForEvent(eventId, user._id);
 
     if (!result.success) {
       alert(result.message);
@@ -166,7 +173,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
   };
 
   const signOutUserFromEvent = async (eventId: string) => {
-    const result = await ServerClient.signOutUserFromEvent(eventId, user.id);
+    const result = await ServerClient.signOutUserFromEvent(eventId, user._id);
 
     if (!result.success) {
       alert(result.message);
@@ -182,7 +189,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
   };
 
   const addEvent = async (event: EventPayload) => {
-    const result = await ServerClient.addEvent(event, user.id);
+    const result = await ServerClient.addEvent(event, user._id);
 
     if (!result.success) {
       alert(result.message);
@@ -194,13 +201,13 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
       payload: result.result,
     });
 
-    getUserEvents(user.id);
+    getUserEvents(user._id);
 
     return true;
   };
 
   const editEvent = async (event: EventPayload, eventId: string) => {
-    const result = await ServerClient.editEvent(event, user.id, eventId);
+    const result = await ServerClient.editEvent(event, user._id, eventId);
 
     if (!result.success) {
       alert(result.message);
@@ -220,7 +227,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
   };
 
   const deleteAccount = async () => {
-    const result = await ServerClient.deleteAccount(user.id);
+    const result = await ServerClient.deleteAccount(user._id);
 
     if (!result.success) {
       alert(result.message);
@@ -234,7 +241,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
     oldPassword: string;
     newPassword: string;
   }) => {
-    const result = await ServerClient.updatePassword(user.id, data);
+    const result = await ServerClient.updatePassword(user._id, data);
 
     if (!result.success) {
       alert(result.message);
@@ -244,7 +251,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 
   const sendFriendRequest = async (requestedUserId: string) => {
     const result = await ServerClient.sendFriendRequest(
-      user.id,
+      user._id,
       requestedUserId
     );
 
@@ -259,9 +266,51 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
     });
   };
 
+  const acceptFriendRequest = async (requestId: string) => {
+    const result = await ServerClient.acceptFriendRequest(user._id, requestId);
+
+    if (!result.success) {
+      alert(result.message);
+      return;
+    }
+
+    dispatch({
+      type: UserActions.ACCEPT_FRIEND_REQUEST,
+      payload: result.result,
+    });
+  };
+
+  const rejectFriendRequest = async (requestId: string) => {
+    const result = await ServerClient.rejectFriendRequest(user._id, requestId);
+
+    if (!result.success) {
+      alert(result.message);
+      return;
+    }
+
+    dispatch({
+      type: UserActions.REJECT_FRIEND_REQUEST,
+      payload: requestId,
+    });
+  };
+
+  const deleteFriend = async (friendId: string) => {
+    const result = await ServerClient.deleteFriend(user._id, friendId);
+
+    if (!result.success) {
+      alert(result.message);
+      return;
+    }
+
+    dispatch({
+      type: UserActions.DELETE_FRIEND,
+      payload: friendId,
+    });
+  };
+
   useEffect(() => {
     if (!user.isAuthenticated)
-      login({ username: "Admin", password: "Qwertyuiop12" });
+      login({ username: "Admin2", password: "Qwertyuiop12" });
   }, []);
 
   return (
@@ -280,6 +329,9 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
         deleteAccount,
         updatePassword,
         sendFriendRequest,
+        acceptFriendRequest,
+        rejectFriendRequest,
+        deleteFriend,
       }}
     >
       {children}

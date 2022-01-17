@@ -20,17 +20,16 @@ const Friends: React.FC<Props> = ({
 }) => {
   const isEmpty = items.length === 0 ? true : false;
 
-  return isEmpty ? (
-    ComponentIfEmpty ? (
-      <ComponentIfEmpty />
-    ) : null
-  ) : (
+  return (
     <FlatList
       style={styles.flatList}
       data={items}
       renderItem={({ item }) => <ItemComponent user={item} {...itemProps} />}
       keyExtractor={(item) => item._id.toString()}
       ItemSeparatorComponent={() => <Divider style={styles.divider} />}
+      extraData={items}
+      ListEmptyComponent={ComponentIfEmpty}
+      refreshing={true}
     />
   );
 };

@@ -36,6 +36,15 @@ const userReducer = (state: UserState, action: UserAllActions) => {
             loading: false,
           },
         },
+        friends: [],
+        friendsRequests: {
+          sent: [],
+          received: [],
+        },
+        eventsRequests: {
+          sent: [],
+          received: [],
+        },
       };
     case UserActions.SET_USER_EVENTS:
       return {
@@ -130,6 +139,34 @@ const userReducer = (state: UserState, action: UserAllActions) => {
           ...state.friendsRequests,
           sent: [...state.friendsRequests.sent, action.payload],
         },
+      };
+    case UserActions.ACCEPT_FRIEND_REQUEST:
+      return {
+        ...state,
+        friends: [...state.friends, action.payload],
+        friendsRequests: {
+          ...state.friendsRequests,
+          received: state.friendsRequests.received.filter(
+            (request) => request._id !== action.payload._id
+          ),
+        },
+      };
+    case UserActions.REJECT_FRIEND_REQUEST:
+      return {
+        ...state,
+        friendsRequests: {
+          ...state.friendsRequests,
+          received: state.friendsRequests.received.filter(
+            (request) => request._id !== action.payload
+          ),
+        },
+      };
+    case UserActions.DELETE_FRIEND:
+      return {
+        ...state,
+        friends: state.friends.filter(
+          (friend) => friend._id !== action.payload
+        ),
       };
     default:
       return state;

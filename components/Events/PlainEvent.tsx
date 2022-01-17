@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
-import { UserContext } from '../../context/userContext';
+import React, { useContext, useState } from "react";
+import { UserContext } from "../../context/userContext";
 
-import { Button, ActivityIndicator } from 'react-native';
-import Event from '../Event/Event';
+import { Button, ActivityIndicator } from "react-native";
+import Event from "../Event/Event";
 
-import { Event as EventType } from '../../types/types';
+import { Event as EventType } from "../../types/types";
 
 interface Props {
   event: EventType;
@@ -12,7 +12,7 @@ interface Props {
 
 const PlainEvent: React.FC<Props> = ({ event }) => {
   const {
-    user: { isAuthenticated, id: userId },
+    user: { isAuthenticated, _id: userId },
     signUserForEvent,
     signOutUserFromEvent,
   } = useContext(UserContext);
@@ -25,7 +25,7 @@ const PlainEvent: React.FC<Props> = ({ event }) => {
       await signUserForEvent(event._id);
       setLoading(false);
     } else {
-      alert('Musisz być zalogowany aby zapisać się na wydarzenie');
+      alert("Musisz być zalogowany aby zapisać się na wydarzenie");
     }
   };
 
@@ -52,11 +52,7 @@ const PlainEvent: React.FC<Props> = ({ event }) => {
         );
       case event.signedUsers.map((user) => user._id).includes(userId):
         return (
-          <Button
-            title="Wypisz się"
-            onPress={handleSignOut}
-            color="#e63946"
-          />
+          <Button title="Wypisz się" onPress={handleSignOut} color="#e63946" />
         );
       case Number(event.maxPlayers) === event.signedUsers.length:
         return (
