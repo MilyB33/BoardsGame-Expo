@@ -1,13 +1,12 @@
-import React, { useContext } from 'react';
-import { AppContext } from '../../context/appContext';
+import React, { useContext } from "react";
+import { AppContext } from "../../context/appContext";
 
-import { View, StyleSheet } from 'react-native';
-import { Button } from 'react-native-paper';
-import PlainEvent from './PlainEvent';
-import RefreshButton from '../Generic/RefreshButton';
-import ActivityIndicator from '../Generic/ActivityIndicator';
+import { View, StyleSheet } from "react-native";
+import { Button } from "react-native-paper";
+import PlainEvent from "./PlainEvent";
+import RefreshButton from "../Generic/RefreshButton";
 
-import { Event as EventType } from '../../types/types';
+import { Event as EventType } from "../../types/types";
 
 const AllEvents = () => {
   const {
@@ -29,17 +28,14 @@ const AllEvents = () => {
 
       {renderEvents()}
 
-      {loading ? (
-        <ActivityIndicator style={styles.spinner} />
-      ) : (
-        <Button
-          style={styles.moreButton}
-          mode="contained"
-          onPress={loadEvents}
-        >
-          Pokaż więcej
-        </Button>
-      )}
+      <Button
+        style={styles.moreButton}
+        mode="contained"
+        onPress={loadEvents}
+        loading={loading}
+      >
+        Pokaż więcej
+      </Button>
     </View>
   );
 };
@@ -52,12 +48,15 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   moreButton: {
-    marginTop: 'auto',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    borderRadius: 15,
+    marginTop: "auto",
+    marginLeft: "auto",
+    marginRight: "auto",
     padding: 5,
     marginBottom: 20,
+    backgroundColor: "#7400b8",
+    borderRightWidth: 5,
+    borderBottomWidth: 5,
+    borderColor: "#ffddd2",
   },
 });
 

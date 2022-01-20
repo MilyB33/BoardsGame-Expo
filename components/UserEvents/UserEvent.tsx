@@ -1,20 +1,12 @@
-import React, { useContext, useState } from 'react';
-import { UserContext } from '../../context/userContext';
-import { useNavigation } from '@react-navigation/native';
+import React, { useContext, useState } from "react";
+import { UserContext } from "../../context/userContext";
+import { useNavigation } from "@react-navigation/native";
 
-import {
-  View,
-  StyleSheet,
-  Button,
-  Alert,
-  ActivityIndicator,
-} from 'react-native';
-import Event from '../Event/Event';
+import { View, StyleSheet, Alert, ActivityIndicator } from "react-native";
+import Event from "../Event/Event";
+import EventButton from "../Generic/EventButton";
 
-import {
-  Event as EventType,
-  NavigationProps,
-} from '../../types/types';
+import { Event as EventType, NavigationProps } from "../../types/types";
 
 interface Props {
   event: EventType;
@@ -32,14 +24,14 @@ const UserEvent: React.FC<Props> = ({ event }) => {
 
   const handleDeletePress = () => {
     Alert.alert(
-      'Usuwanie wydarzenia',
-      'Czy na pewno chcesz usunąć to wydarzenie?',
+      "Usuwanie wydarzenia",
+      "Czy na pewno chcesz usunąć to wydarzenie?",
       [
         {
-          text: 'Anuluj',
+          text: "Anuluj",
         },
         {
-          text: 'Usuń',
+          text: "Usuń",
           onPress: handleDelete,
         },
       ],
@@ -54,18 +46,16 @@ const UserEvent: React.FC<Props> = ({ event }) => {
       ) : (
         <>
           <View style={styles.button}>
-            <Button
+            <EventButton
               title="Usuń"
               onPress={handleDeletePress}
               color="#e63946"
             />
           </View>
           <View style={styles.button}>
-            <Button
+            <EventButton
               title="Edytuj"
-              onPress={() =>
-                navigation.navigate('EditEvent', { event })
-              }
+              onPress={() => navigation.navigate("EditEvent", { event })}
               color="#2b9348"
             />
           </View>
@@ -80,8 +70,8 @@ const UserEvent: React.FC<Props> = ({ event }) => {
 const styles = StyleSheet.create({
   operationBox: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
   },
   button: {
     marginHorizontal: 5,

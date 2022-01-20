@@ -1,27 +1,26 @@
-import React, { useState, useContext } from 'react';
-import { UserContext } from '../../context/userContext';
+import React, { useState, useContext } from "react";
+import { UserContext } from "../../context/userContext";
+import { useNavigation } from "@react-navigation/native";
 
-import { View, Text, Button } from 'react-native';
-import { Surface } from 'react-native-paper';
-import { Formik, Field } from 'formik';
-import { useRoute, RouteProp } from '@react-navigation/native';
-import CustomInput from './CustomInput';
-import ActivityIndicator from '../Generic/ActivityIndicator';
+import { View, Text, Button } from "react-native";
+import { Surface } from "react-native-paper";
+import { Formik, Field } from "formik";
+import { useRoute, RouteProp } from "@react-navigation/native";
+import CustomInput from "./CustomInput";
+import ActivityIndicator from "../Generic/ActivityIndicator";
 
-import styles from './Forms.styles';
-import {
-  RootStackParamList,
-  EventFormState,
-} from '../../types/types';
-import { transformFormValues } from '../../utils/transformers';
-import validationSchemas from '../../utils/validationSchemas';
+import styles from "./Forms.styles";
+import { RootStackParamList, EventFormState } from "../../types/types";
+import { transformFormValues } from "../../utils/transformers";
+import validationSchemas from "../../utils/validationSchemas";
 
-type EditEventRouteProp = RouteProp<RootStackParamList, 'EditEvent'>;
+type EditEventRouteProp = RouteProp<RootStackParamList, "EditEvent">;
 
 const AddEventForm = () => {
   const { editEvent } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
   const route = useRoute<EditEventRouteProp>();
+  const navigation = useNavigation();
 
   const { event } = route.params;
 
@@ -29,34 +28,29 @@ const AddEventForm = () => {
     location: event.location,
     description: event.description,
     date: {
-      day: Number(event.date.split('-')[2]),
-      month: Number(event.date.split('-')[1]),
-      year: Number(event.date.split('-')[0]),
+      day: Number(event.date.split("-")[2]),
+      month: Number(event.date.split("-")[1]),
+      year: Number(event.date.split("-")[0]),
     },
     time: {
-      hour: Number(event.time.split(':')[0]),
-      minute: Number(event.time.split(':')[1]),
+      hour: Number(event.time.split(":")[0]),
+      minute: Number(event.time.split(":")[1]),
     },
     game: event.game,
     town: event.town,
     maxPlayers: Number(event.maxPlayers),
   };
 
-  const submitForm = async (
-    values: EventFormState,
-    { resetForm }: { resetForm: Function }
-  ) => {
+  const submitForm = async (values: EventFormState) => {
     setIsLoading(true);
 
     const transformedValues = transformFormValues(values);
 
     const isAdded = await editEvent(transformedValues, event._id);
 
-    if (isAdded) {
-      resetForm();
-    }
-
     setIsLoading(false);
+
+    if (isAdded) navigation.goBack();
   };
 
   return (
@@ -74,7 +68,6 @@ const AddEventForm = () => {
               component={CustomInput}
               name="location"
               label="Lokalizacja"
-              placeholder="Lokalizacja"
               setFieldValue={props.setFieldValue}
             />
 
@@ -82,7 +75,6 @@ const AddEventForm = () => {
               component={CustomInput}
               name="description"
               label="Opis"
-              placeholder="Dodaj opis"
               setFieldValue={props.setFieldValue}
             />
 
@@ -91,7 +83,6 @@ const AddEventForm = () => {
               <Field
                 component={CustomInput}
                 name="date.day"
-                placeholder="Dzień"
                 keyboardType="number-pad"
                 setFieldValue={props.setFieldValue}
                 isNumeric
@@ -100,7 +91,6 @@ const AddEventForm = () => {
               <Field
                 component={CustomInput}
                 name="date.month"
-                placeholder="Miesiąc"
                 keyboardType="numeric"
                 setFieldValue={props.setFieldValue}
                 isNumeric
@@ -109,7 +99,6 @@ const AddEventForm = () => {
               <Field
                 component={CustomInput}
                 name="date.year"
-                placeholder="Rok"
                 keyboardType="numeric"
                 setFieldValue={props.setFieldValue}
                 isNumeric
@@ -121,7 +110,6 @@ const AddEventForm = () => {
               <Field
                 component={CustomInput}
                 name="time.hour"
-                placeholder="Godzina"
                 keyboardType="numeric"
                 setFieldValue={props.setFieldValue}
                 isNumeric
@@ -130,7 +118,6 @@ const AddEventForm = () => {
               <Field
                 component={CustomInput}
                 name="time.minute"
-                placeholder="Minuty"
                 keyboardType="numeric"
                 setFieldValue={props.setFieldValue}
                 isNumeric
@@ -149,7 +136,6 @@ const AddEventForm = () => {
               component={CustomInput}
               name="town"
               label="Miasto"
-              placeholder="Miasto"
               setFieldValue={props.setFieldValue}
             />
 
@@ -157,7 +143,6 @@ const AddEventForm = () => {
               component={CustomInput}
               name="maxPlayers"
               label="Maksymalna liczba graczy"
-              placeholder="Maksymalna liczba graczy"
               keyboardType="numeric"
               setFieldValue={props.setFieldValue}
               isNumeric

@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import useDebounce from "../../hooks/useDebounce";
 import ServerClient from "../../clients/serverClient";
+import { UserContext } from "../../context/userContext";
 
 import { StyleSheet, FlatList } from "react-native";
 import { Surface, Divider } from "react-native-paper";
@@ -10,6 +11,7 @@ import ContactItem from "../Contacts/ContactItem";
 import { UserEntry } from "../../types/types";
 
 const SearchUserModal = () => {
+  const { user } = useContext(UserContext);
   const [results, setResults] = useState<UserEntry[]>([]);
   const [search, setSearch] = useState("");
   const { debouncedValue } = useDebounce(300, getUsers);
@@ -30,7 +32,9 @@ const SearchUserModal = () => {
 
     if (!result.success) return;
 
-    setResults(result.result);
+    const users = result.result.filter((res: any) => res._id !== user._id);
+
+    setResults(users);
   }
 
   return (
@@ -47,6 +51,7 @@ const SearchUserModal = () => {
         renderItem={({ item }) => <ContactItem user={item} />}
         keyExtractor={(item) => item._id.toString()}
         ItemSeparatorComponent={() => <Divider style={styles.divider} />}
+        extraData={[...results]}
       />
     </Surface>
   );

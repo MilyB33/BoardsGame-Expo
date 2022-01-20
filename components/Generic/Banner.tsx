@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
-import { Banner } from 'react-native-paper';
+import { Banner } from "react-native-paper";
 
-import { NavigationProps } from '../../types/types';
+import { NavigationProps } from "../../types/types";
 
 const CustomBanner = () => {
   const navigation = useNavigation<NavigationProps>();
@@ -15,16 +15,16 @@ const CustomBanner = () => {
         visible={visible}
         actions={[
           {
-            label: 'Dismiss',
+            label: "Dismiss",
             onPress: () => setVisible(false),
           },
         ]}
         icon="information"
-        style={{ backgroundColor: '#00b894' }}
+        style={{ backgroundColor: "#00b894" }}
       >
-        Hi there! This application is still in development. Please be
-        patient and enjoy the experience. You know where to find me if
-        you find any bugs or have any suggestions.
+        Hi there! This application is still in development. Please be patient
+        and enjoy the experience. You know where to find me if you find any bugs
+        or have any suggestions.
       </Banner>
     </>
   );

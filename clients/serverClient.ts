@@ -268,8 +268,6 @@ class ServerClient extends ClientBase {
 
       const newQuery = transformQuery`users/all?offset=${offset}&limit=${limit}&username=${username}`;
 
-      console.log(newQuery);
-
       const response = await this.client.get(newQuery.toString());
 
       const json = await response.json();

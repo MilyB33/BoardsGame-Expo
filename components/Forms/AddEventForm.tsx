@@ -1,22 +1,23 @@
-import React, { useState, useContext } from 'react';
-import { UserContext } from '../../context/userContext';
+import React, { useState, useContext } from "react";
+import { UserContext } from "../../context/userContext";
+import { useNavigation } from "@react-navigation/native";
 
-import { View, Text, Button } from 'react-native';
-import { Surface } from 'react-native-paper';
-import { Formik, Field } from 'formik';
-import CustomInput from './CustomInput';
-import ActivityIndicator from '../Generic/ActivityIndicator';
+import { View, Text } from "react-native";
+import { Surface, Button } from "react-native-paper";
+import { Formik, Field } from "formik";
+import CustomInput from "./CustomInput";
+import ActivityIndicator from "../Generic/ActivityIndicator";
 
-import styles from './Forms.styles';
-import { EventFormState } from '../../types/types';
-import validationSchemas from '../../utils/validationSchemas';
-import { transformFormValues } from '../../utils/transformers';
+import styles from "./Forms.styles";
+import { EventFormState } from "../../types/types";
+import validationSchemas from "../../utils/validationSchemas";
+import { transformFormValues } from "../../utils/transformers";
 
 const TODAYS_DATE = new Date();
 
 const initialValues: EventFormState = {
-  location: '',
-  description: '',
+  location: "",
+  description: "",
   date: {
     day: TODAYS_DATE.getDate(),
     month: TODAYS_DATE.getMonth() + 1,
@@ -26,30 +27,26 @@ const initialValues: EventFormState = {
     hour: 0,
     minute: 0,
   },
-  game: '',
-  town: '',
+  game: "",
+  town: "",
   maxPlayers: 2,
 };
 
 const AddEventForm = () => {
   const { addEvent } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
+  const navigation = useNavigation();
 
-  const submitForm = async (
-    values: EventFormState,
-    { resetForm }: { resetForm: Function }
-  ) => {
+  const submitForm = async (values: EventFormState) => {
     setIsLoading(true);
 
     const transformedValues = transformFormValues(values);
 
     const isAdded = await addEvent(transformedValues);
 
-    if (isAdded) {
-      resetForm();
-    }
-
     setIsLoading(false);
+
+    if (isAdded) navigation.goBack();
   };
 
   return (
@@ -67,24 +64,19 @@ const AddEventForm = () => {
               component={CustomInput}
               label="Lokalizacja"
               name="location"
-              placeholder="Dodaj lokalizację"
               setFieldValue={props.setFieldValue}
             />
-
             <Field
               component={CustomInput}
               name="description"
               label="Opis"
-              placeholder="Dodaj opis"
               setFieldValue={props.setFieldValue}
             />
-
             <Text style={styles.label}>Data: </Text>
             <View style={styles.group}>
               <Field
                 component={CustomInput}
                 name="date.day"
-                placeholder="Dzień"
                 keyboardType="number-pad"
                 setFieldValue={props.setFieldValue}
                 isNumeric
@@ -93,7 +85,6 @@ const AddEventForm = () => {
               <Field
                 component={CustomInput}
                 name="date.month"
-                placeholder="Miesiąc"
                 keyboardType="number-pad"
                 setFieldValue={props.setFieldValue}
                 isNumeric
@@ -102,19 +93,16 @@ const AddEventForm = () => {
               <Field
                 component={CustomInput}
                 name="date.year"
-                placeholder="Rok"
                 keyboardType="number-pad"
                 setFieldValue={props.setFieldValue}
                 isNumeric
               />
             </View>
-
             <Text style={styles.label}>Godzina: </Text>
             <View style={styles.group}>
               <Field
                 component={CustomInput}
                 name="time.hour"
-                placeholder="Godzina"
                 keyboardType="number-pad"
                 setFieldValue={props.setFieldValue}
                 isNumeric
@@ -123,46 +111,37 @@ const AddEventForm = () => {
               <Field
                 component={CustomInput}
                 name="time.minute"
-                placeholder="Minuty"
                 keyboardType="number-pad"
                 setFieldValue={props.setFieldValue}
                 isNumeric
               />
             </View>
-
             <Field
               component={CustomInput}
               name="game"
               label="Gra"
-              placeholder="Nazwa gry"
               setFieldValue={props.setFieldValue}
             />
-
             <Field
               component={CustomInput}
               name="town"
               label="Miasto"
-              placeholder="Miasto"
               setFieldValue={props.setFieldValue}
             />
-
             <Field
               component={CustomInput}
               name="maxPlayers"
               label="Maksymalna liczba graczy"
-              placeholder="Maksymalna liczba graczy"
               keyboardType="number-pad"
               setFieldValue={props.setFieldValue}
               isNumeric
             />
-
             {isLoading ? (
               <ActivityIndicator />
             ) : (
-              <Button
-                title="Dodaj wydarzenie"
-                onPress={() => props.handleSubmit()}
-              />
+              <Button onPress={() => props.handleSubmit()} mode="contained">
+                Dodaj wydarzenie
+              </Button>
             )}
           </>
         )}

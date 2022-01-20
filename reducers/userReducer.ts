@@ -27,14 +27,8 @@ const userReducer = (state: UserState, action: UserAllActions) => {
         isAuthenticated: false,
         loading: false,
         events: {
-          userEvents: {
-            items: [],
-            loading: false,
-          },
-          userSignedEvents: {
-            items: [],
-            loading: false,
-          },
+          userEvents: [],
+          userSignedEvents: [],
         },
         friends: [],
         friendsRequests: {
@@ -46,40 +40,15 @@ const userReducer = (state: UserState, action: UserAllActions) => {
           received: [],
         },
       };
-    case UserActions.SET_USER_EVENTS:
-      return {
-        ...state,
-        events: {
-          ...state.events,
-          [action.payload.field]: {
-            items: action.payload.events,
-            loading: false,
-          },
-        },
-      };
     case UserActions.DELETE_EVENT:
       if (!action.payload.field) return state; // temporary because i'm tired for today
       return {
         ...state,
         events: {
           ...state.events,
-          [action.payload.field]: {
-            ...state.events[action.payload.field],
-            items: state.events[action.payload.field].items.filter(
-              (event) => action.payload.eventId !== event._id
-            ),
-          },
-        },
-      };
-    case UserActions.SET_EVENTS_LOADING:
-      return {
-        ...state,
-        events: {
-          ...state.events,
-          [action.payload.field]: {
-            ...state.events[action.payload.field],
-            loading: true,
-          },
+          [action.payload.field]: state.events[action.payload.field].filter(
+            (event) => action.payload.eventId !== event._id
+          ),
         },
       };
     case UserActions.SIGN_USER_TO_EVENT:
@@ -87,10 +56,7 @@ const userReducer = (state: UserState, action: UserAllActions) => {
         ...state,
         events: {
           ...state.events,
-          userSignedEvents: {
-            items: [...state.events.userSignedEvents.items, action.payload],
-            loading: false,
-          },
+          userSignedEvents: [...state.events.userSignedEvents, action.payload],
         },
       };
     case UserActions.SIGN_OUT_USER_FROM_EVENT:
@@ -98,12 +64,9 @@ const userReducer = (state: UserState, action: UserAllActions) => {
         ...state,
         events: {
           ...state.events,
-          userSignedEvents: {
-            items: state.events.userSignedEvents.items.filter(
-              (event) => event._id !== action.payload
-            ),
-            loading: false,
-          },
+          userSignedEvents: state.events.userSignedEvents.filter(
+            (event) => event._id !== action.payload
+          ),
         },
       };
     case UserActions.ADD_EVENT:
@@ -111,10 +74,7 @@ const userReducer = (state: UserState, action: UserAllActions) => {
         ...state,
         events: {
           ...state.events,
-          userEvents: {
-            ...state.events.userEvents,
-            items: [...state.events.userEvents.items, action.payload],
-          },
+          userEvents: [...state.events.userEvents, action.payload],
         },
       };
     case UserActions.EDIT_EVENT:
@@ -122,14 +82,11 @@ const userReducer = (state: UserState, action: UserAllActions) => {
         ...state,
         events: {
           ...state.events,
-          userEvents: {
-            ...state.events.userEvents,
-            items: state.events.userEvents.items.map((item) =>
-              item._id === action.payload.event._id
-                ? action.payload.event
-                : item
-            ),
-          },
+          userEvents: state.events.userEvents.map((event) =>
+            event._id === action.payload.event._id
+              ? action.payload.event
+              : event
+          ),
         },
       };
     case UserActions.SEND_FRIEND_REQUEST:

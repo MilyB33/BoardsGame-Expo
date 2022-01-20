@@ -1,47 +1,67 @@
-import React from 'react';
+import React, { useContext } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { UserContext } from "../../context/userContext";
 
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text } from "react-native";
+import { Button } from "react-native-paper";
 
-import InfoBox from '../Info/InfoBox';
-import Banner from '../Generic/Banner';
+import InfoBox from "./InfoBox";
+import Banner from "../Generic/Banner";
 
-import informations from '../../data/mockedData';
+import informations from "../../data/mockedData";
+import { NavigationProps } from "../../types/types";
 
 const HomeInfo = () => {
+  const {
+    user: { isAuthenticated },
+  } = useContext(UserContext);
+  const navigation = useNavigation<NavigationProps>();
+
   const LinkElement = (
-    <Text style={[styles.text, styles.link]}>Zaloguj się</Text>
+    <Button
+      color="white"
+      style={styles.link}
+      onPress={() => navigation.navigate("UserModal")}
+    >
+      Zaloguj się
+    </Button>
   );
   const AdditionalInfoElement = (
     <Text style={styles.text}>Email: Przyklad@gmail.com</Text>
   );
 
   return (
-    <View style={styles.container}>
+    <>
       <Banner />
-      <InfoBox text={informations[0].text} />
-      <InfoBox text={informations[1].text} link={LinkElement} />
+      <View style={styles.container}>
+        <InfoBox text={informations[0].text} />
+        {isAuthenticated || (
+          <InfoBox text={informations[1].text} link={LinkElement} />
+        )}
 
-      <InfoBox
-        text={informations[2].text}
-        additional={AdditionalInfoElement}
-      />
-    </View>
+        <InfoBox
+          text={informations[2].text}
+          additional={AdditionalInfoElement}
+        />
+      </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: {},
   text: {
     fontSize: 16,
-    color: 'white',
-    textAlign: 'center',
+    color: "white",
+    textAlign: "center",
     lineHeight: 24,
   },
   link: {
-    textDecorationLine: 'underline',
     marginTop: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "white",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
 });
 

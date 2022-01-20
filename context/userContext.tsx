@@ -3,7 +3,7 @@ import useStorage from "../hooks/useStorage";
 import ServerClient from "../clients/serverClient";
 import authReducer from "../reducers/userReducer";
 import { UserActions } from "../reducers/reducersTypes";
-import { UserState } from "../reducers/reducersTypes";
+import { UserState, EventTypes } from "../reducers/reducersTypes";
 import { AppContext } from "./appContext";
 import { EventPayload, P } from "../types/types";
 
@@ -15,8 +15,6 @@ interface Context {
   user: UserState;
   login(data: any): P<boolean>;
   logout(): void;
-  getUserEvents(userId?: string): P;
-  getUserSignedEvents(userId?: string): P;
   deleteUserEvent(eventId: string): P;
   signUserForEvent(eventId: string): P;
   signOutUserFromEvent(eventId: string): P;
@@ -36,14 +34,8 @@ const initialState = {
   _id: "",
   loading: false,
   events: {
-    userEvents: {
-      items: [],
-      loading: false,
-    },
-    userSignedEvents: {
-      items: [],
-      loading: false,
-    },
+    userEvents: [],
+    userSignedEvents: [],
   },
   friends: [],
   friendsRequests: {
@@ -76,7 +68,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
       return false;
     }
 
-    const { _id, token } = result.result;
+    const { token } = result.result;
 
     await storeData(token);
 
@@ -90,9 +82,6 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 
     ServerClient.setToken(token);
 
-    getUserEvents(_id);
-    getUserSignedEvents(_id);
-
     return true;
   };
 
@@ -101,40 +90,6 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 
     ServerClient.removeToken();
     removeData();
-  };
-
-  const getUserEvents = async (userId?: string) => {
-    dispatch({
-      type: UserActions.SET_EVENTS_LOADING,
-      payload: { field: "userEvents" },
-    });
-
-    const result = await ServerClient.getUserEvents(userId || user._id);
-
-    dispatch({
-      type: UserActions.SET_USER_EVENTS,
-      payload: {
-        events: result.result,
-        field: "userEvents",
-      },
-    });
-  };
-
-  const getUserSignedEvents = async (userId?: string) => {
-    dispatch({
-      type: UserActions.SET_EVENTS_LOADING,
-      payload: { field: "userSignedEvents" },
-    });
-
-    const result = await ServerClient.getUserSignedEvents(userId || user._id);
-
-    dispatch({
-      type: UserActions.SET_USER_EVENTS,
-      payload: {
-        events: result.result,
-        field: "userSignedEvents",
-      },
-    });
   };
 
   const deleteUserEvent = async (eventId: string) => {
@@ -200,8 +155,6 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
       type: UserActions.ADD_EVENT,
       payload: result.result,
     });
-
-    getUserEvents(user._id);
 
     return true;
   };
@@ -319,8 +272,6 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
         user,
         login,
         logout,
-        getUserEvents,
-        getUserSignedEvents,
         deleteUserEvent,
         signUserForEvent,
         signOutUserFromEvent,

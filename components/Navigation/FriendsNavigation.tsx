@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import SearchUserModalScreen from "../Screens/SearchUserModalScreen";
 import ContactsScreen from "../Screens/ContactsScreen";
+import UserEventsModalScreen from "../Screens/UserEventsModalScreen";
 
 import { FriendsStackParamList } from "../../types/types";
 
@@ -24,6 +25,11 @@ const FriendsNavigation = () => {
         options={{
           presentation: "transparentModal",
         }}
+      />
+      <Stack.Screen
+        name="UserEventsModal"
+        component={UserEventsModalScreen}
+        options={{ presentation: "transparentModal" }}
       />
     </Stack.Navigator>
   );

@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
-import { View } from 'react-native';
-import styles from './Forms.styles';
-import { getIn } from 'formik';
-import { HelperText, TextInput } from 'react-native-paper';
+import { View } from "react-native";
+import styles from "./Forms.styles";
+import { getIn } from "formik";
+import { HelperText, TextInput } from "react-native-paper";
 
-import { CustomInputProps } from '../../types/types';
+import { CustomInputProps } from "../../types/types";
 
 const CustomInput: React.FC<CustomInputProps> = (props) => {
   const {
@@ -14,16 +14,13 @@ const CustomInput: React.FC<CustomInputProps> = (props) => {
     label,
     placeholder,
     isSecure = false,
-    keyboardType = 'default',
+    keyboardType = "default",
     isNumeric = false,
     multiline = false,
-
     setFieldValue,
   } = props;
 
-  const hasError = Boolean(
-    getIn(errors, name) && getIn(touched, name)
-  );
+  const hasError = Boolean(getIn(errors, name) && getIn(touched, name));
 
   const handleChange = (text: string | number) => {
     if (isNumeric) text = Number(text);
@@ -41,10 +38,10 @@ const CustomInput: React.FC<CustomInputProps> = (props) => {
         label={label}
         mode="outlined"
         onChangeText={handleChange}
-        style={styles.input}
+        style={[styles.input, isNumeric && styles.numericInput]}
         onBlur={handleBlur}
         value={value.toString()}
-        placeholder={placeholder}
+        placeholder={label}
         autoCapitalize="none"
         secureTextEntry={isSecure}
         keyboardType={keyboardType}

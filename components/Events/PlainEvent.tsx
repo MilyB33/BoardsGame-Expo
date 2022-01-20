@@ -1,8 +1,10 @@
 import React, { useContext, useState } from "react";
 import { UserContext } from "../../context/userContext";
 
-import { Button, ActivityIndicator } from "react-native";
+import { StyleSheet } from "react-native";
 import Event from "../Event/Event";
+import EventButton from "../Generic/EventButton";
+import CustomActivityIndicator from "../Generic/ActivityIndicator";
 
 import { Event as EventType } from "../../types/types";
 
@@ -40,35 +42,44 @@ const PlainEvent: React.FC<Props> = ({ event }) => {
   const renderButton = () => {
     switch (true) {
       case loading:
-        return <ActivityIndicator size="large" color="white" />;
+        return <CustomActivityIndicator />;
       case event.createdBy._id === userId:
         return (
-          <Button
+          <EventButton
             title="Twoje wydarzenie"
             onPress={() => {}}
-            color="red"
             disabled={true}
           />
         );
       case event.signedUsers.map((user) => user._id).includes(userId):
-        return (
-          <Button title="Wypisz się" onPress={handleSignOut} color="#e63946" />
-        );
+        return <EventButton title="Wypisz się" onPress={handleSignOut} />;
       case Number(event.maxPlayers) === event.signedUsers.length:
         return (
-          <Button
-            title="Maksymalna ilość osób"
+          <EventButton
+            title="Wydarzenie zapełnione"
             onPress={handleSignOut}
-            color="red"
             disabled={true}
           />
         );
       default:
-        return <Button title="Zapisz się" onPress={handleSignUp} />;
+        return <EventButton title="Zapisz się" onPress={handleSignUp} />;
     }
   };
 
   return <Event event={event} Button={renderButton()} />;
 };
+
+const styles = StyleSheet.create({
+  error: {
+    backgroundColor: "red",
+  },
+  button: {
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+  disabled: {
+    backgroundColor: "grey",
+  },
+});
 
 export default PlainEvent;

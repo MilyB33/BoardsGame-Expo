@@ -1,21 +1,23 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "../../context/userContext";
+import { useNavigation } from "@react-navigation/native";
 
 import { View, StyleSheet, Modal } from "react-native";
 import { Menu, Divider, IconButton } from "react-native-paper";
 import ParticipantModal from "../Modals/ParticipantModal";
 
-import { UserEntry } from "../../types/types";
+import { UserEntry, FriendsNavigationProps } from "../../types/types";
 
 interface Props {
   listedUser: UserEntry;
 }
 
 const ContactMenu: React.FC<Props> = ({ listedUser }) => {
-  const { _id, username } = listedUser;
+  const { _id } = listedUser;
   const { user, sendFriendRequest, deleteFriend } = useContext(UserContext);
   const [visible, setVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const navigation = useNavigation<FriendsNavigationProps>();
 
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
@@ -47,7 +49,12 @@ const ContactMenu: React.FC<Props> = ({ listedUser }) => {
             icon="account-circle"
           />
           <Menu.Item
-            onPress={() => {}}
+            onPress={() => {
+              closeMenu();
+              navigation.navigate("UserEventsModal", {
+                userId: listedUser._id,
+              });
+            }}
             title="Zaproś na wydarzenie"
             icon="email-plus"
             disabled={!isFriend}

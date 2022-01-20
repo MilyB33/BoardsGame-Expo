@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
-import { Formik, Field } from 'formik';
-import CustomInput from './CustomInput';
-import { StyleSheet } from 'react-native';
-import { Button, Surface, Text } from 'react-native-paper';
+import { Formik, Field } from "formik";
+import CustomInput from "./CustomInput";
+import { StyleSheet } from "react-native";
+import { Button, Surface, Text } from "react-native-paper";
 
-import styles from './Forms.styles';
-import validationSchemas from '../../utils/validationSchemas';
+import styles from "./Forms.styles";
+import validationSchemas from "../../utils/validationSchemas";
 
 const ChangeAccountDescForm = () => {
   return (
@@ -15,10 +15,9 @@ const ChangeAccountDescForm = () => {
 
       <Formik
         initialValues={{
-          description: '',
+          description: "",
         }}
         onSubmit={(values, actions) => {
-          console.log(values);
           actions.setSubmitting(false);
         }}
         validationSchema={validationSchemas.ChangeDescriptionSchema}
@@ -26,14 +25,13 @@ const ChangeAccountDescForm = () => {
         {(props) => (
           <>
             <Text style={privateStyles.text}>
-              {props.values.description || 'Napisz coś o sobie :)'}
+              {props.values.description || "Napisz coś o sobie :)"}
             </Text>
 
             <Field
               name="description"
               component={CustomInput}
               label="Opis"
-              placeholder="Opis"
               setFieldValue={props.setFieldValue}
               multiline
             />
@@ -51,15 +49,15 @@ const ChangeAccountDescForm = () => {
 const privateStyles = StyleSheet.create({
   form: {
     marginTop: 20,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    width: '80%',
+    marginLeft: "auto",
+    marginRight: "auto",
+    width: "80%",
     padding: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
     borderRadius: 10,
   },
   text: {
-    textAlign: 'center',
+    textAlign: "center",
     borderWidth: 1,
     borderRadius: 5,
     padding: 10,

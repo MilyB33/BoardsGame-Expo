@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import ScreenLayout from '../Layout/ScreenLayout';
-import Events from '../UserEvents/Events';
-import AddEvent from '../AddEvent/AddEvent';
+import ScreenLayout from "../Layout/ScreenLayout";
+import Events from "../UserEvents/Events";
+import AddEvent from "../Generic/AddEvent";
 
 const UserEventsScreen = () => {
   return (

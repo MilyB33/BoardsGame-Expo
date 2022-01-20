@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
-import { StyleSheet } from 'react-native';
-import { Surface, Button } from 'react-native-paper';
+import { StyleSheet } from "react-native";
+import { Surface, Button } from "react-native-paper";
 
 interface Props {
   title: string;
-  icon: string;
+  icon?: string;
   onPress: () => void;
   buttonColor?: any;
 }
@@ -20,7 +20,7 @@ const OptionItem: React.FC<Props> = ({
   const titleLength = title.length;
 
   const width = {
-    width: titleLength > 10 ? '70%' : '45%',
+    width: titleLength > 10 ? "70%" : "45%",
   };
 
   return (
@@ -28,10 +28,10 @@ const OptionItem: React.FC<Props> = ({
       <Button
         mode="contained"
         onPress={onPress}
-        icon={icon ? icon : ''}
+        icon={icon ? icon : ""}
         style={[
           styles.button,
-          { backgroundColor: buttonColor || 'dodgerblue' },
+          { backgroundColor: buttonColor || "dodgerblue" },
         ]}
       >
         {title}
@@ -42,8 +42,8 @@ const OptionItem: React.FC<Props> = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: '45%',
-    backgroundColor: 'transparent',
+    width: "45%",
+    backgroundColor: "transparent",
     marginBottom: 20,
   },
   button: {

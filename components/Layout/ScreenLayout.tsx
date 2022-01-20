@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 import {
   View,
@@ -6,24 +6,20 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
-} from 'react-native';
-import Modals from '../Modals/Modals';
-import Appbar from '../Appbar/Appbar';
-
-import { CustomBackground } from '../Layout/Layout.styles';
+  ImageBackground,
+} from "react-native";
+import Appbar from "../Appbar/Appbar";
 
 interface Props {
   children: React.ReactNode;
   isScroll?: boolean;
 }
 
-const backgroundImage = require('../../assets/background.jpg');
+const backgroundImage = require("../../assets/background.jpg");
 
-const ScreenLayout: React.FC<Props> = ({
-  children,
-  isScroll = true,
-}) => {
+const ScreenLayout: React.FC<Props> = ({ children, isScroll = true }) => {
   const ScrollContainer = isScroll ? ScrollView : View;
+
   const ScrollContainerProps = isScroll
     ? { contentContainerStyle: { ...styles.contentContainer } }
     : { style: { ...styles.container } };
@@ -32,13 +28,10 @@ const ScreenLayout: React.FC<Props> = ({
     <View style={styles.container}>
       <KeyboardAvoidingView
         style={styles.avoid}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <CustomBackground source={backgroundImage} />
-        <ScrollContainer {...ScrollContainerProps}>
-          {children}
-        </ScrollContainer>
-        <Modals />
+        <ImageBackground style={styles.background} source={backgroundImage} />
+        <ScrollContainer {...ScrollContainerProps}>{children}</ScrollContainer>
         <Appbar />
       </KeyboardAvoidingView>
     </View>
@@ -47,15 +40,20 @@ const ScreenLayout: React.FC<Props> = ({
 
 const styles = StyleSheet.create({
   contentContainer: {
-    minHeight: '100%',
+    position: "relative",
   },
   container: {
     flex: 1,
-    height: '100%',
-    position: 'relative',
   },
   avoid: {
     flex: 1,
+  },
+  background: {
+    flex: 1,
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
   },
 });
 

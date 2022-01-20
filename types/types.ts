@@ -18,6 +18,7 @@ export type Roots = keyof RootStackParamList;
 export type FriendsStackParamList = {
   ContactsHome: undefined;
   SearchUser: undefined;
+  UserEventsModal: { userId: string };
 };
 
 export type Friends = keyof FriendsStackParamList;
@@ -51,7 +52,10 @@ export type FriendsRequest = {
 export type User = {
   _id: string;
   username: string;
-  events?: Event[];
+  events?: {
+    userEvents: Event[];
+    userSignedEvents: Event[];
+  };
   friends?: UserEntry[];
   friendsRequests?: FriendsRequest;
   eventsRequests?: FriendsRequest;
@@ -77,6 +81,7 @@ export interface Event {
     _id: string;
     username: string;
   }[];
+  invitedUsers: string[];
 }
 
 export interface EventPayload {

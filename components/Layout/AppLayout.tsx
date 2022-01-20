@@ -1,18 +1,25 @@
-import React from 'react';
+import React from "react";
 
-import { StatusBar } from 'react-native';
-import { AppContainer } from './Layout.styles';
-import Navigation from '../Navigation';
+import { StatusBar, StyleSheet, Platform, SafeAreaView } from "react-native";
+import Navigation from "../Navigation/Root";
 
 const Layout = () => {
   return (
     <>
-      <AppContainer>
+      <SafeAreaView style={styles.container}>
         <StatusBar translucent backgroundColor="dodgerblue" />
         <Navigation />
-      </AppContainer>
+      </SafeAreaView>
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    position: "relative",
+    flex: 1,
+    marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+  },
+});
 
 export default Layout;

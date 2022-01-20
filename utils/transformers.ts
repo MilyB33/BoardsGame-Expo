@@ -22,17 +22,17 @@ export const transformQuery = (parts: TemplateStringsArray, ...vars: any[]) => {
 
   str = `${parts.join("").slice(0, parts.join("").indexOf("?"))}`;
 
-  // Check this
-  if (vars.some((item: any) => item === undefined || item === null)) str += "?";
+  if (vars.some((item: any) => typeof item !== "undefined" || item !== null))
+    str += "?";
   else return str;
 
   partsArr[0] = parts[0].split("?")[1];
 
   partsArr.forEach((part: any, index: number) => {
-    if (vars[index]) {
+    if (typeof vars[index] !== "undefined" && vars[index] !== null) {
       if (str.slice(str.length - 1, str.length) === "?")
-        str += `${part.slice(1, part.length)}`;
-      else str += `${part.slice(1, part.length)}${vars[index]}`;
+        str += `${part.slice(0, part.length)}${vars[index]}`;
+      else str += `${part.slice(0, part.length)}${vars[index]}`;
     }
   });
 
@@ -47,3 +47,5 @@ export function isWritable<T extends Object>(obj: T, key: keyof T): boolean {
   const desc = Object.getOwnPropertyDescriptor(obj, key) || {};
   return Boolean(desc.writable);
 }
+
+export const transformUserData = (user: any) => {};

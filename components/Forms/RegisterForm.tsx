@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import ServerClient from '../../clients/serverClient';
+import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import ServerClient from "../../clients/serverClient";
 
-import { Text, Button } from 'react-native';
-import { Surface } from 'react-native-paper';
-import { Formik, Field } from 'formik';
-import CustomInput from './CustomInput';
-import ActivityIndicator from '../Generic/ActivityIndicator';
+import { Text } from "react-native";
+import { Surface, Button } from "react-native-paper";
+import { Formik, Field } from "formik";
+import CustomInput from "./CustomInput";
 
-import styles from './Forms.styles';
-import { NavigationProps } from '../../types/types';
-import validationSchemas from '../../utils/validationSchemas';
+import styles from "./Forms.styles";
+import { NavigationProps } from "../../types/types";
+import validationSchemas from "../../utils/validationSchemas";
 
 interface Props {
   changeForm: React.Dispatch<React.SetStateAction<boolean>>;
@@ -37,9 +36,9 @@ const RegisterForm: React.FC<Props> = ({ changeForm }) => {
     if (!data.success) {
       alert(data.message);
     } else {
-      alert('Successfully registered');
+      alert("Successfully registered");
       resetForm();
-      navigation.navigate('Home');
+      navigation.navigate("Home");
     }
 
     setLoading(false);
@@ -51,9 +50,9 @@ const RegisterForm: React.FC<Props> = ({ changeForm }) => {
 
       <Formik
         initialValues={{
-          username: '',
-          password: '',
-          confirmPassword: '',
+          username: "",
+          password: "",
+          confirmPassword: "",
         }}
         validationSchema={validationSchemas.RegisterSchema}
         onSubmit={onSubmit}
@@ -64,7 +63,6 @@ const RegisterForm: React.FC<Props> = ({ changeForm }) => {
               component={CustomInput}
               name="username"
               label="Nazwa użytkownika"
-              placeholder="Nazwa użytkownika"
               setFieldValue={props.setFieldValue}
             />
 
@@ -72,7 +70,6 @@ const RegisterForm: React.FC<Props> = ({ changeForm }) => {
               component={CustomInput}
               name="password"
               label="Hasło"
-              placeholder="Hasło"
               setFieldValue={props.setFieldValue}
               isSecure
             />
@@ -81,27 +78,22 @@ const RegisterForm: React.FC<Props> = ({ changeForm }) => {
               component={CustomInput}
               name="confirmPassword"
               label="Potwierdź hasło"
-              placeholder="Potwierdź hasło"
               setFieldValue={props.setFieldValue}
               isSecure={true}
             />
 
-            <Text
-              style={styles.link}
-              onPress={() => changeForm(true)}
-            >
+            <Text style={styles.link} onPress={() => changeForm(true)}>
               Masz już konto? Zaloguj się.
             </Text>
-            {loading ? (
-              <ActivityIndicator />
-            ) : (
-              <Button
-                title="Zarejestruj się"
-                onPress={() => {
-                  props.handleSubmit();
-                }}
-              />
-            )}
+
+            <Button
+              onPress={() => {
+                props.handleSubmit();
+              }}
+              loading={loading}
+            >
+              Zarejestruj się
+            </Button>
           </>
         )}
       </Formik>

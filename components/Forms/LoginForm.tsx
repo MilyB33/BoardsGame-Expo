@@ -1,16 +1,16 @@
-import React, { useContext } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { UserContext } from '../../context/userContext';
+import React, { useContext } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { UserContext } from "../../context/userContext";
 
-import { Surface } from 'react-native-paper';
-import { Text, Button } from 'react-native';
-import { Formik, Field } from 'formik';
-import CustomInput from './CustomInput';
-import ActivityIndicator from '../Generic/ActivityIndicator';
+import { Surface } from "react-native-paper";
+import { Text, Button } from "react-native";
+import { Formik, Field } from "formik";
+import CustomInput from "./CustomInput";
+import ActivityIndicator from "../Generic/ActivityIndicator";
 
-import styles from './Forms.styles';
-import { NavigationProps } from '../../types/types';
-import validationSchemas from '../../utils/validationSchemas';
+import styles from "./Forms.styles";
+import { NavigationProps } from "../../types/types";
+import validationSchemas from "../../utils/validationSchemas";
 
 interface Props {
   changeForm: React.Dispatch<React.SetStateAction<boolean>>;
@@ -38,8 +38,8 @@ const LoginForm: React.FC<Props> = ({ changeForm }) => {
 
       <Formik
         initialValues={{
-          username: '',
-          password: '',
+          username: "",
+          password: "",
         }}
         validationSchema={validationSchemas.LoginSchema}
         onSubmit={onSubmit}
@@ -50,7 +50,6 @@ const LoginForm: React.FC<Props> = ({ changeForm }) => {
               name="username"
               component={CustomInput}
               label="Nazwa użytkownika"
-              placeholder="Nazwa użytkownika"
               setFieldValue={props.setFieldValue}
             />
 
@@ -58,15 +57,11 @@ const LoginForm: React.FC<Props> = ({ changeForm }) => {
               component={CustomInput}
               name="password"
               label="Hasło"
-              placeholder="Hasło"
               setFieldValue={props.setFieldValue}
               isSecure
             />
 
-            <Text
-              style={styles.link}
-              onPress={() => changeForm(false)}
-            >
+            <Text style={styles.link} onPress={() => changeForm(false)}>
               Nie masz jeszcze konta? Załóz je od razu.
             </Text>
             {user.loading ? (

@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
-import { UserContext } from '../../context/userContext';
+import React, { useContext } from "react";
+import { UserContext } from "../../context/userContext";
 
-import { StyleSheet } from 'react-native';
-import { Button, Surface, Text } from 'react-native-paper';
-import { Formik, Field } from 'formik';
-import CustomInput from './CustomInput';
+import { StyleSheet } from "react-native";
+import { Button, Surface, Text } from "react-native-paper";
+import { Formik, Field } from "formik";
+import CustomInput from "./CustomInput";
 
-import validationSchemas from '../../utils/validationSchemas';
+import validationSchemas from "../../utils/validationSchemas";
 
-import styles from './Forms.styles';
+import styles from "./Forms.styles";
 
 const ChangePasswordForm = () => {
   const { updatePassword } = useContext(UserContext);
@@ -19,12 +19,11 @@ const ChangePasswordForm = () => {
 
       <Formik
         initialValues={{
-          oldPassword: '',
-          newPassword: '',
-          confirmPassword: '',
+          oldPassword: "",
+          newPassword: "",
+          confirmPassword: "",
         }}
         onSubmit={(values, actions) => {
-          console.log(values);
           updatePassword({
             oldPassword: values.oldPassword,
             newPassword: values.newPassword,
@@ -40,7 +39,6 @@ const ChangePasswordForm = () => {
               name="oldPassword"
               component={CustomInput}
               label="Stare hasło"
-              placeholder="Stare hasło"
               secureTextEntry
               setFieldValue={props.setFieldValue}
               isSecure
@@ -58,7 +56,6 @@ const ChangePasswordForm = () => {
               name="confirmPassword"
               component={CustomInput}
               label="Potwierdź hasło"
-              placeholder="Potwierdź hasło"
               secureTextEntry
               setFieldValue={props.setFieldValue}
               isSecure
@@ -77,11 +74,11 @@ const ChangePasswordForm = () => {
 const privateStyles = StyleSheet.create({
   form: {
     marginTop: 20,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    width: '80%',
+    marginLeft: "auto",
+    marginRight: "auto",
+    width: "80%",
     padding: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
     borderRadius: 10,
   },
 });

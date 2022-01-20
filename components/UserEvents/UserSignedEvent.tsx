@@ -1,10 +1,11 @@
-import React, { useState, useContext } from 'react';
-import { UserContext } from '../../context/userContext';
+import React, { useState, useContext } from "react";
+import { UserContext } from "../../context/userContext";
 
-import { Button, ActivityIndicator } from 'react-native';
-import Event from '../Event/Event';
+import { ActivityIndicator } from "react-native";
+import Event from "../Event/Event";
+import EventButton from "../Generic/EventButton";
 
-import { Event as EventType } from '../../types/types';
+import { Event as EventType } from "../../types/types";
 
 interface Props {
   event: EventType;
@@ -23,11 +24,7 @@ const UserSignedEvent: React.FC<Props> = ({ event }) => {
   const renderButton = loading ? (
     <ActivityIndicator size="large" color="white" />
   ) : (
-    <Button
-      title="Wypisz się"
-      onPress={handleDelete}
-      color="#e63946"
-    />
+    <EventButton title="Wypisz się" onPress={handleDelete} color="#e63946" />
   );
 
   return <Event event={event} Button={renderButton} />;
