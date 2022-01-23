@@ -1,13 +1,13 @@
-import React, { useContext, useState } from 'react';
-import { UserContext } from '../../context/userContext';
-import { useNavigation } from '@react-navigation/native';
+import React, { useContext, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { AuthContext } from "../../context/authContext";
 
-import { StyleSheet } from 'react-native';
-import { Surface, Portal } from 'react-native-paper';
-import OptionItem from '../Generic/OptionItem';
-import DeleteDialog from './DeleteDialog';
+import { StyleSheet } from "react-native";
+import { Surface, Portal } from "react-native-paper";
+import OptionItem from "../Generic/OptionItem";
+import DeleteDialog from "./DeleteDialog";
 
-import { NavigationProps } from '../../types/types';
+import { NavigationProps } from "../../types/types";
 
 interface Props {
   handleOptionChange: (option: string) => void;
@@ -15,19 +15,19 @@ interface Props {
 
 const Options: React.FC<Props> = ({ handleOptionChange }) => {
   const [visible, setVisible] = useState(false);
-  const { logout, deleteAccount } = useContext(UserContext);
+  const { logout, deleteAccount } = useContext(AuthContext);
   const navigation = useNavigation<NavigationProps>();
 
   const handleLogout = () => {
     logout();
-    navigation.navigate('Home');
+    navigation.navigate("Home");
   };
 
   const showDialog = () => setVisible(true);
 
   const handleDeleteAccount = () => {
     deleteAccount();
-    navigation.navigate('Home');
+    navigation.navigate("Home");
   };
 
   return (
@@ -36,13 +36,13 @@ const Options: React.FC<Props> = ({ handleOptionChange }) => {
         <OptionItem
           title="Zmień opis"
           icon="account-circle"
-          onPress={() => handleOptionChange('description')}
+          onPress={() => handleOptionChange("description")}
         />
 
         <OptionItem
           title="Zmień hasło"
           icon="lock"
-          onPress={() => handleOptionChange('password')}
+          onPress={() => handleOptionChange("password")}
         />
 
         <OptionItem
@@ -52,11 +52,7 @@ const Options: React.FC<Props> = ({ handleOptionChange }) => {
           buttonColor="#ff0000"
         />
 
-        <OptionItem
-          title="Wyloguj"
-          icon="logout"
-          onPress={handleLogout}
-        />
+        <OptionItem title="Wyloguj" icon="logout" onPress={handleLogout} />
       </Surface>
 
       <Portal>
@@ -73,10 +69,10 @@ const Options: React.FC<Props> = ({ handleOptionChange }) => {
 const styles = StyleSheet.create({
   container: {
     marginTop: 20,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    backgroundColor: 'transparent',
-    justifyContent: 'space-evenly',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    backgroundColor: "transparent",
+    justifyContent: "space-evenly",
   },
 });
 

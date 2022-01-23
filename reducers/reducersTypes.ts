@@ -62,6 +62,28 @@ export type GetDataAction<E, PT, EK> = {
 
 // ========================================================
 
+export interface AuthState {
+  isAuthenticated: boolean;
+  username: string;
+  _id: string;
+  loading: boolean;
+}
+
+export enum AuthActions {
+  LOGIN = "LOGIN",
+  LOGOUT = "LOGOUT",
+  SET_CURRENT_USER_LOADING = "SET_CURRENT_USER_LOADING",
+  END_CURRENT_USER_LOADING = "END_CURRENT_USER_LOADING",
+}
+
+export type AuthAllActions =
+  | Payload<AuthActions.LOGIN, any> // this object to be changed to User type
+  | ActionWithoutPayload<AuthActions.SET_CURRENT_USER_LOADING>
+  | ActionWithoutPayload<AuthActions.END_CURRENT_USER_LOADING>
+  | ActionWithoutPayload<AuthActions.LOGOUT>;
+
+// ========================================================
+
 export enum EventActions {
   GET_EVENTS = "GET_EVENTS",
   SET_EVENTS_LOADING = "SET_EVENTS_LOADING",
@@ -69,6 +91,7 @@ export enum EventActions {
   REPLACE_EVENT = "REPLACE_EVENT",
   LOAD_EVENTS = "LOAD_EVENTS",
   REFERESH_EVENTS = "REFERESH_EVENTS",
+  DELETE_INVITE = "DELETE_INVITE",
 }
 
 // PT = Payload Type
@@ -82,6 +105,8 @@ export type AppAllActions =
   | ArrayPayload<EventActions.GET_EVENTS, Event>
   | ArrayPayload<EventActions.LOAD_EVENTS, Event>
   | ActionWithoutPayload<EventActions.SET_EVENTS_LOADING>
+  | Payload<EventActions.FILTER_OUT_EVENT, string>
+  | Payload<EventActions.DELETE_INVITE, { inviteID: string; eventID: string }>
   | DeleteEventAction
   | EditEventAction;
 
@@ -97,26 +122,27 @@ export interface EventEntry {
 }
 
 type EventsRequest = {
-  sent: EventEntry[];
-  received: EventEntry[];
+  sent: string[];
+  received: string[];
 };
 
 export type UserState = {
-  _id: string;
-  username: string;
-  isAuthenticated: boolean;
-  loading: boolean;
+  _userID: string;
   events: EventsType;
   friends: UserEntry[];
   friendsRequests: FriendsRequest;
   eventsRequests: EventsRequest;
 };
 
+export type EventInvite = {
+  _id: string;
+  eventId: string;
+  user: UserEntry;
+};
+
 export enum UserActions {
-  SET_CURRENT_USER = "SET_CURRENT_USER",
-  SET_CURRENT_USER_LOADING = "SET_CURRENT_USER_LOADING",
-  END_CURRENT_USER_LOADING = "END_CURRENT_USER_LOADING",
-  LOGOUT_USER = "LOGOUT_USER",
+  SET_USER_INFO = "SET_USER_INFO",
+  CLEAR_FIELDS = "CLEAR_FIELDS",
   DELETE_EVENT = "DELETE_EVENT",
   EDIT_EVENT = "EDIT_EVENT",
   SIGN_USER_TO_EVENT = "SIGN_USER_TO_EVENT",
@@ -126,27 +152,30 @@ export enum UserActions {
   ACCEPT_FRIEND_REQUEST = "ACCEPT_FRIEND_REQUEST",
   REJECT_FRIEND_REQUEST = "REJECT_FRIEND_REQUEST",
   DELETE_FRIEND = "DELETE_FRIEND",
+  SEND_EVENT_REQUEST = "SEND_EVENT_REQUEST",
+  REJECT_EVENT_REQUEST = "REJECT_EVENT_REQUEST",
 }
 
 export enum EventTypes {
   USER_EVENTS = "userEvents",
   USER_SIGNED_EVENTS = "userSignedEvents",
+  USER_INVITED_EVENTS = "userInvitedEvents",
 }
 
 export type UserAllActions =
-  | Payload<UserActions.SET_CURRENT_USER, {}> // this object to be changed to User type
-  | ActionWithoutPayload<UserActions.SET_CURRENT_USER_LOADING>
-  | ActionWithoutPayload<UserActions.END_CURRENT_USER_LOADING>
-  | ActionWithoutPayload<UserActions.LOGOUT_USER>
+  | ActionWithoutPayload<UserActions.CLEAR_FIELDS>
   | Payload<UserActions.SIGN_USER_TO_EVENT, Event>
   | Payload<UserActions.SIGN_OUT_USER_FROM_EVENT, string>
-  | DeleteEventAction
-  | EditEventAction
+  | Payload<UserActions.SET_USER_INFO, UserState>
   | Payload<UserActions.ADD_EVENT, Event>
   | Payload<UserActions.SEND_FRIEND_REQUEST, UserEntry>
   | Payload<UserActions.ACCEPT_FRIEND_REQUEST, UserEntry>
   | Payload<UserActions.REJECT_FRIEND_REQUEST, string>
-  | Payload<UserActions.DELETE_FRIEND, string>;
+  | Payload<UserActions.DELETE_FRIEND, string>
+  | Payload<UserActions.SEND_EVENT_REQUEST, EventInvite>
+  | Payload<UserActions.REJECT_EVENT_REQUEST, string>
+  | DeleteEventAction
+  | EditEventAction;
 
 // ========================================================
 

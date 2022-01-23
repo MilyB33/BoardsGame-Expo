@@ -2,33 +2,18 @@ import { UserState, UserAllActions, UserActions } from "./reducersTypes";
 
 const userReducer = (state: UserState, action: UserAllActions) => {
   switch (action.type) {
-    case UserActions.SET_CURRENT_USER:
+    case UserActions.SET_USER_INFO:
       return {
         ...state,
         ...action.payload,
-        isAuthenticated: true,
-        loading: false,
       };
-    case UserActions.SET_CURRENT_USER_LOADING:
+    case UserActions.CLEAR_FIELDS:
       return {
-        ...state,
-        loading: true,
-      };
-    case UserActions.END_CURRENT_USER_LOADING:
-      return {
-        ...state,
-        loading: false,
-      };
-    case UserActions.LOGOUT_USER:
-      return {
-        ...state,
-        id: "",
-        username: "",
-        isAuthenticated: false,
-        loading: false,
+        _userID: "",
         events: {
           userEvents: [],
           userSignedEvents: [],
+          userInvitedEvents: [],
         },
         friends: [],
         friendsRequests: {
@@ -124,6 +109,47 @@ const userReducer = (state: UserState, action: UserAllActions) => {
         friends: state.friends.filter(
           (friend) => friend._id !== action.payload
         ),
+      };
+    case UserActions.SEND_EVENT_REQUEST:
+      return {
+        ...state,
+        eventsRequests: {
+          ...state.eventsRequests,
+          sent: [...state.eventsRequests.sent, action.payload._id],
+        },
+        events: {
+          ...state.events,
+          userEvents: state.events.userEvents.map((event) =>
+            event._id === action.payload.eventId
+              ? {
+                  ...event,
+                  invites: [
+                    ...event.invites,
+                    {
+                      _id: action.payload._id,
+                      user: action.payload.user,
+                    },
+                  ],
+                }
+              : event
+          ),
+        },
+      };
+    case UserActions.REJECT_EVENT_REQUEST:
+      return {
+        ...state,
+        eventsRequests: {
+          ...state.eventsRequests,
+          received: state.eventsRequests.received.filter(
+            (request) => request !== action.payload
+          ),
+        },
+        events: {
+          ...state.events,
+          userInvitedEvents: state.events.userInvitedEvents.filter(
+            (event) => event.inviteId !== action.payload
+          ),
+        },
       };
     default:
       return state;

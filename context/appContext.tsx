@@ -10,6 +10,7 @@ interface Context {
   replaceEvent(event: Event): P;
   reloadEvents(): P;
   loadEvents(): P;
+  deleteInvite(inviteID: string, eventID: string): void;
 }
 
 interface Props {
@@ -105,6 +106,12 @@ export const AppContextProvider: React.FC<Props> = ({ children }) => {
     });
   };
 
+  const deleteInvite = async (inviteID: string, eventID: string) =>
+    dispatch({
+      type: EventActions.DELETE_INVITE,
+      payload: { inviteID, eventID },
+    });
+
   useEffect(() => {
     // Probably this use effect rerenders once but it must be checked
     if (state.events.items.length === 0) getInitialEvents();
@@ -118,6 +125,7 @@ export const AppContextProvider: React.FC<Props> = ({ children }) => {
         replaceEvent,
         reloadEvents,
         loadEvents,
+        deleteInvite,
       }}
     >
       {children}

@@ -29,7 +29,7 @@ const appReducer = (state: AppState, action: AppAllActions) => {
         events: {
           ...state.events,
           items: state.events.items.filter(
-            (event) => event._id !== action.payload.eventId
+            (event) => event._id !== action.payload
           ),
           query: {
             ...state.events.query,
@@ -74,6 +74,24 @@ const appReducer = (state: AppState, action: AppAllActions) => {
           },
         },
       };
+    case EventActions.DELETE_INVITE:
+      return {
+        ...state,
+        events: {
+          ...state.events,
+          items: state.events.items.map((event) =>
+            event._id === action.payload.eventID
+              ? {
+                  ...event,
+                  invites: event.invites.filter(
+                    (invite) => invite._id !== action.payload.inviteID
+                  ),
+                }
+              : event
+          ),
+        },
+      };
+
     default:
       return state;
   }

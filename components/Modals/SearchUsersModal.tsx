@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import useDebounce from "../../hooks/useDebounce";
 import ServerClient from "../../clients/serverClient";
-import { UserContext } from "../../context/userContext";
+import { AuthContext } from "../../context/authContext";
 
 import { StyleSheet, FlatList } from "react-native";
 import { Surface, Divider } from "react-native-paper";
@@ -11,7 +11,7 @@ import ContactItem from "../Contacts/ContactItem";
 import { UserEntry } from "../../types/types";
 
 const SearchUserModal = () => {
-  const { user } = useContext(UserContext);
+  const { authState } = useContext(AuthContext);
   const [results, setResults] = useState<UserEntry[]>([]);
   const [search, setSearch] = useState("");
   const { debouncedValue } = useDebounce(300, getUsers);
@@ -32,7 +32,7 @@ const SearchUserModal = () => {
 
     if (!result.success) return;
 
-    const users = result.result.filter((res: any) => res._id !== user._id);
+    const users = result.result.filter((res: any) => res._id !== authState._id);
 
     setResults(users);
   }

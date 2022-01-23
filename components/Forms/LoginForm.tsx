@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { UserContext } from "../../context/userContext";
+import { AuthContext } from "../../context/authContext";
 
 import { Surface } from "react-native-paper";
 import { Text, Button } from "react-native";
@@ -17,7 +17,7 @@ interface Props {
 }
 
 const LoginForm: React.FC<Props> = ({ changeForm }) => {
-  const { login, user } = useContext(UserContext);
+  const { login, authState } = useContext(AuthContext);
   const navigation = useNavigation<NavigationProps>();
 
   const onSubmit = async (
@@ -64,7 +64,7 @@ const LoginForm: React.FC<Props> = ({ changeForm }) => {
             <Text style={styles.link} onPress={() => changeForm(false)}>
               Nie masz jeszcze konta? Załóz je od razu.
             </Text>
-            {user.loading ? (
+            {authState.loading ? (
               <ActivityIndicator />
             ) : (
               <Button

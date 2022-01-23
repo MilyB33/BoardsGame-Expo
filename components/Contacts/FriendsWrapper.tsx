@@ -11,7 +11,7 @@ import Empty from "./Empty";
 
 const ContactsList = () => {
   const {
-    user: {
+    userInfoState: {
       friends,
       friendsRequests: { received },
     },

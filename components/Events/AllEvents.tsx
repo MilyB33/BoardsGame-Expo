@@ -5,6 +5,7 @@ import { View, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 import PlainEvent from "./PlainEvent";
 import RefreshButton from "../Generic/RefreshButton";
+import MoreButton from "../Generic/MoreButton";
 
 import { Event as EventType } from "../../types/types";
 
@@ -28,14 +29,12 @@ const AllEvents = () => {
 
       {renderEvents()}
 
-      <Button
-        style={styles.moreButton}
-        mode="contained"
+      <MoreButton
+        title="Pokaż więcej"
         onPress={loadEvents}
         loading={loading}
-      >
-        Pokaż więcej
-      </Button>
+        additionalStyles={styles.moreButton}
+      />
     </View>
   );
 };

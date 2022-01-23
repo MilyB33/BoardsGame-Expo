@@ -286,6 +286,26 @@ class ServerClient extends ClientBase {
     }
   };
 
+  getUserInfo = async (userId: string) => {
+    try {
+      const response = await this.client.get(`users/${userId}`);
+
+      const json = await response.json();
+
+      if (response.status === 200) {
+        return {
+          success: true,
+          result: json.result,
+        };
+      } else throw new Error(json.message);
+    } catch (err) {
+      return {
+        success: false,
+        message: err,
+      };
+    }
+  };
+
   deleteAccount = async (userId: string) => {
     try {
       const response = await this.client.delete(`users/${userId}`);
@@ -405,6 +425,79 @@ class ServerClient extends ClientBase {
     try {
       const response = await this.client.delete(
         `users/${userId}/friends/${friendId}`
+      );
+
+      const json = await response.json();
+
+      if (response.status === 200) {
+        return {
+          success: true,
+          result: json.result,
+        };
+      } else throw new Error(json.message);
+    } catch (err) {
+      return {
+        success: false,
+        message: err,
+      };
+    }
+  };
+
+  sendEventInvite = async (
+    userId: string,
+    eventID: string,
+    requestedUserID: string
+  ) => {
+    try {
+      const response = await this.client.post(
+        `users/${userId}/events/request`,
+        {
+          body: { eventID, requestedUserID },
+        }
+      );
+
+      const json = await response.json();
+
+      if (response.status === 200) {
+        return {
+          success: true,
+          result: json.result,
+        };
+      } else throw new Error(json.message);
+    } catch (err) {
+      return {
+        success: false,
+        message: err,
+      };
+    }
+  };
+
+  rejectEventInvite = async (userID: string, inviteID: string) => {
+    try {
+      const response = await this.client.delete(
+        `users/${userID}/events/request/${inviteID}`
+      );
+
+      const json = await response.json();
+
+      if (response.status === 200) {
+        return {
+          success: true,
+          result: json.result,
+        };
+      } else throw new Error(json.message);
+    } catch (err) {
+      return {
+        success: false,
+        message: err,
+      };
+    }
+  };
+
+  acceptEventInvite = async (userID: string, inviteID: string) => {
+    try {
+      const response = await this.client.post(
+        `users/${userID}/events/request/${inviteID}/accept`
       );
 
       const json = await response.json();

@@ -1,9 +1,8 @@
 import React, { createContext, useReducer, useContext, useEffect } from "react";
-import useStorage from "../hooks/useStorage";
 import ServerClient from "../clients/serverClient";
 import authReducer from "../reducers/userReducer";
 import { UserActions } from "../reducers/reducersTypes";
-import { UserState, EventTypes } from "../reducers/reducersTypes";
+import { UserState } from "../reducers/reducersTypes";
 import { AppContext } from "./appContext";
 import { EventPayload, P } from "../types/types";
 
@@ -12,30 +11,29 @@ interface Props {
 }
 
 interface Context {
-  user: UserState;
-  login(data: any): P<boolean>;
-  logout(): void;
+  userInfoState: UserState;
+  clearFields(): void;
   deleteUserEvent(eventId: string): P;
   signUserForEvent(eventId: string): P;
   signOutUserFromEvent(eventId: string): P;
   addEvent(event: EventPayload): P<boolean>;
   editEvent(event: EventPayload, eventId: string): P<boolean>;
-  deleteAccount(): P;
   updatePassword(newPassword: { oldPassword: string; newPassword: string }): P;
   sendFriendRequest(requestedUserId: string): P;
   acceptFriendRequest(requestedUserId: string): P;
   rejectFriendRequest(requestedUserId: string): P;
   deleteFriend(requestedUserId: string): P;
+  sendEventRequest(eventId: string, requestedUserID: string): P;
+  setUserInfo(userID: string): void;
+  rejectEventRequest(inviteID: string, eventID: string): P;
 }
 
 const initialState = {
-  isAuthenticated: false,
-  username: "",
-  _id: "",
-  loading: false,
+  _userID: "", // this id is here to avoid context cycle warning
   events: {
     userEvents: [],
     userSignedEvents: [],
+    userInvitedEvents: [],
   },
   friends: [],
   friendsRequests: {
@@ -51,49 +49,32 @@ const initialState = {
 export const UserContext = createContext({} as Context);
 
 export const UserContextProvider: React.FC<Props> = ({ children }) => {
-  const { storeData, removeData } = useStorage();
-  const [user, dispatch] = useReducer(authReducer, initialState);
-  const { FilterOutEvent, replaceEvent } = useContext(AppContext);
+  const [userInfoState, dispatch] = useReducer(authReducer, initialState);
+  const { FilterOutEvent, replaceEvent, deleteInvite } = useContext(AppContext);
 
-  const login = async (values: any) => {
-    dispatch({ type: UserActions.SET_CURRENT_USER_LOADING });
-
-    const result = await ServerClient.loginUser(values);
+  const setUserInfo = async (userID: string) => {
+    const result = await ServerClient.getUserInfo(userID);
 
     if (!result.success) {
       alert(result.message);
-
-      dispatch({ type: UserActions.END_CURRENT_USER_LOADING });
-
-      return false;
+      return;
     }
 
-    const { token } = result.result;
-
-    await storeData(token);
-
-    delete result.result.token;
-    delete result.result.password;
+    result.result._userID = userID; // this can be added server side or will be in this context
 
     dispatch({
-      type: UserActions.SET_CURRENT_USER,
+      type: UserActions.SET_USER_INFO,
       payload: result.result,
     });
-
-    ServerClient.setToken(token);
-
-    return true;
   };
 
-  const logout = () => {
-    dispatch({ type: UserActions.LOGOUT_USER });
-
-    ServerClient.removeToken();
-    removeData();
-  };
+  const clearFields = () => dispatch({ type: UserActions.CLEAR_FIELDS });
 
   const deleteUserEvent = async (eventId: string) => {
-    const result = await ServerClient.deleteUserEvent(eventId, user._id);
+    const result = await ServerClient.deleteUserEvent(
+      eventId,
+      userInfoState._userID
+    );
 
     if (!result.success) {
       alert(result.message);
@@ -112,7 +93,10 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
   };
 
   const signUserForEvent = async (eventId: string) => {
-    const result = await ServerClient.signUserForEvent(eventId, user._id);
+    const result = await ServerClient.signUserForEvent(
+      eventId,
+      userInfoState._userID
+    );
 
     if (!result.success) {
       alert(result.message);
@@ -128,7 +112,10 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
   };
 
   const signOutUserFromEvent = async (eventId: string) => {
-    const result = await ServerClient.signOutUserFromEvent(eventId, user._id);
+    const result = await ServerClient.signOutUserFromEvent(
+      eventId,
+      userInfoState._userID
+    );
 
     if (!result.success) {
       alert(result.message);
@@ -144,7 +131,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
   };
 
   const addEvent = async (event: EventPayload) => {
-    const result = await ServerClient.addEvent(event, user._id);
+    const result = await ServerClient.addEvent(event, userInfoState._userID);
 
     if (!result.success) {
       alert(result.message);
@@ -160,7 +147,11 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
   };
 
   const editEvent = async (event: EventPayload, eventId: string) => {
-    const result = await ServerClient.editEvent(event, user._id, eventId);
+    const result = await ServerClient.editEvent(
+      event,
+      userInfoState._userID,
+      eventId
+    );
 
     if (!result.success) {
       alert(result.message);
@@ -179,22 +170,14 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
     return true;
   };
 
-  const deleteAccount = async () => {
-    const result = await ServerClient.deleteAccount(user._id);
-
-    if (!result.success) {
-      alert(result.message);
-      return;
-    }
-
-    logout();
-  };
-
   const updatePassword = async (data: {
     oldPassword: string;
     newPassword: string;
   }) => {
-    const result = await ServerClient.updatePassword(user._id, data);
+    const result = await ServerClient.updatePassword(
+      userInfoState._userID,
+      data
+    );
 
     if (!result.success) {
       alert(result.message);
@@ -204,7 +187,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 
   const sendFriendRequest = async (requestedUserId: string) => {
     const result = await ServerClient.sendFriendRequest(
-      user._id,
+      userInfoState._userID,
       requestedUserId
     );
 
@@ -220,7 +203,10 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
   };
 
   const acceptFriendRequest = async (requestId: string) => {
-    const result = await ServerClient.acceptFriendRequest(user._id, requestId);
+    const result = await ServerClient.acceptFriendRequest(
+      userInfoState._userID,
+      requestId
+    );
 
     if (!result.success) {
       alert(result.message);
@@ -234,7 +220,10 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
   };
 
   const rejectFriendRequest = async (requestId: string) => {
-    const result = await ServerClient.rejectFriendRequest(user._id, requestId);
+    const result = await ServerClient.rejectFriendRequest(
+      userInfoState._userID,
+      requestId
+    );
 
     if (!result.success) {
       alert(result.message);
@@ -248,7 +237,10 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
   };
 
   const deleteFriend = async (friendId: string) => {
-    const result = await ServerClient.deleteFriend(user._id, friendId);
+    const result = await ServerClient.deleteFriend(
+      userInfoState._userID,
+      friendId
+    );
 
     if (!result.success) {
       alert(result.message);
@@ -261,28 +253,61 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
     });
   };
 
-  useEffect(() => {
-    if (!user.isAuthenticated)
-      login({ username: "Admin2", password: "Qwertyuiop12" });
-  }, []);
+  const sendEventRequest = async (eventId: string, requestedUserID: string) => {
+    const result = await ServerClient.sendEventInvite(
+      userInfoState._userID,
+      eventId,
+      requestedUserID
+    );
+
+    if (!result.success) {
+      alert(result.message);
+      return;
+    }
+
+    dispatch({
+      type: UserActions.SEND_EVENT_REQUEST,
+      payload: result.result,
+    });
+  };
+
+  const rejectEventRequest = async (inviteID: string, eventID: string) => {
+    const result = await ServerClient.rejectEventInvite(
+      userInfoState._userID,
+      inviteID
+    );
+
+    if (!result.success) {
+      alert(result.message);
+      return;
+    }
+
+    dispatch({
+      type: UserActions.REJECT_EVENT_REQUEST,
+      payload: inviteID,
+    });
+
+    deleteInvite(inviteID, eventID);
+  };
 
   return (
     <UserContext.Provider
       value={{
-        user,
-        login,
-        logout,
+        userInfoState,
+        clearFields,
         deleteUserEvent,
         signUserForEvent,
         signOutUserFromEvent,
         addEvent,
         editEvent,
-        deleteAccount,
         updatePassword,
         sendFriendRequest,
         acceptFriendRequest,
         rejectFriendRequest,
         deleteFriend,
+        sendEventRequest,
+        setUserInfo,
+        rejectEventRequest,
       }}
     >
       {children}

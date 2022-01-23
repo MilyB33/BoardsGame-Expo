@@ -3,17 +3,19 @@ import React, { useContext, useEffect } from "react";
 import { UserContext } from "../../context/userContext";
 import UserEvent from "./UserEvent";
 import UserSignedEvent from "./UserSignedEvent";
+import UserInviteEvent from "./UserInviteEvent";
 import ScrollContainer from "./ScrollContainer";
 // This components probably should be a HOC to avoid repetition (TODO)
 const UserEvents = () => {
-  const { user } = useContext(UserContext);
-
   const {
-    events: { userEvents, userSignedEvents },
-  } = user;
+    userInfoState: {
+      events: { userEvents, userSignedEvents, userInvitedEvents },
+    },
+  } = useContext(UserContext);
 
   const isUserEvents = userEvents.length > 0;
   const isUserSignedEvents = userSignedEvents.length > 0;
+  const isUserInvitedEvents = userInvitedEvents.length > 0;
 
   const renderUserEvents = () =>
     userEvents.map((event) => <UserEvent key={event._id} event={event} />);
@@ -23,8 +25,13 @@ const UserEvents = () => {
       <UserSignedEvent key={event._id} event={event} />
     ));
 
+  const renderUserInvitedEvents = () =>
+    userInvitedEvents.map((event) => (
+      <UserInviteEvent key={event._id} event={event} />
+    ));
+
   useEffect(() => {
-    console.log(user);
+    console.log(userInvitedEvents);
   }, []);
 
   return (
@@ -37,6 +44,13 @@ const UserEvents = () => {
         isDisplayed={isUserSignedEvents}
       >
         {renderUserSignedEvents()}
+      </ScrollContainer>
+
+      <ScrollContainer
+        header="Wydarzenia w których jesteś zaproszony:"
+        isDisplayed={isUserInvitedEvents}
+      >
+        {renderUserInvitedEvents()}
       </ScrollContainer>
     </>
   );

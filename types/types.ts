@@ -81,7 +81,12 @@ export interface Event {
     _id: string;
     username: string;
   }[];
-  invitedUsers: string[];
+  invites: InviteEntry[];
+  inviteId?: string;
+  invitedBy?: {
+    _id: string;
+    username: string;
+  };
 }
 
 export interface EventPayload {
@@ -92,6 +97,14 @@ export interface EventPayload {
   location: string;
   town: string;
   maxPlayers: number;
+}
+
+export interface InviteEntry {
+  _id: string;
+  user: {
+    _id: string;
+    username: string;
+  };
 }
 
 // ========================================================

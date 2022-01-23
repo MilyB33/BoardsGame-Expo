@@ -15,35 +15,50 @@ type UserEventRootProp = RouteProp<FriendsStackParamList, "UserEventsModal">;
 
 const UserEventsModal = () => {
   const {
-    user: {
+    userInfoState: {
       events: { userEvents },
     },
+    sendEventRequest,
   } = useContext(UserContext);
   const route = useRoute<UserEventRootProp>();
 
-  const InviteButton = <EventButton onPress={() => {}} title="Zaproś" />;
+  const handlePress = (eventId: string) => {
+    sendEventRequest(eventId, route.params.userId);
+  };
 
   const Header = <Text style={styles.text}>Wybierz wydarzenie</Text>;
+
+  const filteredEvents = userEvents.filter(
+    (event) =>
+      !event.invites.some((invite) => invite.user._id === route.params.userId)
+  );
 
   return (
     <Surface style={styles.list}>
       <FlatList
         ListHeaderComponent={Header}
         style={styles.flatList}
-        data={userEvents.filter((event) =>
-          event.invitedUsers.includes(route.params.userId)
+        data={filteredEvents}
+        renderItem={({ item }) => (
+          <Event
+            event={item}
+            Button={
+              <EventButton
+                onPress={() => handlePress(item._id)}
+                title="Zaproś"
+              />
+            }
+          />
         )}
-        renderItem={({ item }) => <Event event={item} Button={InviteButton} />}
         keyExtractor={(item) => item._id.toString()}
         ItemSeparatorComponent={() => <Divider style={styles.divider} />}
-        extraData={userEvents.filter((event) =>
-          event.invitedUsers.includes(route.params.userId)
-        )}
+        extraData={filteredEvents}
         ListEmptyComponent={<EmptyRedirect />}
       />
     </Surface>
   );
 };
+
 const styles = StyleSheet.create({
   list: {
     marginTop: 20,
