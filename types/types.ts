@@ -64,6 +64,7 @@ export type User = {
 // Events
 
 export interface Event {
+  _id: string;
   date: string;
   time: string;
   game: string;
@@ -75,7 +76,6 @@ export interface Event {
     _id: string;
     username: string;
   };
-  _id: string;
   maxPlayers: number;
   signedUsers: {
     _id: string;

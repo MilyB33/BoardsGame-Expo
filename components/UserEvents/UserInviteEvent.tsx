@@ -13,12 +13,16 @@ interface Props {
 }
 
 const UserInviteEvent: React.FC<Props> = ({ event }) => {
-  const { rejectEventRequest } = useContext(UserContext);
+  const { rejectEventRequest, acceptEventRequest } = useContext(UserContext);
 
   const renderButton = (
     <View style={styles.operationBox}>
       <View style={styles.button}>
-        <EventButton title="Akceptuj" onPress={() => {}} color="#2b9348" />
+        <EventButton
+          title="Akceptuj"
+          onPress={() => acceptEventRequest(event.inviteId, event._id)}
+          color="#2b9348"
+        />
       </View>
       <View style={styles.button}>
         <EventButton

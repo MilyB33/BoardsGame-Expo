@@ -84,7 +84,7 @@ export const AuthContextProvider: React.FC<Props> = ({ children }) => {
 
   useEffect(() => {
     if (!authState.isAuthenticated)
-      login({ username: "Admin2", password: "Qwertyuiop12" });
+      login({ username: "Admin", password: "Qwertyuiop12" });
   }, []);
 
   return (

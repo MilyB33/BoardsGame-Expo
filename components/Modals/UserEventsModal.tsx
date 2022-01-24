@@ -30,7 +30,9 @@ const UserEventsModal = () => {
 
   const filteredEvents = userEvents.filter(
     (event) =>
-      !event.invites.some((invite) => invite.user._id === route.params.userId)
+      !event.invites.some(
+        (invite) => invite.user._id === route.params.userId
+      ) && !event.signedUsers.some((user) => user._id === route.params.userId)
   );
 
   return (

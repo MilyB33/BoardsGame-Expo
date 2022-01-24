@@ -154,6 +154,7 @@ export enum UserActions {
   DELETE_FRIEND = "DELETE_FRIEND",
   SEND_EVENT_REQUEST = "SEND_EVENT_REQUEST",
   REJECT_EVENT_REQUEST = "REJECT_EVENT_REQUEST",
+  ACCEPT_EVENT_REQUEST = "ACCEPT_EVENT_REQUEST",
 }
 
 export enum EventTypes {
@@ -161,6 +162,11 @@ export enum EventTypes {
   USER_SIGNED_EVENTS = "userSignedEvents",
   USER_INVITED_EVENTS = "userInvitedEvents",
 }
+
+type AcceptPayload = {
+  event: Event;
+  inviteID: string;
+};
 
 export type UserAllActions =
   | ActionWithoutPayload<UserActions.CLEAR_FIELDS>
@@ -174,6 +180,7 @@ export type UserAllActions =
   | Payload<UserActions.DELETE_FRIEND, string>
   | Payload<UserActions.SEND_EVENT_REQUEST, EventInvite>
   | Payload<UserActions.REJECT_EVENT_REQUEST, string>
+  | Payload<UserActions.ACCEPT_EVENT_REQUEST, AcceptPayload>
   | DeleteEventAction
   | EditEventAction;
 

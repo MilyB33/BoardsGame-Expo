@@ -151,6 +151,26 @@ const userReducer = (state: UserState, action: UserAllActions) => {
           ),
         },
       };
+    case UserActions.ACCEPT_EVENT_REQUEST:
+      return {
+        ...state,
+        events: {
+          ...state.events,
+          userInvitedEvents: state.events.userInvitedEvents.filter(
+            (event) => event.inviteId !== action.payload.inviteID
+          ),
+          userSignedEvents: [
+            ...state.events.userSignedEvents,
+            action.payload.event,
+          ],
+        },
+        eventsRequests: {
+          ...state.eventsRequests,
+          received: state.eventsRequests.received.filter(
+            (request) => request !== action.payload.inviteID
+          ),
+        },
+      };
     default:
       return state;
   }

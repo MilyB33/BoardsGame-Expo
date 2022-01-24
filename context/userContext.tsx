@@ -26,6 +26,7 @@ interface Context {
   sendEventRequest(eventId: string, requestedUserID: string): P;
   setUserInfo(userID: string): void;
   rejectEventRequest(inviteID: string, eventID: string): P;
+  acceptEventRequest(inviteID: string, eventID: string): P;
 }
 
 const initialState = {
@@ -290,6 +291,28 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
     deleteInvite(inviteID, eventID);
   };
 
+  const acceptEventRequest = async (inviteID: string, eventID: string) => {
+    const result = await ServerClient.acceptEventInvite(
+      userInfoState._userID,
+      inviteID
+    );
+
+    if (!result.success) {
+      alert(result.message);
+      return;
+    }
+
+    dispatch({
+      type: UserActions.ACCEPT_EVENT_REQUEST,
+      payload: {
+        inviteID,
+        event: result.result,
+      },
+    });
+
+    replaceEvent(result.result);
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -308,6 +331,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
         sendEventRequest,
         setUserInfo,
         rejectEventRequest,
+        acceptEventRequest,
       }}
     >
       {children}
