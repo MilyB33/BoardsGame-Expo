@@ -78,7 +78,7 @@ export const AppContextProvider: React.FC<Props> = ({ children }) => {
   const FilterOutEvent = async (eventId: string) => {
     dispatch({
       type: EventActions.FILTER_OUT_EVENT,
-      payload: { eventId },
+      payload: eventId,
     });
   };
 

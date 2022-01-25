@@ -16,7 +16,7 @@ const UserInfo = () => {
     <View style={styles.container}>
       <Text style={styles.header}>Statystyki</Text>
       <View style={styles.flexBox}>
-        <InfoBox title="Nazwa Użytkownika" info={userState.username} />
+        <InfoBox info={userState.username} additionalStyle={styles.username} />
         <InfoBox
           title="Liczba wydarzeń twoich wydarzeń"
           info={userEventsCount}
@@ -38,15 +38,18 @@ const UserInfo = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffffef",
     padding: 10,
   },
   header: {
     fontSize: 25,
     textAlign: "center",
+    color: "white",
   },
   flexBox: {
     flex: 1,
+    justifyContent: "center",
+  },
+  username: {
     justifyContent: "center",
   },
 });

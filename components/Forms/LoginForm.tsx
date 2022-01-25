@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { UserContext } from "../../context/userContext";
 
-import { Surface } from "react-native-paper";
-import { Text, Button } from "react-native";
+import { Surface, Button } from "react-native-paper";
+import { Text } from "react-native";
 import { Formik, Field } from "formik";
 import CustomInput from "./CustomInput";
 import ActivityIndicator from "../Generic/ActivityIndicator";
@@ -68,11 +68,13 @@ const LoginForm: React.FC<Props> = ({ changeForm }) => {
               <ActivityIndicator />
             ) : (
               <Button
-                title="Zaloguj"
+                mode="contained"
                 onPress={() => {
                   props.handleSubmit();
                 }}
-              />
+              >
+                Zaloguj
+              </Button>
             )}
           </>
         )}

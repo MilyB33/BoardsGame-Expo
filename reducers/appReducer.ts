@@ -1,6 +1,6 @@
 import { AppAllActions, EventActions, AppState } from "./reducersTypes";
 
-const appReducer = (state: AppState, action: AppAllActions) => {
+const appReducer = (state: AppState, action: AppAllActions): AppState => {
   switch (action.type) {
     case EventActions.GET_EVENTS:
       return {

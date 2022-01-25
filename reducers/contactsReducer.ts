@@ -4,7 +4,10 @@ import {
   ContactsActions,
 } from "./reducersTypes";
 
-const contactsReducer = (state: ContactsState, action: ContactsAllActions) => {
+const contactsReducer = (
+  state: ContactsState,
+  action: ContactsAllActions
+): ContactsState => {
   switch (action.type) {
     case ContactsActions.GET_USERS:
       return {

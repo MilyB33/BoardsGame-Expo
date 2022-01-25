@@ -1,13 +1,9 @@
-import {
-  ModalsState,
-  ModalsAllActions,
-  ModalsActions,
-} from './reducersTypes';
+import { ModalsState, ModalsAllActions, ModalsActions } from "./reducersTypes";
 
 const modalsReducer = (
   state: ModalsState,
   action: ModalsAllActions
-) => {
+): ModalsState => {
   switch (action.type) {
     case ModalsActions.OPEN_LOGIN_MODAL:
       return {

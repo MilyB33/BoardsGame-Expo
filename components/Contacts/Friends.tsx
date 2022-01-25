@@ -18,6 +18,7 @@ const Friends: React.FC<Props> = ({
   ComponentIfEmpty,
   itemProps,
 }) => {
+  console.log(items);
   return (
     <FlatList
       style={styles.flatList}
@@ -25,7 +26,7 @@ const Friends: React.FC<Props> = ({
       renderItem={({ item }) => <ItemComponent user={item} {...itemProps} />}
       keyExtractor={(item) => item._id.toString()}
       ItemSeparatorComponent={() => <Divider style={styles.divider} />}
-      extraData={[...items]}
+      extraData={items}
       ListEmptyComponent={ComponentIfEmpty}
     />
   );

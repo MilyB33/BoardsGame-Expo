@@ -22,18 +22,22 @@ const AllEvents = () => {
       <PlainEvent event={event} key={event._id} />
     ));
 
+  const eventsCount = events.length > 0;
+
   return (
     <View style={styles.container}>
       <RefreshButton pressCallback={reloadEvents} />
 
       {renderEvents()}
 
-      <MoreButton
-        title="Pokaż więcej"
-        onPress={loadEvents}
-        loading={loading}
-        additionalStyles={styles.moreButton}
-      />
+      {eventsCount && (
+        <MoreButton
+          title="Pokaż więcej"
+          onPress={loadEvents}
+          loading={loading}
+          additionalStyles={styles.moreButton}
+        />
+      )}
     </View>
   );
 };

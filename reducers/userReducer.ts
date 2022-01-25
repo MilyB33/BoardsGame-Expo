@@ -1,6 +1,6 @@
 import { UserState, UserAllActions, UserActions } from "./reducersTypes";
 
-const userReducer = (state: UserState, action: UserAllActions) => {
+const userReducer = (state: UserState, action: UserAllActions): UserState => {
   switch (action.type) {
     case UserActions.LOGIN:
       return {
@@ -41,7 +41,7 @@ const userReducer = (state: UserState, action: UserAllActions) => {
         loading: false,
       };
     case UserActions.DELETE_EVENT:
-      if (!action.payload.field) return state; 
+      if (!action.payload.field) return state;
       return {
         ...state,
         events: {

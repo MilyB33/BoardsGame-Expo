@@ -23,7 +23,7 @@ const FriendsTabNavigation: React.FC<Props> = ({ toggleOption }) => {
         icon="book-plus"
         mode="contained"
         style={styles.button}
-        onPress={() => toggleOption("FriendsRequest")}
+        onPress={() => toggleOption("FriendsRequests")}
       >
         Zaproszenia
       </Button>

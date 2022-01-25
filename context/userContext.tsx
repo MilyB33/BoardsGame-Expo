@@ -119,10 +119,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
   };
 
   const deleteUserEvent = async (eventId: string) => {
-    const result = await ServerClient.deleteUserEvent(
-      eventId,
-      userState._userID
-    );
+    const result = await ServerClient.deleteUserEvent(eventId, userState._id);
 
     if (!result.success) {
       alert(result.message);
@@ -141,10 +138,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
   };
 
   const signUserForEvent = async (eventId: string) => {
-    const result = await ServerClient.signUserForEvent(
-      eventId,
-      userState._userID
-    );
+    const result = await ServerClient.signUserForEvent(eventId, userState._id);
 
     if (!result.success) {
       alert(result.message);
@@ -162,7 +156,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
   const signOutUserFromEvent = async (eventId: string) => {
     const result = await ServerClient.signOutUserFromEvent(
       eventId,
-      userState._userID
+      userState._id
     );
 
     if (!result.success) {
@@ -179,7 +173,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
   };
 
   const addEvent = async (event: EventPayload) => {
-    const result = await ServerClient.addEvent(event, userState._userID);
+    const result = await ServerClient.addEvent(event, userState._id);
 
     if (!result.success) {
       alert(result.message);
@@ -195,11 +189,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
   };
 
   const editEvent = async (event: EventPayload, eventId: string) => {
-    const result = await ServerClient.editEvent(
-      event,
-      userState._userID,
-      eventId
-    );
+    const result = await ServerClient.editEvent(event, userState._id, eventId);
 
     if (!result.success) {
       alert(result.message);
@@ -222,7 +212,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
     oldPassword: string;
     newPassword: string;
   }) => {
-    const result = await ServerClient.updatePassword(userState._userID, data);
+    const result = await ServerClient.updatePassword(userState._id, data);
 
     if (!result.success) {
       alert(result.message);
@@ -232,7 +222,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 
   const sendFriendRequest = async (requestedUserId: string) => {
     const result = await ServerClient.sendFriendRequest(
-      userState._userID,
+      userState._id,
       requestedUserId
     );
 
@@ -249,7 +239,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 
   const acceptFriendRequest = async (requestId: string) => {
     const result = await ServerClient.acceptFriendRequest(
-      userState._userID,
+      userState._id,
       requestId
     );
 
@@ -266,7 +256,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 
   const rejectFriendRequest = async (requestId: string) => {
     const result = await ServerClient.rejectFriendRequest(
-      userState._userID,
+      userState._id,
       requestId
     );
 
@@ -282,7 +272,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
   };
 
   const deleteFriend = async (friendId: string) => {
-    const result = await ServerClient.deleteFriend(userState._userID, friendId);
+    const result = await ServerClient.deleteFriend(userState._id, friendId);
 
     if (!result.success) {
       alert(result.message);
@@ -297,7 +287,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 
   const sendEventRequest = async (eventId: string, requestedUserID: string) => {
     const result = await ServerClient.sendEventInvite(
-      userState._userID,
+      userState._id,
       eventId,
       requestedUserID
     );
@@ -315,7 +305,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 
   const rejectEventRequest = async (inviteID: string, eventID: string) => {
     const result = await ServerClient.rejectEventInvite(
-      userState._userID,
+      userState._id,
       inviteID
     );
 
@@ -334,7 +324,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 
   const acceptEventRequest = async (inviteID: string, eventID: string) => {
     const result = await ServerClient.acceptEventInvite(
-      userState._userID,
+      userState._id,
       inviteID
     );
 
