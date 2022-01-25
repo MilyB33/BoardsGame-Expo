@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { AuthContext } from "../../context/authContext";
+import { UserContext } from "../../context/userContext";
 
 import { View } from "react-native";
 import { Menu, Divider, IconButton } from "react-native-paper";
@@ -9,7 +9,7 @@ import { NavigationProps, Roots } from "../../types/types";
 
 const CustomMenu = () => {
   const navigation = useNavigation<NavigationProps>();
-  const { logout } = useContext(AuthContext);
+  const { logout } = useContext(UserContext);
   const [visible, setVisible] = useState(false);
 
   const openMenu = () => setVisible(true);

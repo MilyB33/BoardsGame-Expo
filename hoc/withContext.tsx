@@ -1,14 +1,10 @@
-import React from 'react';
+import React from "react";
 
 interface Props {
   children: React.ReactNode;
 }
 
-// Check the Context Provider types
-const WithContext = (
-  Component: React.FC,
-  ContextProvider: React.FC<Props>
-) => {
+const WithContext = (Component: React.FC, ContextProvider: React.FC<Props>) => {
   return (props: any) => {
     return (
       <ContextProvider>

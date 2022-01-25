@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { AppContext } from "../../context/appContext";
 
 import { View, StyleSheet } from "react-native";
-import { Button } from "react-native-paper";
 import PlainEvent from "./PlainEvent";
 import RefreshButton from "../Generic/RefreshButton";
 import MoreButton from "../Generic/MoreButton";

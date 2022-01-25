@@ -9,7 +9,7 @@ import { Surface, Text } from "react-native-paper";
 import { Event as InviteEvent } from "../../types/types";
 
 interface Props {
-  event: Required<InviteEvent>;
+  event: InviteEvent;
 }
 
 const UserInviteEvent: React.FC<Props> = ({ event }) => {
@@ -20,14 +20,14 @@ const UserInviteEvent: React.FC<Props> = ({ event }) => {
       <View style={styles.button}>
         <EventButton
           title="Akceptuj"
-          onPress={() => acceptEventRequest(event.inviteId, event._id)}
+          onPress={() => acceptEventRequest(event.inviteId!, event._id)}
           color="#2b9348"
         />
       </View>
       <View style={styles.button}>
         <EventButton
           title="Odrzuć"
-          onPress={() => rejectEventRequest(event.inviteId, event._id)}
+          onPress={() => rejectEventRequest(event.inviteId!, event._id)}
           color="#e63946"
         />
       </View>

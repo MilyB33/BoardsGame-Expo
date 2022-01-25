@@ -113,7 +113,6 @@ export const AppContextProvider: React.FC<Props> = ({ children }) => {
     });
 
   useEffect(() => {
-    // Probably this use effect rerenders once but it must be checked
     if (state.events.items.length === 0) getInitialEvents();
   }, []);
 

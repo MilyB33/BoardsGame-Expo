@@ -9,38 +9,41 @@ import Friends from "./Friends";
 import ContactItem from "./ContactItem";
 import Empty from "./Empty";
 
+const initialState = {
+  FriendsList: true,
+  FriendsRequests: false,
+};
+
 const ContactsList = () => {
+  const { options, toggleOption } = useOptions(initialState);
+
   const {
-    userInfoState: {
+    userState: {
       friends,
       friendsRequests: { received },
     },
   } = useContext(UserContext);
 
-  const initialState = {
-    FriendsList: {
-      visible: true,
-      component: Friends,
-      props: {
-        items: friends,
-        ItemComponent: ContactItem,
-        ComponentIfEmpty: Empty,
-      },
-    },
-    FriendsRequest: {
-      visible: false,
-      component: Friends,
-      props: {
-        items: received,
-        ItemComponent: ContactItem,
-        itemProps: {
-          isRequest: true,
-        },
-      },
-    },
+  const renderComponent = () => {
+    if (options.FriendsList) {
+      return (
+        <Friends
+          items={friends}
+          ItemComponent={ContactItem}
+          ComponentIfEmpty={Empty}
+        />
+      );
+    }
+    if (options.FriendsRequests) {
+      return (
+        <Friends
+          items={received}
+          ItemComponent={ContactItem}
+          itemProps={{ isRequest: true }}
+        />
+      );
+    }
   };
-
-  const { toggleOption, renderComponent } = useOptions(initialState);
 
   return (
     <Surface style={styles.list}>

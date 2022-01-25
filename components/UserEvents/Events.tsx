@@ -5,10 +5,10 @@ import UserEvent from "./UserEvent";
 import UserSignedEvent from "./UserSignedEvent";
 import UserInviteEvent from "./UserInviteEvent";
 import ScrollContainer from "./ScrollContainer";
-// This components probably should be a HOC to avoid repetition (TODO)
+
 const UserEvents = () => {
   const {
-    userInfoState: {
+    userState: {
       events: { userEvents, userSignedEvents, userInvitedEvents },
     },
   } = useContext(UserContext);

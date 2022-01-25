@@ -33,7 +33,7 @@ class ServerClient extends ClientBase {
   // LOGIN / REGISTER
   loginUser = async (data: LoginCredentials) => {
     try {
-      const response = await this.client.post("login", {
+      const response = await this.client.post("auth/login", {
         body: data,
       });
 
@@ -55,7 +55,7 @@ class ServerClient extends ClientBase {
 
   registerUser = async (data: LoginCredentials) => {
     try {
-      const response = await this.client.post("register", {
+      const response = await this.client.post("auth/register", {
         body: data,
       });
 

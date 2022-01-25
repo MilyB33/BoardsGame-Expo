@@ -2,14 +2,19 @@ import { UserState, UserAllActions, UserActions } from "./reducersTypes";
 
 const userReducer = (state: UserState, action: UserAllActions) => {
   switch (action.type) {
-    case UserActions.SET_USER_INFO:
+    case UserActions.LOGIN:
       return {
         ...state,
         ...action.payload,
+        isAuthenticated: true,
+        loading: false,
       };
-    case UserActions.CLEAR_FIELDS:
+    case UserActions.LOGOUT:
       return {
-        _userID: "",
+        isAuthenticated: false,
+        username: "",
+        _id: "",
+        loading: false,
         events: {
           userEvents: [],
           userSignedEvents: [],
@@ -25,8 +30,18 @@ const userReducer = (state: UserState, action: UserAllActions) => {
           received: [],
         },
       };
+    case UserActions.SET_CURRENT_USER_LOADING:
+      return {
+        ...state,
+        loading: true,
+      };
+    case UserActions.END_CURRENT_USER_LOADING:
+      return {
+        ...state,
+        loading: false,
+      };
     case UserActions.DELETE_EVENT:
-      if (!action.payload.field) return state; // temporary because i'm tired for today
+      if (!action.payload.field) return state; 
       return {
         ...state,
         events: {

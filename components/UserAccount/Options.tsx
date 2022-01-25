@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { AuthContext } from "../../context/authContext";
+import { UserContext } from "../../context/userContext";
 
 import { StyleSheet } from "react-native";
 import { Surface, Portal } from "react-native-paper";
@@ -9,13 +9,9 @@ import DeleteDialog from "./DeleteDialog";
 
 import { NavigationProps } from "../../types/types";
 
-interface Props {
-  handleOptionChange: (option: string) => void;
-}
-
-const Options: React.FC<Props> = ({ handleOptionChange }) => {
+const Options = () => {
   const [visible, setVisible] = useState(false);
-  const { logout, deleteAccount } = useContext(AuthContext);
+  const { logout, deleteAccount } = useContext(UserContext);
   const navigation = useNavigation<NavigationProps>();
 
   const handleLogout = () => {
@@ -34,15 +30,9 @@ const Options: React.FC<Props> = ({ handleOptionChange }) => {
     <>
       <Surface style={styles.container}>
         <OptionItem
-          title="Zmień opis"
-          icon="account-circle"
-          onPress={() => handleOptionChange("description")}
-        />
-
-        <OptionItem
           title="Zmień hasło"
           icon="lock"
-          onPress={() => handleOptionChange("password")}
+          onPress={() => navigation.navigate("ChangePasswordModal")}
         />
 
         <OptionItem

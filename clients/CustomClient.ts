@@ -1,11 +1,11 @@
-import { Client, Options, OptionsWithBody } from '../types/types';
+import { Client, Options, OptionsWithBody } from "../types/types";
 
 // This client probably is overkill, but I wanted to make it :)
 // Probably should be a class
 const CustomClient = (URL: string): Client => ({
   BaseURL: URL,
   defaultHeaders: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
   headers: {
     post: {},
@@ -17,8 +17,8 @@ const CustomClient = (URL: string): Client => ({
 
   returnHeaders: function (method: string) {
     return {
-      ...this.headers[method],
       ...this.defaultHeaders,
+      ...this.headers[method],
       ...this.headers.all,
     };
   },
@@ -28,9 +28,9 @@ const CustomClient = (URL: string): Client => ({
     options: OptionsWithBody = { body: {} }
   ) {
     return await fetch(`${this.BaseURL}/${endpoint}`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        ...this.returnHeaders('post'),
+        ...this.returnHeaders("post"),
         ...(options.headers || {}),
       },
       body: JSON.stringify(options.body),
@@ -38,18 +38,18 @@ const CustomClient = (URL: string): Client => ({
   },
   get: async function (endpoint: string, options: Options = {}) {
     return await fetch(`${this.BaseURL}/${endpoint}`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        ...this.returnHeaders('get'),
+        ...this.returnHeaders("get"),
         ...(options.headers || {}),
       },
     });
   },
   delete: async function (endpoint: string, options: Options = {}) {
     return await fetch(`${this.BaseURL}/${endpoint}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
-        ...this.returnHeaders('delete'),
+        ...this.returnHeaders("delete"),
         ...(options.headers || {}),
       },
     });
@@ -59,9 +59,9 @@ const CustomClient = (URL: string): Client => ({
     options: OptionsWithBody = { body: {} }
   ) {
     return await fetch(`${this.BaseURL}/${endpoint}`, {
-      method: 'PATCH',
+      method: "PATCH",
       headers: {
-        ...this.returnHeaders('patch'),
+        ...this.returnHeaders("patch"),
         ...(options.headers || {}),
       },
       body: JSON.stringify(options.body),

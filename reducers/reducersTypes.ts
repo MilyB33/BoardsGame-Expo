@@ -62,26 +62,6 @@ export type GetDataAction<E, PT, EK> = {
 
 // ========================================================
 
-export interface AuthState {
-  isAuthenticated: boolean;
-  username: string;
-  _id: string;
-  loading: boolean;
-}
-
-export enum AuthActions {
-  LOGIN = "LOGIN",
-  LOGOUT = "LOGOUT",
-  SET_CURRENT_USER_LOADING = "SET_CURRENT_USER_LOADING",
-  END_CURRENT_USER_LOADING = "END_CURRENT_USER_LOADING",
-}
-
-export type AuthAllActions =
-  | Payload<AuthActions.LOGIN, any> // this object to be changed to User type
-  | ActionWithoutPayload<AuthActions.SET_CURRENT_USER_LOADING>
-  | ActionWithoutPayload<AuthActions.END_CURRENT_USER_LOADING>
-  | ActionWithoutPayload<AuthActions.LOGOUT>;
-
 // ========================================================
 
 export enum EventActions {
@@ -127,7 +107,10 @@ type EventsRequest = {
 };
 
 export type UserState = {
-  _userID: string;
+  _id: string;
+  isAuthenticated: boolean;
+  username: string;
+  loading: boolean;
   events: EventsType;
   friends: UserEntry[];
   friendsRequests: FriendsRequest;
@@ -141,8 +124,10 @@ export type EventInvite = {
 };
 
 export enum UserActions {
-  SET_USER_INFO = "SET_USER_INFO",
-  CLEAR_FIELDS = "CLEAR_FIELDS",
+  LOGIN = "LOGIN",
+  LOGOUT = "LOGOUT",
+  SET_CURRENT_USER_LOADING = "SET_CURRENT_USER_LOADING",
+  END_CURRENT_USER_LOADING = "END_CURRENT_USER_LOADING",
   DELETE_EVENT = "DELETE_EVENT",
   EDIT_EVENT = "EDIT_EVENT",
   SIGN_USER_TO_EVENT = "SIGN_USER_TO_EVENT",
@@ -169,10 +154,10 @@ type AcceptPayload = {
 };
 
 export type UserAllActions =
-  | ActionWithoutPayload<UserActions.CLEAR_FIELDS>
+  | Payload<UserActions.LOGIN, any>
+  | ActionWithoutPayload<UserActions.LOGOUT>
   | Payload<UserActions.SIGN_USER_TO_EVENT, Event>
   | Payload<UserActions.SIGN_OUT_USER_FROM_EVENT, string>
-  | Payload<UserActions.SET_USER_INFO, UserState>
   | Payload<UserActions.ADD_EVENT, Event>
   | Payload<UserActions.SEND_FRIEND_REQUEST, UserEntry>
   | Payload<UserActions.ACCEPT_FRIEND_REQUEST, UserEntry>
@@ -181,6 +166,8 @@ export type UserAllActions =
   | Payload<UserActions.SEND_EVENT_REQUEST, EventInvite>
   | Payload<UserActions.REJECT_EVENT_REQUEST, string>
   | Payload<UserActions.ACCEPT_EVENT_REQUEST, AcceptPayload>
+  | ActionWithoutPayload<UserActions.SET_CURRENT_USER_LOADING>
+  | ActionWithoutPayload<UserActions.END_CURRENT_USER_LOADING>
   | DeleteEventAction
   | EditEventAction;
 

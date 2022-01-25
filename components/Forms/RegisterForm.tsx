@@ -6,6 +6,7 @@ import { Text } from "react-native";
 import { Surface, Button } from "react-native-paper";
 import { Formik, Field } from "formik";
 import CustomInput from "./CustomInput";
+import ActivityIndicator from "../Generic/ActivityIndicator";
 
 import styles from "./Forms.styles";
 import { NavigationProps } from "../../types/types";
@@ -86,14 +87,18 @@ const RegisterForm: React.FC<Props> = ({ changeForm }) => {
               Masz już konto? Zaloguj się.
             </Text>
 
-            <Button
-              onPress={() => {
-                props.handleSubmit();
-              }}
-              loading={loading}
-            >
-              Zarejestruj się
-            </Button>
+            {loading ? (
+              <ActivityIndicator />
+            ) : (
+              <Button
+                onPress={() => {
+                  props.handleSubmit();
+                }}
+                mode="contained"
+              >
+                Zarejestruj się
+              </Button>
+            )}
           </>
         )}
       </Formik>

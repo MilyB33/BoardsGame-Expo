@@ -9,6 +9,7 @@ import UserModal from "../Screens/UserModal";
 import AddEventScreen from "../Screens/AddEventSreen";
 import EditEventScreen from "../Screens/EditEventScreen";
 import UserAccountScreen from "../Screens/UserAccountScreen";
+import ChangePasswordModalScreen from "../Screens/ChangePasswordModalScreen";
 
 import FriendsNavigation from "./FriendsNavigation";
 
@@ -41,6 +42,10 @@ const Navigation = () => {
           <Stack.Screen name="UserModal" component={UserModal} />
           <Stack.Screen name="AddEvent" component={AddEventScreen} />
           <Stack.Screen name="EditEvent" component={EditEventScreen} />
+          <Stack.Screen
+            name="ChangePasswordModal"
+            component={ChangePasswordModalScreen}
+          />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>

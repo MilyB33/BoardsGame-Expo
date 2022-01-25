@@ -15,7 +15,7 @@ type UserEventRootProp = RouteProp<FriendsStackParamList, "UserEventsModal">;
 
 const UserEventsModal = () => {
   const {
-    userInfoState: {
+    userState: {
       events: { userEvents },
     },
     sendEventRequest,

@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { UserContext } from "../../context/userContext";
-import { AuthContext } from "../../context/authContext";
 
 import { StyleSheet } from "react-native";
 import Event from "../Event/Event";
@@ -14,10 +13,11 @@ interface Props {
 }
 
 const PlainEvent: React.FC<Props> = ({ event }) => {
-  const { signUserForEvent, signOutUserFromEvent } = useContext(UserContext);
   const {
-    authState: { isAuthenticated, _id: userId },
-  } = useContext(AuthContext);
+    userState: { isAuthenticated, _id: userId },
+    signUserForEvent,
+    signOutUserFromEvent,
+  } = useContext(UserContext);
 
   const [loading, setLoading] = useState(false);
 

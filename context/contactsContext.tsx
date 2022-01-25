@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useReducer } from "react";
-import usePagination from "../hooks/usePagination";
 import contactsReducer from "../reducers/contactsReducer";
 import serverClient from "../clients/serverClient";
 

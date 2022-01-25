@@ -10,6 +10,7 @@ export type RootStackParamList = {
   AddEvent: undefined;
   UserAccount: undefined;
   Contacts: undefined;
+  ChangePasswordModal: undefined;
   EditEvent: { event: Event };
 };
 

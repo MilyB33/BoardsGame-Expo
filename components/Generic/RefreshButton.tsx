@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { View, StyleSheet, Animated, Easing } from 'react-native';
-import { IconButton } from 'react-native-paper';
+import { View, StyleSheet, Animated, Easing } from "react-native";
+import { IconButton } from "react-native-paper";
 
 interface Props {
   pressCallback(): Promise<void>;
@@ -14,7 +14,7 @@ const RefreshButton: React.FC<Props> = ({ pressCallback }) => {
 
   const spin = spinValue.interpolate({
     inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'],
+    outputRange: ["0deg", "360deg"],
   });
 
   const startAnimation = () => {
@@ -34,7 +34,7 @@ const RefreshButton: React.FC<Props> = ({ pressCallback }) => {
   };
 
   const handlePress = async () => {
-    // I think this is working but get 304 response so I don't know
+    // if function is async animation will not work
     startAnimation();
     pressCallback();
     stopAnimation();
@@ -51,10 +51,10 @@ const RefreshButton: React.FC<Props> = ({ pressCallback }) => {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
+    position: "absolute",
     right: 30,
-    bottom: '99.5%',
-    backgroundColor: 'dodgerblue',
+    bottom: "99.5%",
+    backgroundColor: "dodgerblue",
 
     borderRadius: 50,
   },

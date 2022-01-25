@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
-import Header from '../Generic/Header';
-import AccountWrapper from '../UserAccount/AccountWrapper';
-import ScreenLayout from '../Layout/ScreenLayout';
+import Header from "../Generic/Header";
+import AccountWrapper from "../UserAccount/AccountWrapper";
+import ScreenLayout from "../Layout/ScreenLayout";
 
 const UserAccountScreen = () => {
   return (
-    <ScreenLayout>
+    <ScreenLayout isScroll={false}>
       <Header title="Konto" />
       <AccountWrapper />
     </ScreenLayout>

@@ -15,7 +15,7 @@ const ChangePasswordForm = () => {
 
   return (
     <Surface style={privateStyles.form}>
-      <Text style={styles.header}>Dodaj wydarzenie</Text>
+      <Text style={styles.header}>Zmień hasło</Text>
 
       <Formik
         initialValues={{
@@ -78,7 +78,7 @@ const privateStyles = StyleSheet.create({
     marginRight: "auto",
     width: "80%",
     padding: 20,
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
+
     borderRadius: 10,
   },
 });

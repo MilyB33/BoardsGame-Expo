@@ -1,31 +1,22 @@
-import React from 'react';
-import useOptions from '../../hooks/useOptions';
+import React from "react";
 
-import ChangePasswordForm from '../Forms/ChangePasswordForm';
-import ChangeAccountDesc from '../Forms/ChangeAccountDesc';
-import OptionActionWrapper from '../Generic/OptionActionWrapper';
-import Options from './Options';
-
-const initialState = {
-  description: {
-    visible: false,
-    component: ChangeAccountDesc,
-  },
-  password: {
-    visible: false,
-    component: ChangePasswordForm,
-  },
-};
+import Options from "./Options";
+import UserInfo from "./UserInfo";
+import { StyleSheet, View } from "react-native";
 
 const AccountWrapper = () => {
-  const { options, toggleOption } = useOptions(initialState);
-
   return (
-    <>
-      <Options handleOptionChange={toggleOption} />
-      <OptionActionWrapper options={options} />
-    </>
+    <View style={styles.container}>
+      <Options />
+      <UserInfo />
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default AccountWrapper;

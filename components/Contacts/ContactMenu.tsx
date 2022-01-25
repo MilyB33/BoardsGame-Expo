@@ -14,7 +14,7 @@ interface Props {
 
 const ContactMenu: React.FC<Props> = ({ listedUser }) => {
   const { _id } = listedUser;
-  const { userInfoState, sendFriendRequest, deleteFriend } =
+  const { userState, sendFriendRequest, deleteFriend } =
     useContext(UserContext);
   const [visible, setVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -23,8 +23,8 @@ const ContactMenu: React.FC<Props> = ({ listedUser }) => {
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
 
-  const isFriend = userInfoState.friends.some((friend) => friend._id === _id);
-  const isFriendRequestSent = userInfoState.friendsRequests.sent.some(
+  const isFriend = userState.friends.some((friend) => friend._id === _id);
+  const isFriendRequestSent = userState.friendsRequests.sent.some(
     (user) => user._id === _id
   );
 

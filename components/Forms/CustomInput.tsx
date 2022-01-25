@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { View } from "react-native";
 import styles from "./Forms.styles";
@@ -8,6 +8,7 @@ import { HelperText, TextInput } from "react-native-paper";
 import { CustomInputProps } from "../../types/types";
 
 const CustomInput: React.FC<CustomInputProps> = (props) => {
+  const [isSecuredVisible, setIsSecuredVisible] = useState(false);
   const {
     field: { name, onBlur, value },
     form: { errors, touched, setFieldTouched },
@@ -43,9 +44,16 @@ const CustomInput: React.FC<CustomInputProps> = (props) => {
         value={value.toString()}
         placeholder={label}
         autoCapitalize="none"
-        secureTextEntry={isSecure}
+        secureTextEntry={isSecure && !isSecuredVisible}
         keyboardType={keyboardType}
-        right={isSecure && <TextInput.Icon name="eye" />}
+        right={
+          isSecure && (
+            <TextInput.Icon
+              name="eye"
+              onPress={() => setIsSecuredVisible(!isSecuredVisible)}
+            />
+          )
+        }
         error={hasError}
         multiline={multiline}
       />

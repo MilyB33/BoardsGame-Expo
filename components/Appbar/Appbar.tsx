@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { AuthContext } from "../../context/authContext";
+import { UserContext } from "../../context/userContext";
 
 import { Appbar } from "react-native-paper";
 import { StyleSheet } from "react-native";
@@ -10,7 +10,7 @@ import { NavigationProps } from "../../types/types";
 
 const CustomAppBar = () => {
   const navigation = useNavigation<NavigationProps>();
-  const { authState } = useContext(AuthContext);
+  const { userState } = useContext(UserContext);
 
   return (
     <Appbar style={styles.bottom}>
@@ -20,7 +20,7 @@ const CustomAppBar = () => {
         icon="clipboard-text-play"
         onPress={() => navigation.navigate("Events")}
       />
-      {authState.isAuthenticated ? (
+      {userState.isAuthenticated ? (
         <Menu />
       ) : (
         <Appbar.Action
