@@ -6,6 +6,7 @@ import { View, Text } from "react-native";
 import { Surface, Button } from "react-native-paper";
 import { Formik, Field } from "formik";
 import CustomInput from "./CustomInput";
+import CustomSwitch from "./CustomSwitch";
 import ActivityIndicator from "../Generic/ActivityIndicator";
 
 import styles from "./Forms.styles";
@@ -137,6 +138,13 @@ const AddEventForm = () => {
               setFieldValue={props.setFieldValue}
               isNumeric
             />
+
+            {/* <Field
+              component={CustomSwitch}
+              name="isPrivate"
+              label="Tylko dla znajomych"
+              setFieldValue={props.setFieldValue}
+            /> */}
 
             {isLoading ? (
               <ActivityIndicator />
