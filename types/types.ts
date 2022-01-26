@@ -139,6 +139,22 @@ export interface CustomInputProps {
   };
 }
 
+export interface CustomSwitchProps {
+  setFieldValue: (field: string, value: boolean, validation: boolean) => void;
+  label?: string;
+  field: {
+    name: string;
+    onBlur: Function;
+    onChange: Function;
+    value: boolean;
+  };
+  form: {
+    errors: { [key: string]: string };
+    touched: { [key: string]: boolean };
+    setFieldTouched: Function;
+  };
+}
+
 // ========================================================
 
 // Event Form Props
@@ -158,6 +174,7 @@ export interface EventFormState {
   game: string;
   town: string;
   maxPlayers: number;
+  // isPrivate: boolean;
 }
 
 // ========================================================

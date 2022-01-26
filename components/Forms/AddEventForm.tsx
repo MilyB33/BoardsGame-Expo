@@ -30,6 +30,7 @@ const initialValues: EventFormState = {
   game: "",
   town: "",
   maxPlayers: 2,
+  // isPrivate: false,
 };
 
 const AddEventForm = () => {
@@ -136,6 +137,7 @@ const AddEventForm = () => {
               setFieldValue={props.setFieldValue}
               isNumeric
             />
+
             {isLoading ? (
               <ActivityIndicator />
             ) : (

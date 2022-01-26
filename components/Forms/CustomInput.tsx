@@ -13,7 +13,6 @@ const CustomInput: React.FC<CustomInputProps> = (props) => {
     field: { name, onBlur, value },
     form: { errors, touched, setFieldTouched },
     label,
-    placeholder,
     isSecure = false,
     keyboardType = "default",
     isNumeric = false,
