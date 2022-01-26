@@ -23,8 +23,7 @@ const CustomBanner = () => {
         style={{ backgroundColor: "#00b894" }}
       >
         Hi there! This application is still in development. Please be patient
-        and enjoy the experience. You know where to find me if you find any bugs
-        or have any suggestions.
+        and enjoy the experience.
       </Banner>
     </>
   );

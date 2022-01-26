@@ -344,11 +344,11 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
     replaceEvent(result.result);
   };
 
-  useEffect(() => {
-    if (!userState.isAuthenticated) {
-      login({ username: "Admin", password: "Qwertyuiop12" });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!userState.isAuthenticated) {
+  //     login({ username: "Admin", password: "Qwertyuiop12" });
+  //   }
+  // }, []);
 
   return (
     <UserContext.Provider
