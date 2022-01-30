@@ -20,6 +20,8 @@ Password: Qwertyuiop12
 Username: Test2
 password: Qwertyuiop12
 
+Friends can be only invited to private events
+
 Application uses it's own [Server](https://github.com/MilyB33/BoardGames-Server).
 
 ## `Used Technologies`
