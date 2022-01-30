@@ -5,26 +5,34 @@ import { UserContext } from "../../context/userContext";
 import { Surface, Button } from "react-native-paper";
 import { Text } from "react-native";
 import { Formik, Field } from "formik";
-import CustomInput from "./CustomInput";
+import CustomInput from "./FormElements/CustomInput";
 import ActivityIndicator from "../Generic/ActivityIndicator";
 
 import styles from "./Forms.styles";
-import { NavigationProps } from "../../types/types";
+import { NavigationProps, LoginFormState } from "../../types/types";
 import validationSchemas from "../../utils/validationSchemas";
+import { removeWhiteSpaces } from "../../utils/transformers";
 
 interface Props {
   changeForm: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+const initialValues = {
+  username: "",
+  password: "",
+} as LoginFormState;
 
 const LoginForm: React.FC<Props> = ({ changeForm }) => {
   const { login, userState } = useContext(UserContext);
   const navigation = useNavigation<NavigationProps>();
 
   const onSubmit = async (
-    values: any,
+    values: LoginFormState,
     { resetForm }: { resetForm: Function }
   ) => {
-    const isLogged = await login(values);
+    const clearedValues = removeWhiteSpaces(values);
+
+    const isLogged = await login(clearedValues);
 
     if (isLogged) {
       resetForm();
@@ -37,10 +45,7 @@ const LoginForm: React.FC<Props> = ({ changeForm }) => {
       <Text style={styles.header}>Zaloguj się</Text>
 
       <Formik
-        initialValues={{
-          username: "",
-          password: "",
-        }}
+        initialValues={initialValues}
         validationSchema={validationSchemas.LoginSchema}
         onSubmit={onSubmit}
       >

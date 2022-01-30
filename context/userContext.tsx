@@ -55,8 +55,15 @@ export const UserContext = createContext({} as Context);
 
 export const UserContextProvider: React.FC<Props> = ({ children }) => {
   const [userState, dispatch] = useReducer(authReducer, initialState);
-  const { storeData, removeData } = useStorage();
+  const { storeData, removeData, getData } = useStorage();
   const { FilterOutEvent, replaceEvent, deleteInvite } = useContext(AppContext);
+
+  const autoLogin = async () => {
+    const token = await getData();
+    if (token) {
+      console.log(token);
+    }
+  };
 
   const login = async (values: any) => {
     dispatch({ type: UserActions.SET_CURRENT_USER_LOADING });
@@ -344,11 +351,11 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
     replaceEvent(result.result);
   };
 
-  // useEffect(() => {
-  //   if (!userState.isAuthenticated) {
-  //     login({ username: "Admin", password: "Qwertyuiop12" });
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (!userState.isAuthenticated) {
+      login({ username: "Admin3", password: "Qwertyuiop12" });
+    }
+  }, []);
 
   return (
     <UserContext.Provider

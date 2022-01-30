@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   container: {
     position: "absolute",
     right: 30,
-    bottom: "99.5%",
+    bottom: "98%",
     backgroundColor: "dodgerblue",
 
     borderRadius: 50,

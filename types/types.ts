@@ -88,6 +88,7 @@ export interface Event {
     _id: string;
     username: string;
   };
+  isPrivate: boolean;
 }
 
 export interface EventPayload {
@@ -98,6 +99,7 @@ export interface EventPayload {
   location: string;
   town: string;
   maxPlayers: number;
+  isPrivate: boolean;
 }
 
 export interface InviteEntry {
@@ -114,67 +116,63 @@ export interface InviteEntry {
 
 type KeboardType = "default" | "numeric" | "phone-pad" | "number-pad";
 
-export interface CustomInputProps {
+export interface DefaultProps<T = string> {
   label?: string;
+  setFieldValue: (field: string, value: T, validation: boolean) => void;
+  field: {
+    name: string;
+    onBlur: Function;
+    onChange: Function;
+    value: T;
+  };
+  form: {
+    errors: { [key: string]: string };
+    touched: { [key: string]: string };
+    setFieldTouched: Function;
+  };
+}
+
+export type CustomInputProps = DefaultProps<string | number> & {
   placeholder: string;
   isSecure?: boolean;
   keyboardType?: KeboardType;
   isNumeric?: boolean;
   multiline?: boolean;
-  setFieldValue: (
-    field: string,
-    value: string | number,
-    validation: boolean
-  ) => void;
-  field: {
-    name: string;
-    onBlur: Function;
-    onChange: Function;
-    value: string | number;
-  };
-  form: {
-    errors: { [key: string]: string };
-    touched: { [key: string]: boolean };
-    setFieldTouched: Function;
-  };
-}
+};
 
-export interface CustomSwitchProps {
-  setFieldValue: (field: string, value: boolean, validation: boolean) => void;
-  label?: string;
-  field: {
-    name: string;
-    onBlur: Function;
-    onChange: Function;
-    value: boolean;
-  };
-  form: {
-    errors: { [key: string]: string };
-    touched: { [key: string]: boolean };
-    setFieldTouched: Function;
-  };
-}
+export type CustomSwitchProps = DefaultProps<boolean>;
+
+export type DateFieldProps = DefaultProps<Date> & {
+  mode?: "date" | "time" | "datetime";
+  buttonText?: string;
+};
 
 // ========================================================
+
+// Form Types
 
 // Event Form Props
 
 export interface EventFormState {
   location: string;
   description: string;
-  date: {
-    day: number;
-    month: number;
-    year: number;
-  };
-  time: {
-    hour: number;
-    minute: number;
-  };
+  date: Date;
+  time: Date;
   game: string;
   town: string;
   maxPlayers: number;
-  // isPrivate: boolean;
+  isPrivate: boolean;
+}
+
+export interface LoginFormState {
+  username: string;
+  password: string;
+}
+
+export interface RegisterFormState {
+  username: string;
+  password: string;
+  confirmPassword?: string; // TODO: Remove this
 }
 
 // ========================================================

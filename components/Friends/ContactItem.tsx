@@ -20,16 +20,16 @@ const ContactItem: React.FC<Props> = ({ user, isRequest = false }) => {
     <Surface style={styles.actionButtons}>
       <IconButton
         icon="check"
-        size={20}
+        size={25}
         onPress={() => acceptFriendRequest(_id)}
-        style={styles.approveButton}
+        style={styles.button}
         color="white"
       />
       <IconButton
         icon="close"
-        size={20}
+        size={25}
         onPress={() => rejectFriendRequest(_id)}
-        style={styles.rejectButton}
+        style={styles.button}
         color="white"
       />
     </Surface>
@@ -41,7 +41,7 @@ const ContactItem: React.FC<Props> = ({ user, isRequest = false }) => {
 
       {isRequest ? Request : null}
 
-      <ContactMenu listedUser={user} />
+      <ContactMenu listedUser={user} isRequest={isRequest} />
     </Surface>
   );
 };
@@ -52,27 +52,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginVertical: 5,
     padding: 10,
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
-    borderRadius: 2,
+    backgroundColor: "#560bad99",
+    elevation: 8,
   },
   text: {
     fontSize: 18,
     color: "white",
   },
   button: {
-    backgroundColor: "#212529",
+    backgroundColor: "#1d6fc2c0",
+    borderRadius: 0,
   },
   actionButtons: {
     marginLeft: "auto",
     flexDirection: "row",
     backgroundColor: "transparent",
-  },
-  approveButton: {
-    backgroundColor: "green",
-    marginRight: 20,
-  },
-  rejectButton: {
-    backgroundColor: "red",
   },
 });
 

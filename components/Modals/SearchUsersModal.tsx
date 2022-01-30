@@ -3,10 +3,10 @@ import useDebounce from "../../hooks/useDebounce";
 import ServerClient from "../../clients/serverClient";
 import { UserContext } from "../../context/userContext";
 
-import { StyleSheet, FlatList } from "react-native";
+import { StyleSheet, FlatList, Text } from "react-native";
 import { Surface, Divider } from "react-native-paper";
 import { Searchbar } from "react-native-paper";
-import ContactItem from "../Contacts/ContactItem";
+import ContactItem from "../Friends/ContactItem";
 
 import { UserEntry } from "../../types/types";
 
@@ -52,6 +52,7 @@ const SearchUserModal = () => {
         keyExtractor={(item) => item._id.toString()}
         ItemSeparatorComponent={() => <Divider style={styles.divider} />}
         extraData={[...results]}
+        ListEmptyComponent={<Text style={styles.empty}>Brak wyników</Text>}
       />
     </Surface>
   );
@@ -60,7 +61,7 @@ const SearchUserModal = () => {
 const styles = StyleSheet.create({
   list: {
     marginTop: 20,
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    backgroundColor: "rgba(255, 255, 255, 0.3)",
     maxHeight: "70%",
     borderRadius: 10,
   },
@@ -68,7 +69,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginVertical: 10,
     fontSize: 20,
-
     marginLeft: "auto",
     marginRight: "auto",
     padding: 10,
@@ -87,6 +87,16 @@ const styles = StyleSheet.create({
   searchbar: {
     marginVertical: 10,
     marginHorizontal: 10,
+  },
+  empty: {
+    textAlign: "center",
+    fontSize: 20,
+    color: "white",
+    borderBottomWidth: 3,
+    borderColor: "dodgerblue",
+    marginLeft: "auto",
+    marginRight: "auto",
+    padding: 10,
   },
 });
 

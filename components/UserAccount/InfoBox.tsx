@@ -21,11 +21,12 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 5,
-    paddingVertical: 15,
+    padding: 15,
     marginVertical: 15,
-    backgroundColor: "dodgerblue",
-    borderRadius: 5,
+    borderBottomWidth: 2,
+    borderRightWidth: 2,
+    borderColor: "dodgerblue",
+    backgroundColor: "#560bad99",
   },
   title: {
     marginRight: 10,

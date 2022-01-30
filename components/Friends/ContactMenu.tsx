@@ -5,19 +5,23 @@ import { useNavigation } from "@react-navigation/native";
 import { View, StyleSheet, Modal } from "react-native";
 import { Menu, Divider, IconButton } from "react-native-paper";
 import ParticipantModal from "../Modals/ParticipantModal";
+import ActivityIndicator from "../Generic/ActivityIndicator";
 
 import { UserEntry, FriendsNavigationProps } from "../../types/types";
 
 interface Props {
   listedUser: UserEntry;
+  isRequest?: boolean;
 }
 
-const ContactMenu: React.FC<Props> = ({ listedUser }) => {
+const ContactMenu: React.FC<Props> = ({ listedUser, isRequest }) => {
   const { _id } = listedUser;
   const { userState, sendFriendRequest, deleteFriend } =
     useContext(UserContext);
   const [visible, setVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [requestloading, setRequestLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const navigation = useNavigation<FriendsNavigationProps>();
 
   const openMenu = () => setVisible(true);
@@ -26,6 +30,46 @@ const ContactMenu: React.FC<Props> = ({ listedUser }) => {
   const isFriend = userState.friends.some((friend) => friend._id === _id);
   const isFriendRequestSent = userState.friendsRequests.sent.some(
     (user) => user._id === _id
+  );
+
+  const handleFriendRequest = async () => {
+    setRequestLoading(true);
+
+    await sendFriendRequest(_id);
+
+    setRequestLoading(false);
+    closeMenu();
+  };
+
+  const handleDeleteFriend = async () => {
+    setDeleteLoading(true);
+
+    await deleteFriend(_id);
+
+    setDeleteLoading(false);
+  };
+
+  const Delete = deleteLoading ? (
+    <ActivityIndicator size="small" />
+  ) : (
+    <Menu.Item
+      onPress={handleDeleteFriend}
+      title="Usuń znajomego"
+      icon="delete"
+    />
+  );
+
+  const Request = requestloading ? (
+    <ActivityIndicator size="small" />
+  ) : (
+    <Menu.Item
+      onPress={handleFriendRequest}
+      title={
+        isRequest ? "Zaproszony" : isFriendRequestSent ? "Zaproszono" : "Zaproś"
+      }
+      icon="account-plus"
+      disabled={isFriendRequestSent || isRequest}
+    />
   );
 
   return (
@@ -63,20 +107,7 @@ const ContactMenu: React.FC<Props> = ({ listedUser }) => {
 
           <Divider style={styles.divider} />
 
-          {isFriend ? (
-            <Menu.Item
-              onPress={() => deleteFriend(_id)}
-              title="Usuń znajomego"
-              icon="delete"
-            />
-          ) : (
-            <Menu.Item
-              onPress={() => sendFriendRequest(_id)}
-              title={isFriendRequestSent ? "Zaproszono" : "Zaproś"}
-              icon="account-plus"
-              disabled={isFriendRequestSent}
-            />
-          )}
+          {isFriend ? Delete : Request}
         </Menu>
       </View>
 

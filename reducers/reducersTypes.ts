@@ -1,5 +1,11 @@
 import { Event, User, FriendsRequest, UserEntry } from "../types/types";
 
+// PT = Payload Type
+// PTA = Payload Type Array
+// E = Enum
+// T = Type
+// EK = Enum Key
+
 export interface AppFieldState<T> {
   items: Array<T>;
   loading: boolean;
@@ -51,7 +57,7 @@ export interface Payload<E, P> {
   payload: P;
 }
 
-// Type for if the actions are identical so key is from the enum
+// Type if the actions are identical so key is from the enum
 export type GetDataAction<E, PT, EK> = {
   type: E;
   payload: {
@@ -73,12 +79,6 @@ export enum EventActions {
   REFERESH_EVENTS = "REFERESH_EVENTS",
   DELETE_INVITE = "DELETE_INVITE",
 }
-
-// PT = Payload Type
-// PTA = Payload Type Array
-// E = Enum
-// T = Type
-// EK = Enum Key
 
 export type AppAllActions =
   | ArrayPayload<EventActions.REFERESH_EVENTS, Event>
@@ -155,7 +155,6 @@ type AcceptPayload = {
 
 export type UserAllActions =
   | Payload<UserActions.LOGIN, any>
-  | ActionWithoutPayload<UserActions.LOGOUT>
   | Payload<UserActions.SIGN_USER_TO_EVENT, Event>
   | Payload<UserActions.SIGN_OUT_USER_FROM_EVENT, string>
   | Payload<UserActions.ADD_EVENT, Event>
@@ -168,6 +167,7 @@ export type UserAllActions =
   | Payload<UserActions.ACCEPT_EVENT_REQUEST, AcceptPayload>
   | ActionWithoutPayload<UserActions.SET_CURRENT_USER_LOADING>
   | ActionWithoutPayload<UserActions.END_CURRENT_USER_LOADING>
+  | ActionWithoutPayload<UserActions.LOGOUT>
   | DeleteEventAction
   | EditEventAction;
 

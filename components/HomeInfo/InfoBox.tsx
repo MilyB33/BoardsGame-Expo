@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { StyleSheet } from 'react-native';
-import { Surface, Text } from 'react-native-paper';
+import { StyleSheet } from "react-native";
+import { Surface, Text } from "react-native-paper";
 
 interface Props {
   text: string;
@@ -22,18 +22,20 @@ const InfoBox: React.FC<Props> = ({ text, link, additional }) => {
 const styles = StyleSheet.create({
   container: {
     margin: 15,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    padding: 25,
-    borderRadius: 10,
-    backgroundColor: 'rgba(86,79,79,.6)',
-    maxWidth: '90%',
-    elevation: 10,
+    marginLeft: "auto",
+    marginRight: "auto",
+    padding: 20,
+    backgroundColor: "#560bad99",
+    borderBottomWidth: 5,
+    borderRightWidth: 5,
+    borderColor: "dodgerblue",
+    width: "90%",
+    elevation: 8,
   },
   text: {
     fontSize: 16,
-    color: 'white',
-    textAlign: 'center',
+    color: "white",
+    textAlign: "center",
     lineHeight: 24,
   },
 });

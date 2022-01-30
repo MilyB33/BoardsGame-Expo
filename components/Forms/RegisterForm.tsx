@@ -5,27 +5,36 @@ import ServerClient from "../../clients/serverClient";
 import { Text } from "react-native";
 import { Surface, Button } from "react-native-paper";
 import { Formik, Field } from "formik";
-import CustomInput from "./CustomInput";
+import CustomInput from "./FormElements/CustomInput";
 import ActivityIndicator from "../Generic/ActivityIndicator";
 
 import styles from "./Forms.styles";
-import { NavigationProps } from "../../types/types";
+import { NavigationProps, RegisterFormState } from "../../types/types";
 import validationSchemas from "../../utils/validationSchemas";
+import { removeWhiteSpaces } from "../../utils/transformers";
 
 interface Props {
   changeForm: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+const initialValues = {
+  username: "",
+  password: "",
+  confirmPassword: "",
+} as RegisterFormState;
 
 const RegisterForm: React.FC<Props> = ({ changeForm }) => {
   const navigation = useNavigation<NavigationProps>();
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (
-    values: any,
+    values: RegisterFormState,
     { resetForm }: { resetForm: Function }
   ) => {
+    const clearValues = removeWhiteSpaces(values);
+
     const userObject = {
-      ...values,
+      ...clearValues,
     };
 
     delete userObject.confirmPassword;
@@ -50,11 +59,7 @@ const RegisterForm: React.FC<Props> = ({ changeForm }) => {
       <Text style={styles.header}>Załóż konto</Text>
 
       <Formik
-        initialValues={{
-          username: "",
-          password: "",
-          confirmPassword: "",
-        }}
+        initialValues={initialValues}
         validationSchema={validationSchemas.RegisterSchema}
         onSubmit={onSubmit}
       >

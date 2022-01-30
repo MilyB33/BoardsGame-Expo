@@ -4,9 +4,10 @@ import { UserContext } from "../../context/userContext";
 import { StyleSheet } from "react-native";
 import { Button, Surface, Text } from "react-native-paper";
 import { Formik, Field } from "formik";
-import CustomInput from "./CustomInput";
+import CustomInput from "./FormElements/CustomInput";
 
 import validationSchemas from "../../utils/validationSchemas";
+import { removeWhiteSpaces } from "../../utils/transformers";
 
 import styles from "./Forms.styles";
 
@@ -24,9 +25,11 @@ const ChangePasswordForm = () => {
           confirmPassword: "",
         }}
         onSubmit={(values, actions) => {
+          const clearedValues = removeWhiteSpaces(values);
+
           updatePassword({
-            oldPassword: values.oldPassword,
-            newPassword: values.newPassword,
+            oldPassword: clearedValues.oldPassword,
+            newPassword: clearedValues.newPassword,
           });
           actions.setSubmitting(false);
           actions.resetForm();

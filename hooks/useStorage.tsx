@@ -13,7 +13,8 @@ const useStorage = () => {
   const getData = async () => {
     try {
       const value = (await AsyncStorage.getItem("JWT")) || null;
-      console.log(value);
+
+      return value;
     } catch (e) {
       console.log(e);
     }

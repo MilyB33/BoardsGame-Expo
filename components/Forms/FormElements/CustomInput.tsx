@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 
 import { View } from "react-native";
-import styles from "./Forms.styles";
+import styles from "../Forms.styles";
 import { getIn } from "formik";
 import { HelperText, TextInput } from "react-native-paper";
 
-import { CustomInputProps } from "../../types/types";
+import { CustomInputProps } from "../../../types/types";
 
 const CustomInput: React.FC<CustomInputProps> = (props) => {
   const [isSecuredVisible, setIsSecuredVisible] = useState(false);

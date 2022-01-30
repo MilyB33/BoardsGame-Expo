@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Formik, Field } from "formik";
-import CustomInput from "./CustomInput";
+import CustomInput from "./FormElements/CustomInput";
 import { StyleSheet } from "react-native";
 import { Button, Surface, Text } from "react-native-paper";
 

@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 
-import Header from '../Generic/Header';
-import ContactsWrapper from '../Contacts/ContactsWrapper';
-import ScreenLayout from '../Layout/ScreenLayout';
+import Header from "../Generic/Header";
+import ContactsWrapper from "../Friends/ContactsWrapper";
+import ScreenLayout from "../Layout/ScreenLayout";
 
 const ContactsScreen = () => {
   return (
     <ScreenLayout isScroll={false}>
-      <Header title="Kontakty" />
+      <Header title="Znajomi" />
       <ContactsWrapper />
     </ScreenLayout>
   );
