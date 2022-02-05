@@ -37,7 +37,9 @@ const UserInviteEvent: React.FC<Props> = ({ event }) => {
     <Surface style={styles.box}>
       <Event event={event} Button={renderButton} />
       <Surface style={styles.textBox}>
-        <Text style={styles.text}>Zaproszony przez: {event.invitedBy}</Text>
+        <Text style={styles.text}>
+          Zaproszony przez: {event.invitedBy?.username}
+        </Text>
       </Surface>
     </Surface>
   );

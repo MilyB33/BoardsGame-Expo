@@ -14,7 +14,7 @@ const RefreshButton: React.FC<Props> = ({ pressCallback }) => {
 
   const spin = spinValue.interpolate({
     inputRange: [0, 1],
-    outputRange: ["0deg", "360deg"],
+    outputRange: ["360deg", "0deg"],
   });
 
   const startAnimation = () => {
@@ -33,11 +33,14 @@ const RefreshButton: React.FC<Props> = ({ pressCallback }) => {
     spinValue.stopAnimation();
   };
 
-  const handlePress = async () => {
-    // if function is async animation will not work
+  const handlePress = () => {
     startAnimation();
-    pressCallback();
-    stopAnimation();
+
+    // setTimeout trick to make sure the animation starts before the callback
+    setTimeout(async () => {
+      await pressCallback();
+      stopAnimation();
+    }, 0);
   };
 
   return (
@@ -53,7 +56,7 @@ const styles = StyleSheet.create({
   container: {
     position: "absolute",
     right: 30,
-    bottom: "98%",
+    bottom: "99%",
     backgroundColor: "dodgerblue",
 
     borderRadius: 50,
@@ -61,11 +64,3 @@ const styles = StyleSheet.create({
 });
 
 export default RefreshButton;
-
-{
-  /* <Animated.View style={{ transform: [{ rotate: spin }] }}>
-<TouchableOpacity onPress={handlePress}>
-  <FontAwesomeIcon icon={faSyncAlt} size={24} color="white" />
-</TouchableOpacity>
-</Animated.View> */
-}

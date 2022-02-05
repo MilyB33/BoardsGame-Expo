@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, StyleSheet } from "react-native";
 
 interface Props {
   children: React.ReactNode;
@@ -31,23 +31,25 @@ const ScrollContainer: React.FC<Props> = ({
 const styles = StyleSheet.create({
   container: {
     marginBottom: 10,
-    minWidth: '100%',
+    minWidth: "100%",
   },
   scrollContainer: {
-    minWidth: '100%',
-    justifyContent: 'center',
+    minWidth: "100%",
+    justifyContent: "center",
   },
   text: {
-    color: 'white',
+    color: "white",
     fontSize: 20,
-    textAlign: 'center',
+    textAlign: "center",
     margin: 10,
-    maxWidth: '80%',
-    backgroundColor: 'rgba(86,79,79,.6)',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    padding: 10,
-    borderRadius: 15,
+    width: "80%",
+    backgroundColor: "#560bad99",
+    borderBottomWidth: 1,
+    borderBottomColor: "white",
+    marginLeft: "auto",
+    marginRight: "auto",
+    padding: 15,
+    elevation: 8,
   },
 });
 

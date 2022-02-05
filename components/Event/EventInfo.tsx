@@ -1,8 +1,9 @@
-import React from 'react';
+import React from "react";
 
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from "react-native";
+import { Text } from "react-native-paper";
 
-import { Event } from '../../types/types';
+import { Event } from "../../types/types";
 
 interface Props {
   event: Event;
@@ -15,9 +16,7 @@ const EventInfo: React.FC<Props> = ({ event }) => {
 
       <Text style={styles.text}>Miasto: {event.town}</Text>
 
-      <Text style={styles.text}>
-        Organizator: {event.createdBy.username}
-      </Text>
+      <Text style={styles.text}>Organizator: {event.createdBy.username}</Text>
 
       <Text style={styles.text}>Gra: {event.game}</Text>
 
@@ -32,11 +31,11 @@ const EventInfo: React.FC<Props> = ({ event }) => {
 const styles = StyleSheet.create({
   text: {
     fontSize: 15,
-    color: 'white',
+    color: "white",
     margin: 5,
   },
   infoBox: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 10,
   },
 });

@@ -1,11 +1,12 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { UserContext } from "../../context/userContext";
 import { useNavigation } from "@react-navigation/native";
+import useBooleanState from "../../hooks/useBooleanState";
 
-import { View, StyleSheet, Modal } from "react-native";
-import { Menu, Divider, IconButton } from "react-native-paper";
-import ParticipantModal from "../Modals/ParticipantModal";
+import { View, StyleSheet } from "react-native";
+import { Menu, Divider, IconButton, Portal } from "react-native-paper";
 import ActivityIndicator from "../Generic/ActivityIndicator";
+import DeleteFriendDialog from "./DeleteFriendsDialog";
 
 import { UserEntry, FriendsNavigationProps } from "../../types/types";
 
@@ -18,14 +19,18 @@ const ContactMenu: React.FC<Props> = ({ listedUser, isRequest }) => {
   const { _id } = listedUser;
   const { userState, sendFriendRequest, deleteFriend } =
     useContext(UserContext);
-  const [visible, setVisible] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [requestloading, setRequestLoading] = useState(false);
-  const [deleteLoading, setDeleteLoading] = useState(false);
+  const { state, setToTrue, setToFalse } = useBooleanState([
+    "request",
+    "delete",
+    "dialog",
+    "menuVisibility",
+  ]);
   const navigation = useNavigation<FriendsNavigationProps>();
 
-  const openMenu = () => setVisible(true);
-  const closeMenu = () => setVisible(false);
+  const openMenu = () => setToTrue("menuVisibility");
+  const closeMenu = () => setToFalse("menuVisibility");
+  const openDialog = () => setToTrue("dialog");
+  const closeDialog = () => setToFalse("dialog");
 
   const isFriend = userState.friends.some((friend) => friend._id === _id);
   const isFriendRequestSent = userState.friendsRequests.sent.some(
@@ -33,34 +38,51 @@ const ContactMenu: React.FC<Props> = ({ listedUser, isRequest }) => {
   );
 
   const handleFriendRequest = async () => {
-    setRequestLoading(true);
+    setToTrue("request");
 
     await sendFriendRequest(_id);
 
-    setRequestLoading(false);
+    setToFalse("request");
     closeMenu();
   };
 
   const handleDeleteFriend = async () => {
-    setDeleteLoading(true);
+    setToTrue("delete");
 
     await deleteFriend(_id);
 
-    setDeleteLoading(false);
+    setToFalse("delete");
   };
 
-  const Delete = deleteLoading ? (
-    <ActivityIndicator size="small" />
+  const handleOpenInviteModal = () => {
+    closeMenu();
+
+    navigation.navigate("UserEventsModal", {
+      userId: listedUser._id,
+    });
+  };
+
+  const openDeleteDialog = () => {
+    openDialog();
+    closeMenu();
+  };
+
+  const Indicator = (
+    <ActivityIndicator size="small" style={styles.activityIndicator} />
+  );
+
+  const Delete = state["delete"] ? (
+    Indicator
   ) : (
     <Menu.Item
-      onPress={handleDeleteFriend}
+      onPress={openDeleteDialog}
       title="Usuń znajomego"
       icon="delete"
     />
   );
 
-  const Request = requestloading ? (
-    <ActivityIndicator size="small" />
+  const Request = state["request"] ? (
+    Indicator
   ) : (
     <Menu.Item
       onPress={handleFriendRequest}
@@ -77,7 +99,7 @@ const ContactMenu: React.FC<Props> = ({ listedUser, isRequest }) => {
       <View style={styles.menuButton}>
         <Menu
           contentStyle={styles.menu}
-          visible={visible}
+          visible={state["menuVisibility"]}
           onDismiss={closeMenu}
           anchor={
             <IconButton
@@ -89,17 +111,7 @@ const ContactMenu: React.FC<Props> = ({ listedUser, isRequest }) => {
           }
         >
           <Menu.Item
-            onPress={() => setModalVisible(true)}
-            title="Konto"
-            icon="account-circle"
-          />
-          <Menu.Item
-            onPress={() => {
-              closeMenu();
-              navigation.navigate("UserEventsModal", {
-                userId: listedUser._id,
-              });
-            }}
+            onPress={handleOpenInviteModal}
             title="Zaproś na wydarzenie"
             icon="email-plus"
             disabled={!isFriend}
@@ -111,15 +123,15 @@ const ContactMenu: React.FC<Props> = ({ listedUser, isRequest }) => {
         </Menu>
       </View>
 
-      <Modal
-        animationType="fade"
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(false);
-        }}
-      >
-        <ParticipantModal user={listedUser} closeModal={setModalVisible} />
-      </Modal>
+      {isFriend && (
+        <Portal>
+          <DeleteFriendDialog
+            visible={state["dialog"]}
+            onDismiss={closeDialog}
+            callbackAction={handleDeleteFriend}
+          />
+        </Portal>
+      )}
     </>
   );
 };
@@ -137,6 +149,9 @@ const styles = StyleSheet.create({
   divider: {
     backgroundColor: "white",
     height: 2,
+  },
+  activityIndicator: {
+    marginTop: 10,
   },
 });
 

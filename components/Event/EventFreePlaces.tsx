@@ -1,6 +1,7 @@
 import React from "react";
 
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { Text } from "react-native-paper";
 
 import { Event, DispatchType } from "../../types/types";
 
@@ -32,6 +33,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: "white",
     backgroundColor: "#fcfcfc4e",
+    elevation: 5,
   },
   text: {
     fontSize: 15,
