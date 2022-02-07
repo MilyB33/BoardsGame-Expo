@@ -45,6 +45,7 @@ const AllEvents = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "center",
   },
   spinner: {
     marginBottom: 20,

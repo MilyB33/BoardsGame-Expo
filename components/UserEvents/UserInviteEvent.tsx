@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { UserContext } from "../../context/userContext";
 
 import Event from "../Event/Event";
 import EventButton from "../Generic/EventButton";
 import { StyleSheet, View } from "react-native";
 import { Surface, Text } from "react-native-paper";
+import ActivityIndicator from "../Generic/ActivityIndicator";
 
 import { Event as InviteEvent } from "../../types/types";
 
@@ -13,23 +14,28 @@ interface Props {
 }
 
 const UserInviteEvent: React.FC<Props> = ({ event }) => {
+  const [loading, setLoading] = useState(false);
   const { rejectEventRequest, acceptEventRequest } = useContext(UserContext);
 
-  const renderButton = (
+  const handleAccept = async () => {
+    setLoading(true);
+    await acceptEventRequest(event.inviteId!, event._id);
+  };
+
+  const handleReject = async () => {
+    setLoading(true);
+    await rejectEventRequest(event.inviteId!, event._id);
+  };
+
+  const renderButton = loading ? (
+    <ActivityIndicator />
+  ) : (
     <View style={styles.operationBox}>
       <View style={styles.button}>
-        <EventButton
-          title="Akceptuj"
-          onPress={() => acceptEventRequest(event.inviteId!, event._id)}
-          color="#2b9348"
-        />
+        <EventButton title="Akceptuj" onPress={handleAccept} color="#2b9348" />
       </View>
       <View style={styles.button}>
-        <EventButton
-          title="Odrzuć"
-          onPress={() => rejectEventRequest(event.inviteId!, event._id)}
-          color="#e63946"
-        />
+        <EventButton title="Odrzuć" onPress={handleReject} color="#e63946" />
       </View>
     </View>
   );

@@ -60,9 +60,37 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 
   const autoLogin = async () => {
     const token = await getData();
+
     if (token) {
-      console.log(token);
-    }
+      ServerClient.setToken(token);
+
+      dispatch({ type: UserActions.SET_CURRENT_USER_LOADING });
+
+      const result = await ServerClient.autoLogin();
+
+      if (!result.success)
+        dispatch({ type: UserActions.END_CURRENT_USER_LOADING });
+
+      const userData = await ServerClient.getUserInfo(result.result._id);
+
+      delete result.result.token;
+
+      if (!userData.success) {
+        alert(userData.message);
+
+        dispatch({ type: UserActions.END_CURRENT_USER_LOADING });
+
+        return false;
+      }
+
+      dispatch({
+        type: UserActions.LOGIN,
+        payload: {
+          ...result.result,
+          ...userData.result,
+        },
+      });
+    } else return;
   };
 
   const login = async (values: any) => {
@@ -329,7 +357,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
     deleteInvite(inviteID, eventID);
   };
 
-  const acceptEventRequest = async (inviteID: string, eventID: string) => {
+  const acceptEventRequest = async (inviteID: string) => {
     const result = await ServerClient.acceptEventInvite(
       userState._id,
       inviteID
@@ -353,7 +381,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 
   useEffect(() => {
     if (!userState.isAuthenticated) {
-      login({ username: "Admin3", password: "Qwertyuiop12" });
+      autoLogin();
     }
   }, []);
 

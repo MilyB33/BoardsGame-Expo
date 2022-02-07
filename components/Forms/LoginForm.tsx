@@ -9,12 +9,16 @@ import CustomInput from "./FormElements/CustomInput";
 import ActivityIndicator from "../Generic/ActivityIndicator";
 
 import styles from "./Forms.styles";
-import { NavigationProps, LoginFormState } from "../../types/types";
+import {
+  NavigationProps,
+  LoginFormState,
+  DispatchType,
+} from "../../types/types";
 import validationSchemas from "../../utils/validationSchemas";
 import { removeWhiteSpaces } from "../../utils/transformers";
 
 interface Props {
-  changeForm: React.Dispatch<React.SetStateAction<boolean>>;
+  changeForm: DispatchType<boolean>;
 }
 
 const initialValues = {

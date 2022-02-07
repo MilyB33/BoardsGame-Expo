@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 
 import { UserContext } from "../../context/userContext";
 import UserEvent from "./UserEvent";
@@ -29,10 +29,6 @@ const UserEvents = () => {
     userInvitedEvents.map((event) => (
       <UserInviteEvent key={event._id} event={event} />
     ));
-
-  useEffect(() => {
-    console.log(userInvitedEvents);
-  }, []);
 
   return (
     <>

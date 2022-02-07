@@ -1,17 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faHandPointLeft } from '@fortawesome/free-solid-svg-icons';
-import Participant from './Participant';
-import { IconButton } from 'react-native-paper';
+import { View, Text, StyleSheet } from "react-native";
+import Participant from "./Participant";
+import { IconButton } from "react-native-paper";
 
-import { DispatchType } from '../../types/types';
+import { DispatchType } from "../../types/types";
 
 interface Props {
   users: {
@@ -32,7 +25,7 @@ const Participants: React.FC<Props> = ({ users, changeView }) => {
   const MoreButton = (
     <View style={styles.moreButton}>
       <IconButton
-        icon={isClosed ? 'chevron-down' : 'chevron-up'}
+        icon={isClosed ? "chevron-down" : "chevron-up"}
         animated={true}
         color="white"
         onPress={() => setIsClosed(!isClosed)}
@@ -48,16 +41,13 @@ const Participants: React.FC<Props> = ({ users, changeView }) => {
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <Text style={[styles.text, styles.header]}>Uczestnicy:</Text>
-        <TouchableOpacity
+        <IconButton
+          icon="hand-pointing-left"
           style={[styles.icon, styles.backIcon]}
+          color="white"
+          size={25}
           onPress={() => changeView(false)}
-        >
-          <FontAwesomeIcon
-            icon={faHandPointLeft}
-            size={20}
-            color="white"
-          />
-        </TouchableOpacity>
+        />
       </View>
       <View>
         {usersLength ? (
@@ -78,31 +68,29 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   text: {
-    color: 'white',
+    color: "white",
   },
   headerContainer: {
     padding: 10,
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 10,
   },
   header: {
     fontSize: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
 
   icon: {
-    backgroundColor: 'dodgerblue',
-    marginLeft: 'auto',
-    padding: 8,
-    borderRadius: 50,
+    backgroundColor: "dodgerblue",
+    marginLeft: "auto",
   },
   backIcon: {
     marginRight: 0,
   },
   moreButton: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    backgroundColor: 'dodgerblue',
+    marginLeft: "auto",
+    marginRight: "auto",
+    backgroundColor: "dodgerblue",
     borderRadius: 50,
   },
 });

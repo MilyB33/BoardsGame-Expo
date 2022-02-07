@@ -25,7 +25,6 @@ const WithDateTimePicker = (Component: ComponentType) => {
     const showMode = () => setShow(true);
 
     const onChange = (event: any, selectedDate: any) => {
-      console.log(selectedDate.toISOString());
       const currentDate = selectedDate || value;
       setShow(Platform.OS === "ios");
       setFieldValue(name, currentDate, true);

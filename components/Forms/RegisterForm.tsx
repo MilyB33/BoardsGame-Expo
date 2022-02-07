@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import ServerClient from "../../clients/serverClient";
 
@@ -6,16 +6,22 @@ import { Text } from "react-native";
 import { Surface, Button } from "react-native-paper";
 import { Formik, Field } from "formik";
 import CustomInput from "./FormElements/CustomInput";
-import ActivityIndicator from "../Generic/ActivityIndicator";
+import WithLoading from "../../hoc/withLoading";
 
 import styles from "./Forms.styles";
-import { NavigationProps, RegisterFormState } from "../../types/types";
+import {
+  NavigationProps,
+  RegisterFormState,
+  DispatchType,
+} from "../../types/types";
 import validationSchemas from "../../utils/validationSchemas";
 import { removeWhiteSpaces } from "../../utils/transformers";
 
 interface Props {
-  changeForm: React.Dispatch<React.SetStateAction<boolean>>;
+  changeForm: DispatchType<boolean>;
 }
+
+const ButtonWithLoading = WithLoading(Button);
 
 const initialValues = {
   username: "",
@@ -25,7 +31,6 @@ const initialValues = {
 
 const RegisterForm: React.FC<Props> = ({ changeForm }) => {
   const navigation = useNavigation<NavigationProps>();
-  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (
     values: RegisterFormState,
@@ -39,8 +44,6 @@ const RegisterForm: React.FC<Props> = ({ changeForm }) => {
 
     delete userObject.confirmPassword;
 
-    setLoading(true);
-
     const data = await ServerClient.registerUser(userObject);
 
     if (!data.success) {
@@ -50,8 +53,6 @@ const RegisterForm: React.FC<Props> = ({ changeForm }) => {
       resetForm();
       navigation.navigate("Home");
     }
-
-    setLoading(false);
   };
 
   return (
@@ -92,18 +93,12 @@ const RegisterForm: React.FC<Props> = ({ changeForm }) => {
               Masz już konto? Zaloguj się.
             </Text>
 
-            {loading ? (
-              <ActivityIndicator />
-            ) : (
-              <Button
-                onPress={() => {
-                  props.handleSubmit();
-                }}
-                mode="contained"
-              >
-                Zarejestruj się
-              </Button>
-            )}
+            <ButtonWithLoading
+              mode="contained"
+              onPress={() => props.handleSubmit()}
+            >
+              Załóż konto
+            </ButtonWithLoading>
           </>
         )}
       </Formik>

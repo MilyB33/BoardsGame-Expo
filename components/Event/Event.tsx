@@ -1,11 +1,11 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useState } from "react";
 
-import EventFreePlaces from './EventFreePlaces';
-import EventInfo from './EventInfo';
-import EventWrapper from './EventWrapper';
-import Participants from './Participants';
+import EventFreePlaces from "./EventFreePlaces";
+import EventInfo from "./EventInfo";
+import EventWrapper from "./EventWrapper";
+import Participants from "./Participants";
 
-import { Event as EventType } from '../../types/types';
+import { Event as EventType } from "../../types/types";
 
 interface Props {
   event: EventType;
@@ -18,10 +18,7 @@ const Event: React.FC<Props> = ({ event, Button }) => {
   return (
     <EventWrapper>
       {isInfo ? (
-        <Participants
-          users={event.signedUsers}
-          changeView={setIsInfo}
-        />
+        <Participants users={event.signedUsers} changeView={setIsInfo} />
       ) : (
         <>
           <EventInfo event={event} />

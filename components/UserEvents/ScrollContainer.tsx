@@ -34,8 +34,9 @@ const styles = StyleSheet.create({
     minWidth: "100%",
   },
   scrollContainer: {
-    minWidth: "100%",
+    flexDirection: "row",
     justifyContent: "center",
+    paddingHorizontal: 30,
   },
   text: {
     color: "white",

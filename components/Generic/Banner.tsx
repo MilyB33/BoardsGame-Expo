@@ -1,12 +1,8 @@
 import React, { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
 
 import { Banner } from "react-native-paper";
 
-import { NavigationProps } from "../../types/types";
-
 const CustomBanner = () => {
-  const navigation = useNavigation<NavigationProps>();
   const [visible, setVisible] = useState(true);
 
   return (

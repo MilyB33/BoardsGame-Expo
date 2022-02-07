@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import HomeInfo from '../HomeInfo';
-import ScreenLayout from '../Layout/ScreenLayout';
+import HomeInfo from "../HomeInfo/HomeInfo";
+import ScreenLayout from "../Layout/ScreenLayout";
 
 const HomeScreen = () => {
   return (

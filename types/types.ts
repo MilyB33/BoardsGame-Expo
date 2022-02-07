@@ -45,7 +45,7 @@ export interface UserEntry {
   username: string;
 }
 
-export type FriendsRequest = {
+export type Requests = {
   sent: UserEntry[];
   received: UserEntry[];
 };
@@ -56,13 +56,22 @@ export type User = {
   events?: {
     userEvents: Event[];
     userSignedEvents: Event[];
+    userInvitedEvents: Event[];
   };
   friends?: UserEntry[];
-  friendsRequests?: FriendsRequest;
-  eventsRequests?: FriendsRequest;
+  friendsRequests?: Requests;
+  eventsRequests?: Requests; // TODO: this should be an object with eventIds as keys
 };
 
 // Events
+
+export interface InviteEntry {
+  _id: string;
+  user: {
+    _id: string;
+    username: string;
+  };
+}
 
 export interface Event {
   _id: string;
@@ -73,21 +82,12 @@ export interface Event {
   location: string;
   town: string;
   createdAt: string;
-  createdBy: {
-    _id: string;
-    username: string;
-  };
+  createdBy: UserEntry;
   maxPlayers: number;
-  signedUsers: {
-    _id: string;
-    username: string;
-  }[];
+  signedUsers: UserEntry[];
   invites: InviteEntry[];
   inviteId?: string;
-  invitedBy?: {
-    _id: string;
-    username: string;
-  };
+  invitedBy?: UserEntry;
   isPrivate: boolean;
 }
 
@@ -100,14 +100,6 @@ export interface EventPayload {
   town: string;
   maxPlayers: number;
   isPrivate: boolean;
-}
-
-export interface InviteEntry {
-  _id: string;
-  user: {
-    _id: string;
-    username: string;
-  };
 }
 
 // ========================================================

@@ -1,4 +1,4 @@
-import { Event, User, FriendsRequest, UserEntry } from "../types/types";
+import { Event, User, Requests, UserEntry } from "../types/types";
 
 // PT = Payload Type
 // PTA = Payload Type Array
@@ -113,7 +113,7 @@ export type UserState = {
   loading: boolean;
   events: EventsType;
   friends: UserEntry[];
-  friendsRequests: FriendsRequest;
+  friendsRequests: Requests;
   eventsRequests: EventsRequest;
 };
 

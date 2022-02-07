@@ -7,26 +7,26 @@ import { Surface, Divider, Text } from "react-native-paper";
 import Event from "../Event/Event";
 import EventButton from "../Generic/EventButton";
 import EmptyRedirect from "../Friends/EmptyRedirect";
-import ActivityIndicator from "../Generic/ActivityIndicator";
+import WithLoading from "../../hoc/withLoading";
 
 import { FriendsStackParamList } from "../../types/types";
 import { RouteProp } from "@react-navigation/native";
 
+const ButtonWithLoading = WithLoading(EventButton);
+
 type UserEventRootProp = RouteProp<FriendsStackParamList, "UserEventsModal">;
 
 const UserEventsModal = () => {
-  const [loading, setLoading] = useState(false);
   const {
     userState: {
       events: { userEvents },
     },
     sendEventRequest,
   } = useContext(UserContext);
+
   const route = useRoute<UserEventRootProp>();
 
   const handlePress = async (eventId: string) => {
-    setLoading(true);
-
     await sendEventRequest(eventId, route.params.userId);
   };
 
@@ -51,14 +51,10 @@ const UserEventsModal = () => {
           <Event
             event={item}
             Button={
-              loading ? (
-                <ActivityIndicator />
-              ) : (
-                <EventButton
-                  onPress={() => handlePress(item._id)}
-                  title="Zaproś"
-                />
-              )
+              <ButtonWithLoading
+                title="Zaproś"
+                onPress={() => handlePress(item._id)}
+              />
             }
           />
         )}

@@ -50,8 +50,6 @@ const ContactMenu: React.FC<Props> = ({ listedUser, isRequest }) => {
     setToTrue("delete");
 
     await deleteFriend(_id);
-
-    setToFalse("delete");
   };
 
   const handleOpenInviteModal = () => {
@@ -71,7 +69,7 @@ const ContactMenu: React.FC<Props> = ({ listedUser, isRequest }) => {
     <ActivityIndicator size="small" style={styles.activityIndicator} />
   );
 
-  const Delete = state["delete"] ? (
+  const Delete = state.delete ? (
     Indicator
   ) : (
     <Menu.Item
@@ -81,7 +79,7 @@ const ContactMenu: React.FC<Props> = ({ listedUser, isRequest }) => {
     />
   );
 
-  const Request = state["request"] ? (
+  const Request = state.request ? (
     Indicator
   ) : (
     <Menu.Item
@@ -126,7 +124,7 @@ const ContactMenu: React.FC<Props> = ({ listedUser, isRequest }) => {
       {isFriend && (
         <Portal>
           <DeleteFriendDialog
-            visible={state["dialog"]}
+            visible={state.dialog}
             onDismiss={closeDialog}
             callbackAction={handleDeleteFriend}
           />

@@ -1,68 +1,38 @@
-import React, { useState } from 'react';
+import React from "react";
 
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Modal,
-} from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-import ParticipantModal from '../Modals/ParticipantModal';
+import { View, Text, StyleSheet } from "react-native";
+import { Avatar } from "react-native-paper";
+
+import { UserEntry } from "../../types/types";
 
 interface Props {
-  user: {
-    username: string;
-    _id: string;
-  };
+  user: UserEntry;
 }
 
 const Participant: React.FC<Props> = ({ user }) => {
-  const [modalVisible, setModalVisible] = useState(false);
-
   return (
-    <>
-      <TouchableOpacity
-        style={styles.participant}
-        onPress={() => setModalVisible(true)}
-      >
-        <Text style={styles.text}>{user.username}</Text>
-        <View style={styles.icon}>
-          <FontAwesomeIcon icon={faUser} size={20} color="white" />
-        </View>
-      </TouchableOpacity>
-
-      <Modal
-        animationType="fade"
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(false);
-        }}
-      >
-        <ParticipantModal user={user} closeModal={setModalVisible} />
-      </Modal>
-    </>
+    <View style={styles.participant}>
+      <Text style={styles.text}>{user.username}</Text>
+      <Avatar.Icon size={40} icon="account" style={styles.icon} />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   icon: {
-    backgroundColor: 'dodgerblue',
-    marginLeft: 'auto',
-    padding: 8,
-    borderRadius: 50,
+    backgroundColor: "dodgerblue",
+    marginLeft: "auto",
   },
   participant: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 5,
     padding: 10,
-    backgroundColor: 'rgba(0,0,0,.2)',
+    backgroundColor: "rgba(0,0,0,.2)",
   },
   text: {
-    color: 'white',
+    color: "white",
   },
 });
 

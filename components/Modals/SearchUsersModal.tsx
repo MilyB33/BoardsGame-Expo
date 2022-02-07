@@ -21,7 +21,6 @@ const SearchUserModal = () => {
     if (text.length > 0) debouncedValue(text);
   };
 
-  // No arrow function because hoisting doesn't work with arrow functions
   async function getUsers(value: string) {
     if (value.length === 0) {
       setResults([]);

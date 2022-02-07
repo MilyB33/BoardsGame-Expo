@@ -16,12 +16,11 @@ const styles = StyleSheet.create({
     margin: 15,
     padding: 15,
     minHeight: 220,
-
     backgroundColor: "#560bad",
     borderBottomWidth: 5,
     borderRightWidth: 5,
     borderColor: "dodgerblue",
-    width: 350,
+    width: 300,
   },
 });
 

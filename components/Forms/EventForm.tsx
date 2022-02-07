@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
 import { Text } from "react-native";
@@ -6,10 +6,10 @@ import { Surface, Button } from "react-native-paper";
 import { Formik, Field } from "formik";
 import CustomInput from "./FormElements/CustomInput";
 import CustomSwitch from "./FormElements/CustomSwitch";
-import ActivityIndicator from "../Generic/ActivityIndicator";
 import DateField from "./FormElements/Date";
 import TimeField from "./FormElements/Time";
 import WithDateTimePicker from "../../hoc/withDateTimePicker";
+import WithLoading from "../../hoc/withLoading";
 
 import styles from "./Forms.styles";
 import { EventFormState, P } from "../../types/types";
@@ -22,22 +22,19 @@ interface Props {
   buttonText: string;
 }
 
+const ButtonWithLoading = WithLoading(Button);
+
 const EventForm: React.FC<Props> = ({
   initialValues,
   onSubmit,
   buttonText,
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
 
   const submitForm = async (values: EventFormState) => {
-    setIsLoading(true);
-
     const transformedValues = transformFormValues(values);
 
     const isAdded = await onSubmit(transformedValues);
-
-    setIsLoading(false);
 
     if (isAdded) navigation.goBack();
   };
@@ -112,13 +109,9 @@ const EventForm: React.FC<Props> = ({
               setFieldValue={props.setFieldValue}
             />
 
-            {isLoading ? (
-              <ActivityIndicator />
-            ) : (
-              <Button onPress={() => props.handleSubmit()} mode="contained">
-                {buttonText}
-              </Button>
-            )}
+            <ButtonWithLoading mode="contained" onPress={props.handleSubmit}>
+              {buttonText}
+            </ButtonWithLoading>
           </>
         )}
       </Formik>

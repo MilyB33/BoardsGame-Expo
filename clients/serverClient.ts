@@ -31,6 +31,26 @@ class ClientBase {
 
 class ServerClient extends ClientBase {
   // LOGIN / REGISTER
+  autoLogin = async () => {
+    try {
+      const response = await this.client.post("auth/login");
+
+      const json = await response.json();
+
+      if (response.status === 200) {
+        return {
+          success: true,
+          result: json.result,
+        };
+      } else throw new Error(json.message);
+    } catch (err) {
+      return {
+        success: false,
+        error: err,
+      };
+    }
+  };
+
   loginUser = async (data: LoginCredentials) => {
     try {
       const response = await this.client.post("auth/login", {
