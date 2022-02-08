@@ -3,6 +3,7 @@ import {
   LoginCredentials,
   PaginationQuery,
   ExtendedQuery,
+  ReturnTypes,
 } from "../types/types";
 import CustomClient from "./CustomClient";
 import { transformQuery } from "../utils/transformers";
@@ -31,31 +32,14 @@ class ClientBase {
 
 class ServerClient extends ClientBase {
   // LOGIN / REGISTER
-  autoLogin = async () => {
+  loginUser = async (data?: LoginCredentials) => {
     try {
-      const response = await this.client.post("auth/login");
-
-      const json = await response.json();
-
-      if (response.status === 200) {
-        return {
-          success: true,
-          result: json.result,
-        };
-      } else throw new Error(json.message);
-    } catch (err) {
-      return {
-        success: false,
-        error: err,
-      };
-    }
-  };
-
-  loginUser = async (data: LoginCredentials) => {
-    try {
-      const response = await this.client.post("auth/login", {
-        body: data,
-      });
+      const response = await this.client.post(
+        "auth/login",
+        data && {
+          body: data,
+        }
+      );
 
       const json = await response.json();
 

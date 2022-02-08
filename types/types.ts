@@ -217,6 +217,17 @@ export type ExtendedQuery<T> = PaginationQuery &
     [Key in keyof T]: T[Key];
   }>;
 
+export type ReturnTypes = P<
+  | {
+      success: boolean;
+      result: any;
+    }
+  | {
+      success: boolean;
+      message: unknown;
+    }
+>;
+
 // ========================================================
 
 // Additionals

@@ -4,7 +4,7 @@ import ServerClient from "../clients/serverClient";
 import authReducer from "../reducers/userReducer";
 import { UserActions, UserState } from "../reducers/reducersTypes";
 import { AppContext } from "./appContext";
-import { EventPayload, P } from "../types/types";
+import { EventPayload, P, LoginCredentials } from "../types/types";
 
 interface Props {
   children: React.ReactNode;
@@ -58,67 +58,44 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
   const { storeData, removeData, getData } = useStorage();
   const { FilterOutEvent, replaceEvent, deleteInvite } = useContext(AppContext);
 
-  const autoLogin = async () => {
-    const token = await getData();
+  const login = async (values?: LoginCredentials) => {
+    let token = await getData();
+    let result = {} as any;
+
+    if (!values && !token) return false;
+
+    dispatch({ type: UserActions.SET_CURRENT_USER_LOADING });
 
     if (token) {
       ServerClient.setToken(token);
-
-      dispatch({ type: UserActions.SET_CURRENT_USER_LOADING });
-
-      const result = await ServerClient.autoLogin();
-
-      if (!result.success)
-        dispatch({ type: UserActions.END_CURRENT_USER_LOADING });
-
-      const userData = await ServerClient.getUserInfo(result.result._id);
-
-      delete result.result.token;
-
-      if (!userData.success) {
-        alert(userData.message);
-
-        dispatch({ type: UserActions.END_CURRENT_USER_LOADING });
-
-        return false;
-      }
-
-      dispatch({
-        type: UserActions.LOGIN,
-        payload: {
-          ...result.result,
-          ...userData.result,
-        },
-      });
-    } else return;
-  };
-
-  const login = async (values: any) => {
-    dispatch({ type: UserActions.SET_CURRENT_USER_LOADING });
-
-    const result = await ServerClient.loginUser(values);
+      result = await ServerClient.loginUser();
+    } else {
+      result = await ServerClient.loginUser(values);
+    }
 
     if (!result.success) {
       alert(result.message);
 
+      ServerClient.removeToken();
       dispatch({ type: UserActions.END_CURRENT_USER_LOADING });
 
       return false;
     }
 
-    const { token } = result.result;
-
-    await storeData(token);
+    if (!token) {
+      token = result.result.token;
+      ServerClient.setToken(token!);
+      await storeData(token);
+    }
 
     delete result.result.token;
-
-    ServerClient.setToken(token);
 
     const userData = await ServerClient.getUserInfo(result.result._id);
 
     if (!userData.success) {
       alert(userData.message);
 
+      ServerClient.removeToken();
       dispatch({ type: UserActions.END_CURRENT_USER_LOADING });
 
       return false;
@@ -381,7 +358,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 
   useEffect(() => {
     if (!userState.isAuthenticated) {
-      autoLogin();
+      login();
     }
   }, []);
 
