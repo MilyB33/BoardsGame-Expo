@@ -1,10 +1,6 @@
-# `Work in progress`
-
 ## `About`
 
 App for android to creating and joining to events in your area. App provides creating account, creating own events and inviting friends to your events.
-
-App is still in progress so there are many bugs and scary things in code :ghost:. Also some things are not implemented yet or added in very simple way.
 
 ## `Live Demo`
 

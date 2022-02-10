@@ -11,7 +11,7 @@ import { transformQuery } from "../utils/transformers";
 class ClientBase {
   private BaseURL = "https://boards-game-server.herokuapp.com";
   private LocalURL = "http://192.168.0.12:3000";
-  client = CustomClient(this.LocalURL);
+  client = CustomClient(this.BaseURL);
 
   setToken = (token: string) => {
     this.client.headers.all["Authorization"] = `Bearer ${token}`;
