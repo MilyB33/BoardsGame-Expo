@@ -1,14 +1,14 @@
-import React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React from "react";
+import { useNavigation } from "@react-navigation/native";
 
-import { StyleSheet } from 'react-native';
-import { IconButton, Colors, Surface } from 'react-native-paper';
+import { StyleSheet } from "react-native";
+import { IconButton, Colors, Surface } from "react-native-paper";
 
-interface Props {
+interface PropTypes {
   styles?: any;
 }
 
-const CloseButton: React.FC<Props> = ({ styles }) => {
+const CloseButton = ({ styles }: PropTypes) => {
   const navigation = useNavigation();
   const handlePress = () => navigation.goBack();
 
@@ -27,10 +27,10 @@ const CloseButton: React.FC<Props> = ({ styles }) => {
 
 const privateStyles = StyleSheet.create({
   container: {
-    backgroundColor: 'dodgerblue',
+    backgroundColor: "dodgerblue",
     borderRadius: 10,
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    marginLeft: "auto",
+    marginRight: "auto",
   },
 });
 

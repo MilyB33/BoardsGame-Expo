@@ -8,11 +8,11 @@ import EventButton from "../Generic/EventButton";
 
 import { Event as EventType, NavigationProps } from "../../types/types";
 
-interface Props {
+interface PropTypes {
   event: EventType;
 }
 
-const UserEvent: React.FC<Props> = ({ event }) => {
+const UserEvent = ({ event }: PropTypes) => {
   const { deleteUserEvent } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<NavigationProps>();

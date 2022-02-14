@@ -3,12 +3,14 @@ import React from "react";
 import CloseButton from "../Generic/CloseButton";
 import { View, ScrollView, StyleSheet } from "react-native";
 
-interface Props {
-  children: React.ReactNode;
+interface PropTypes {
   isScrolled?: boolean;
 }
 
-const LoginContainer: React.FC<Props> = ({ children, isScrolled = true }) => {
+const LoginContainer: React.FC<PropTypes> = ({
+  children,
+  isScrolled = true,
+}) => {
   const Container = isScrolled ? ScrollView : View;
 
   const containerProps = isScrolled

@@ -5,12 +5,12 @@ import { Text } from "react-native-paper";
 
 import { Event, DispatchType } from "../../types/types";
 
-interface Props {
+interface PropTypes {
   event: Event;
   changeView: DispatchType<boolean>;
 }
 
-const EventInfo: React.FC<Props> = ({ event, changeView }) => {
+const EventInfo = ({ event, changeView }: PropTypes) => {
   return (
     <View style={styles.freePlaces}>
       <TouchableOpacity onPress={() => changeView(true)}>

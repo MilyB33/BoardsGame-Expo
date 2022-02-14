@@ -7,11 +7,11 @@ import ActivityIndicator from "../Generic/ActivityIndicator";
 
 import { Event as EventType } from "../../types/types";
 
-interface Props {
+interface PropTypes {
   event: EventType;
 }
 
-const PlainEvent: React.FC<Props> = ({ event }) => {
+const PlainEvent = ({ event }: PropTypes) => {
   const {
     userState: { isAuthenticated, _id: userId },
     signUserForEvent,

@@ -9,11 +9,11 @@ import ActivityIndicator from "../Generic/ActivityIndicator";
 
 import { Event as InviteEvent } from "../../types/types";
 
-interface Props {
+interface PropTypes {
   event: InviteEvent;
 }
 
-const UserInviteEvent: React.FC<Props> = ({ event }) => {
+const UserInviteEvent = ({ event }: PropTypes) => {
   const [loading, setLoading] = useState(false);
   const { rejectEventRequest, acceptEventRequest } = useContext(UserContext);
 

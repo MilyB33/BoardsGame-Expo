@@ -2,11 +2,7 @@ import React from "react";
 
 import { View, StyleSheet } from "react-native";
 
-interface Props {
-  children: React.ReactNode;
-}
-
-const EventWrapper: React.FC<Props> = ({ children }) => {
+const EventWrapper: React.FC = ({ children }) => {
   return <View style={styles.container}>{children}</View>;
 };
 

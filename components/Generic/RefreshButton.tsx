@@ -3,11 +3,11 @@ import React from "react";
 import { View, StyleSheet, Animated, Easing } from "react-native";
 import { IconButton } from "react-native-paper";
 
-interface Props {
+interface PropTypes {
   pressCallback(): Promise<void>;
 }
 
-const RefreshButton: React.FC<Props> = ({ pressCallback }) => {
+const RefreshButton = ({ pressCallback }: PropTypes) => {
   const spinValue = new Animated.Value(0);
 
   spinValue.setValue(0);

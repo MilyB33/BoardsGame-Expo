@@ -7,12 +7,12 @@ import Participants from "./Participants";
 
 import { Event as EventType } from "../../types/types";
 
-interface Props {
+interface PropTypes {
   event: EventType;
   Button: Function | ReactElement;
 }
 
-const Event: React.FC<Props> = ({ event, Button }) => {
+const Event = ({ event, Button }: PropTypes) => {
   const [isInfo, setIsInfo] = useState(false);
 
   return (

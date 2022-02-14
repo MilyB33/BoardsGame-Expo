@@ -5,11 +5,11 @@ import { Avatar } from "react-native-paper";
 
 import { UserEntry } from "../../types/types";
 
-interface Props {
+interface PropTypes {
   user: UserEntry;
 }
 
-const Participant: React.FC<Props> = ({ user }) => {
+const Participant = ({ user }: PropTypes) => {
   return (
     <View style={styles.participant}>
       <Text style={styles.text}>{user.username}</Text>

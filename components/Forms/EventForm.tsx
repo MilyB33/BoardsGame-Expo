@@ -16,7 +16,7 @@ import { EventFormState, P } from "../../types/types";
 import validationSchemas from "../../utils/validationSchemas";
 import { transformFormValues } from "../../utils/transformers";
 
-interface Props {
+interface PropTypes {
   initialValues: EventFormState;
   onSubmit: (values: any) => P<boolean>;
   buttonText: string;
@@ -24,11 +24,7 @@ interface Props {
 
 const ButtonWithLoading = WithLoading(Button);
 
-const EventForm: React.FC<Props> = ({
-  initialValues,
-  onSubmit,
-  buttonText,
-}) => {
+const EventForm = ({ initialValues, onSubmit, buttonText }: PropTypes) => {
   const navigation = useNavigation();
 
   const submitForm = async (values: EventFormState) => {

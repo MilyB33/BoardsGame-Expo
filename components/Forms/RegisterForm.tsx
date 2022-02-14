@@ -17,7 +17,7 @@ import {
 import validationSchemas from "../../utils/validationSchemas";
 import { removeWhiteSpaces } from "../../utils/transformers";
 
-interface Props {
+interface PropTypes {
   changeForm: DispatchType<boolean>;
 }
 
@@ -29,7 +29,7 @@ const initialValues = {
   confirmPassword: "",
 } as RegisterFormState;
 
-const RegisterForm: React.FC<Props> = ({ changeForm }) => {
+const RegisterForm = ({ changeForm }: PropTypes) => {
   const navigation = useNavigation<NavigationProps>();
 
   const onSubmit = async (

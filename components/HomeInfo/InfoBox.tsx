@@ -3,13 +3,13 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { Surface, Text } from "react-native-paper";
 
-interface Props {
+interface PropTypes {
   text: string;
   link?: React.ReactNode;
   additional?: React.ReactNode;
 }
 
-const InfoBox: React.FC<Props> = ({ text, link, additional }) => {
+const InfoBox = ({ text, link, additional }: PropTypes) => {
   return (
     <Surface style={styles.container}>
       <Text style={styles.text}>{text}</Text>

@@ -1,13 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { View } from 'react-native';
+import { View } from "react-native";
 
-interface Props {
-  children: React.ReactNode;
-}
-
-const PageContainer: React.FC<Props> = ({ children }) => (
-  <View>{children}</View>
-);
+const PageContainer: React.FC = ({ children }) => <View>{children}</View>;
 
 export default PageContainer;

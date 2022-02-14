@@ -3,7 +3,7 @@ import React from "react";
 import { StyleSheet, FlatList } from "react-native";
 import { Divider } from "react-native-paper";
 
-interface Props {
+interface PropTypes {
   items: any[];
   ItemComponent: React.FC<any>;
   ComponentIfEmpty?: React.FC<any>;
@@ -12,12 +12,12 @@ interface Props {
   };
 }
 
-const Friends: React.FC<Props> = ({
+const Friends = ({
   items,
   ItemComponent,
   ComponentIfEmpty,
   itemProps,
-}) => {
+}: PropTypes) => {
   console.log(items);
   return (
     <FlatList

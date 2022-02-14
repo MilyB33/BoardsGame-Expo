@@ -6,7 +6,7 @@ import { getIn } from "formik";
 
 import { CustomSwitchProps } from "../../../types/types";
 
-const CustomSwitch: React.FC<CustomSwitchProps> = (props) => {
+const CustomSwitch = (props: CustomSwitchProps) => {
   const {
     field: { name, value },
     form: { errors, touched },

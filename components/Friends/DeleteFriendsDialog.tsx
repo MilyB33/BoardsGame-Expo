@@ -3,17 +3,17 @@ import React from "react";
 import { Button } from "react-native-paper";
 import Dialog from "../Generic/Dialog";
 
-interface Props {
+interface PropTypes {
   visible: boolean;
   onDismiss: () => void;
   callbackAction?: () => void;
 }
 
-const DeleteFriendDialog: React.FC<Props> = ({
+const DeleteFriendDialog = ({
   visible,
   onDismiss,
   callbackAction,
-}) => {
+}: PropTypes) => {
   const Actions = (
     <>
       <Button onPress={onDismiss}>Nie</Button>

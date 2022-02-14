@@ -5,11 +5,11 @@ import { Text } from "react-native-paper";
 
 import { Event } from "../../types/types";
 
-interface Props {
+interface PropTypes {
   event: Event;
 }
 
-const EventInfo: React.FC<Props> = ({ event }) => {
+const EventInfo = ({ event }: PropTypes) => {
   return (
     <View>
       <Text style={styles.text}>Miejsce: {event.location}</Text>

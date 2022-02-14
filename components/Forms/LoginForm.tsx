@@ -17,7 +17,7 @@ import {
 import validationSchemas from "../../utils/validationSchemas";
 import { removeWhiteSpaces } from "../../utils/transformers";
 
-interface Props {
+interface PropTypes {
   changeForm: DispatchType<boolean>;
 }
 
@@ -26,7 +26,7 @@ const initialValues = {
   password: "",
 } as LoginFormState;
 
-const LoginForm: React.FC<Props> = ({ changeForm }) => {
+const LoginForm = ({ changeForm }: PropTypes) => {
   const { login, userState } = useContext(UserContext);
   const navigation = useNavigation<NavigationProps>();
 

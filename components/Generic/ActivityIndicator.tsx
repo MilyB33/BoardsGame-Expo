@@ -2,13 +2,13 @@ import React from "react";
 
 import { ActivityIndicator } from "react-native-paper";
 
-interface Props {
+interface PropTypes {
   size?: "small" | "large" | number;
   color?: string;
   style?: any;
 }
 
-const CustomActivityIndicator: React.FC<Props> = ({ size, color, style }) => {
+const CustomActivityIndicator = ({ size, color, style }: PropTypes) => {
   return (
     <ActivityIndicator
       animating={true}

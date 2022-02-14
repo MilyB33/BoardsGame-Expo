@@ -1,19 +1,15 @@
-import React from 'react';
+import React from "react";
 
-import { Button } from 'react-native-paper';
-import Dialog from '../Generic/Dialog';
+import { Button } from "react-native-paper";
+import Dialog from "../Generic/Dialog";
 
-interface Props {
+interface PropTypes {
   visible: boolean;
   onDismiss: () => void;
   callbackAction?: () => void;
 }
 
-const DeleteDialog: React.FC<Props> = ({
-  visible,
-  onDismiss,
-  callbackAction,
-}) => {
+const DeleteDialog = ({ visible, onDismiss, callbackAction }: PropTypes) => {
   const Actions = (
     <>
       <Button onPress={onDismiss}>Nie</Button>

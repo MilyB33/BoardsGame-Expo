@@ -25,7 +25,6 @@ const ContactsList = () => {
   } = useContext(UserContext);
 
   const renderComponent = () => {
-    console.log(options);
     if (options.FriendsList) {
       return (
         <Friends

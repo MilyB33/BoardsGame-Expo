@@ -3,11 +3,11 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { Button, Surface } from "react-native-paper";
 
-interface Props {
+interface PropTypes {
   toggleOption: (option: string) => void;
 }
 
-const FriendsTabNavigation: React.FC<Props> = ({ toggleOption }) => {
+const FriendsTabNavigation = ({ toggleOption }: PropTypes) => {
   return (
     <Surface style={styles.container}>
       <Button

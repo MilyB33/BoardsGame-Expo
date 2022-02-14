@@ -2,13 +2,12 @@ import React from "react";
 
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 
-interface Props {
-  children: React.ReactNode;
+interface PropTypes {
   header?: string;
   isDisplayed?: boolean;
 }
 
-const ScrollContainer: React.FC<Props> = ({
+const ScrollContainer: React.FC<PropTypes> = ({
   children,
   header,
   isDisplayed,

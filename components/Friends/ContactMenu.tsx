@@ -10,12 +10,12 @@ import DeleteFriendDialog from "./DeleteFriendsDialog";
 
 import { UserEntry, FriendsNavigationProps } from "../../types/types";
 
-interface Props {
+interface PropTypes {
   listedUser: UserEntry;
   isRequest?: boolean;
 }
 
-const ContactMenu: React.FC<Props> = ({ listedUser, isRequest }) => {
+const ContactMenu = ({ listedUser, isRequest }: PropTypes) => {
   const { _id } = listedUser;
   const { userState, sendFriendRequest, deleteFriend } =
     useContext(UserContext);

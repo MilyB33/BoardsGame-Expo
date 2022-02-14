@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "react-native-paper";
 import { StyleSheet } from "react-native";
 
-interface Props {
+interface PropTypes {
   disabled?: boolean;
   title: string;
   additionalStyle?: any;
@@ -11,13 +11,13 @@ interface Props {
   color?: string;
 }
 
-const EventButton: React.FC<Props> = ({
+const EventButton = ({
   title,
   disabled,
   onPress,
   color,
   additionalStyle = {},
-}) => {
+}: PropTypes) => {
   return (
     <Button
       mode="contained"

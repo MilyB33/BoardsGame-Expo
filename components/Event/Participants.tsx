@@ -6,7 +6,7 @@ import { IconButton } from "react-native-paper";
 
 import { DispatchType } from "../../types/types";
 
-interface Props {
+interface PropTypes {
   users: {
     username: string;
     _id: string;
@@ -14,7 +14,7 @@ interface Props {
   changeView: DispatchType<boolean>;
 }
 
-const Participants: React.FC<Props> = ({ users, changeView }) => {
+const Participants = ({ users, changeView }: PropTypes) => {
   const [isClosed, setIsClosed] = useState(false);
 
   const renderParticipants = () =>

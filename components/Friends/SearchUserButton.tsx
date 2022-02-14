@@ -7,11 +7,11 @@ import OptionItem from "../Generic/OptionItem";
 
 import { FriendsNavigationProps } from "../../types/types";
 
-interface Props {
+interface PropTypes {
   small?: boolean;
 }
 
-const SearchUserButton: React.FC<Props> = ({ small }) => {
+const SearchUserButton = ({ small }: PropTypes) => {
   const navigation = useNavigation<FriendsNavigationProps>();
 
   const handlePress = () => navigation.navigate("SearchUser");

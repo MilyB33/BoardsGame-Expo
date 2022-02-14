@@ -7,12 +7,12 @@ import ContactMenu from "./ContactMenu";
 
 import { UserEntry } from "../../types/types";
 
-interface Props {
+interface PropTypes {
   user: UserEntry;
   isRequest?: boolean;
 }
 
-const ContactItem: React.FC<Props> = ({ user, isRequest = false }) => {
+const ContactItem = ({ user, isRequest = false }: PropTypes) => {
   const { acceptFriendRequest, rejectFriendRequest } = useContext(UserContext);
   const { _id, username } = user;
 

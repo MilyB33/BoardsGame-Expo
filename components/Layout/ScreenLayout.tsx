@@ -10,14 +10,13 @@ import {
 } from "react-native";
 import Appbar from "../Appbar/Appbar";
 
-interface Props {
-  children: React.ReactNode;
+interface PropTypes {
   isScroll?: boolean;
 }
 
 const backgroundImage = require("../../assets/background.jpg");
 
-const ScreenLayout: React.FC<Props> = ({ children, isScroll = true }) => {
+const ScreenLayout: React.FC<PropTypes> = ({ children, isScroll = true }) => {
   const ScrollContainer = isScroll ? ScrollView : View;
 
   const ScrollContainerProps = isScroll

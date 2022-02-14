@@ -5,7 +5,7 @@ import { StyleSheet, Text } from "react-native";
 import { DateFieldProps } from "../../../types/types";
 import { checkLength } from "../../../utils/transformers";
 
-const DateBox: React.FC<DateFieldProps> = (props) => {
+const DateBox = (props: DateFieldProps) => {
   const {
     field: { value },
   } = props;

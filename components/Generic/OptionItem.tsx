@@ -3,20 +3,20 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { Surface, Button } from "react-native-paper";
 
-interface Props {
+interface PropTypes {
   title: string;
   icon?: string;
   onPress: () => void;
   buttonColor?: any;
 }
 
-const OptionItem: React.FC<Props> = ({
+const OptionItem = ({
   title,
   icon,
   onPress,
   buttonColor,
   ...rest
-}) => {
+}: PropTypes) => {
   const titleLength = title.length;
 
   const width = {

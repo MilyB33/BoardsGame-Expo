@@ -7,13 +7,13 @@ import WithLoading from "../../hoc/withLoading";
 
 import { Event as EventType } from "../../types/types";
 
-interface Props {
+interface PropTypes {
   event: EventType;
 }
 
 const ButtonWithLoading = WithLoading(EventButton);
 
-const UserSignedEvent: React.FC<Props> = ({ event }) => {
+const UserSignedEvent = ({ event }: PropTypes) => {
   const { signOutUserFromEvent } = useContext(UserContext);
 
   const handleDelete = async () => {

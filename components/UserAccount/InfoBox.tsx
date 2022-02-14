@@ -2,13 +2,13 @@ import React from "react";
 
 import { StyleSheet, View, Text } from "react-native";
 
-interface Props {
+interface PropTypes {
   title?: string;
   info: string | number | boolean | undefined;
   additionalStyle?: any;
 }
 
-const InfoBox: React.FC<Props> = ({ title, info, additionalStyle = {} }) => {
+const InfoBox = ({ title, info, additionalStyle = {} }: PropTypes) => {
   return (
     <View style={[styles.container, additionalStyle]}>
       {title && <Text style={styles.title}>{`${title}:`}</Text>}

@@ -2,12 +2,11 @@ import React from "react";
 
 import { View, StyleSheet } from "react-native";
 
-interface Props {
+interface PropTypes {
   customStyles?: {};
-  children: React.ReactNode;
 }
 
-const FormWrapper: React.FC<Props> = ({ children, customStyles }) => {
+const FormWrapper: React.FC<PropTypes> = ({ children, customStyles }) => {
   return <View style={customStyles || styles.container}>{children}</View>;
 };
 

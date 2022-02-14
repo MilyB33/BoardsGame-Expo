@@ -4,19 +4,19 @@ import { StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 import ActivityIndicator from "./ActivityIndicator";
 
-interface Props {
+interface PropTypes {
   title: string;
   additionalStyles?: any;
   onPress: () => void;
   loading: boolean;
 }
 
-const MoreButton: React.FC<Props> = ({
+const MoreButton = ({
   title,
   loading,
   additionalStyles,
   onPress,
-}) => {
+}: PropTypes) => {
   return loading ? (
     <ActivityIndicator />
   ) : (

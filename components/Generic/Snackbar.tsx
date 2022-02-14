@@ -3,13 +3,13 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Snackbar } from "react-native-paper";
 
-interface Props {
+interface PropTypes {
   message: string;
   visible: boolean;
   onDismiss: () => void;
 }
 
-const CustomSnackbar: React.FC<Props> = ({ message, visible, onDismiss }) => {
+const CustomSnackbar = ({ message, visible, onDismiss }: PropTypes) => {
   return (
     <View style={styles.container}>
       <Snackbar

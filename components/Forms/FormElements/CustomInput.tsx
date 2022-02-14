@@ -7,7 +7,7 @@ import { HelperText, TextInput } from "react-native-paper";
 
 import { CustomInputProps } from "../../../types/types";
 
-const CustomInput: React.FC<CustomInputProps> = (props) => {
+const CustomInput = (props: CustomInputProps) => {
   const [isSecuredVisible, setIsSecuredVisible] = useState(false);
   const {
     field: { name, onBlur, value },

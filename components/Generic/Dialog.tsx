@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import { Dialog, Text } from 'react-native-paper';
+import { Dialog, Text } from "react-native-paper";
 
-interface Props {
+interface PropTypes {
   title: string;
   content: string;
   visible: boolean;
@@ -10,13 +10,13 @@ interface Props {
   actions?: React.ReactElement | React.ReactElement[];
 }
 
-const CustomDialog: React.FC<Props> = ({
+const CustomDialog = ({
   title,
   content,
   visible,
   onDismiss,
   actions,
-}) => {
+}: PropTypes) => {
   return (
     <Dialog visible={visible} onDismiss={onDismiss}>
       <Dialog.Title>{title}</Dialog.Title>
