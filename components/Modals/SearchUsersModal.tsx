@@ -1,7 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import useDebounce from "../../hooks/useDebounce";
 import ServerClient from "../../clients/serverClient";
-import { UserContext } from "../../context/userContext";
+
+import { useAppSelector } from "../../storage/App/hooks";
 
 import { StyleSheet, FlatList, Text } from "react-native";
 import { Surface, Divider } from "react-native-paper";
@@ -11,7 +12,7 @@ import ContactItem from "../Friends/ContactItem";
 import { UserEntry } from "../../types/types";
 
 const SearchUserModal = () => {
-  const { userState } = useContext(UserContext);
+  const { _id } = useAppSelector((state) => state.user);
   const [results, setResults] = useState<UserEntry[]>([]);
   const [search, setSearch] = useState("");
   const { debouncedValue } = useDebounce(300, getUsers);
@@ -31,7 +32,7 @@ const SearchUserModal = () => {
 
     if (!result.success) return;
 
-    const users = result.result.filter((res: any) => res._id !== userState._id);
+    const users = result.result.filter((res: any) => res._id !== _id);
 
     setResults(users);
   }

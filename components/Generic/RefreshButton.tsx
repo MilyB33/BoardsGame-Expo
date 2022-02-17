@@ -4,7 +4,7 @@ import { View, StyleSheet, Animated, Easing } from "react-native";
 import { IconButton } from "react-native-paper";
 
 interface PropTypes {
-  pressCallback(): Promise<void>;
+  pressCallback(): Promise<any>;
 }
 
 const RefreshButton = ({ pressCallback }: PropTypes) => {

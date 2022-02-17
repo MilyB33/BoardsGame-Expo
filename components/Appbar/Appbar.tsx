@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useNavigation } from "@react-navigation/native";
-import { UserContext } from "../../context/userContext";
+import { useAppSelector } from "../../storage/App/hooks";
 
 import { Appbar } from "react-native-paper";
 import { StyleSheet } from "react-native";
@@ -10,23 +10,27 @@ import { NavigationProps } from "../../types/types";
 
 const CustomAppBar = () => {
   const navigation = useNavigation<NavigationProps>();
-  const { userState } = useContext(UserContext);
+  const { isAuthenticated } = useAppSelector((state) => state.user);
+
+  const navigateToHome = () => navigation.navigate("Home");
+  const navigateToEvents = () => navigation.navigate("Events");
+  const navigateToProfile = () => navigation.navigate("UserModal");
 
   return (
     <Appbar style={styles.bottom}>
-      <Appbar.Action icon="home" onPress={() => navigation.navigate("Home")} />
+      <Appbar.Action icon="home" onPress={navigateToHome} />
       <Appbar.Action
         style={styles.appbarItem}
         icon="clipboard-text-play"
-        onPress={() => navigation.navigate("Events")}
+        onPress={navigateToEvents}
       />
-      {userState.isAuthenticated ? (
+      {isAuthenticated ? (
         <Menu />
       ) : (
         <Appbar.Action
           style={[styles.appbarItem, styles.login]}
           icon="login-variant"
-          onPress={() => navigation.navigate("UserModal")}
+          onPress={navigateToProfile}
         />
       )}
     </Appbar>

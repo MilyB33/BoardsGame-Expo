@@ -1,17 +1,15 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useAppSelector } from "../../storage/App/hooks";
 
-import { UserContext } from "../../context/userContext";
 import UserEvent from "./UserEvent";
 import UserSignedEvent from "./UserSignedEvent";
 import UserInviteEvent from "./UserInviteEvent";
 import ScrollContainer from "./ScrollContainer";
 
 const UserEvents = () => {
-  const {
-    userState: {
-      events: { userEvents, userSignedEvents, userInvitedEvents },
-    },
-  } = useContext(UserContext);
+  const { userEvents, userSignedEvents, userInvitedEvents } = useAppSelector(
+    (state) => state.user.events
+  );
 
   const isUserEvents = userEvents.length > 0;
   const isUserSignedEvents = userSignedEvents.length > 0;

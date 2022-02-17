@@ -1,5 +1,9 @@
-import React, { useContext, useState } from "react";
-import { UserContext } from "../../context/userContext";
+import React, { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../storage/App/hooks";
+import {
+  signUserForEvent,
+  signOutUserFromEvent,
+} from "../../storage/Slices/userSlice";
 
 import Event from "../Event/Event";
 import EventButton from "../Generic/EventButton";
@@ -12,18 +16,17 @@ interface PropTypes {
 }
 
 const PlainEvent = ({ event }: PropTypes) => {
-  const {
-    userState: { isAuthenticated, _id: userId },
-    signUserForEvent,
-    signOutUserFromEvent,
-  } = useContext(UserContext);
+  const dispatch = useAppDispatch();
+  const { isAuthenticated, _id: userId } = useAppSelector(
+    (state) => state.user
+  );
 
   const [loading, setLoading] = useState(false);
 
   const handleSignUp = async () => {
     if (isAuthenticated) {
       setLoading(true);
-      await signUserForEvent(event._id);
+      await dispatch(signUserForEvent(event._id));
       setLoading(false);
     } else {
       alert("Musisz być zalogowany aby zapisać się na wydarzenie");
@@ -33,7 +36,7 @@ const PlainEvent = ({ event }: PropTypes) => {
   const handleSignOut = async () => {
     if (isAuthenticated) {
       setLoading(true);
-      await signOutUserFromEvent(event._id);
+      await dispatch(signOutUserFromEvent(event._id));
       setLoading(false);
     }
   };

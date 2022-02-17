@@ -1,7 +1,11 @@
-import React, { useContext } from "react";
-import { UserContext } from "../../context/userContext";
+import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import useBooleanState from "../../hooks/useBooleanState";
+import { useAppDispatch, useAppSelector } from "../../storage/App/hooks";
+import {
+  sendFriendRequest,
+  deleteFriend,
+} from "../../storage/Slices/userSlice";
 
 import { View, StyleSheet } from "react-native";
 import { Menu, Divider, IconButton, Portal } from "react-native-paper";
@@ -16,9 +20,9 @@ interface PropTypes {
 }
 
 const ContactMenu = ({ listedUser, isRequest }: PropTypes) => {
+  const dispatch = useAppDispatch();
   const { _id } = listedUser;
-  const { userState, sendFriendRequest, deleteFriend } =
-    useContext(UserContext);
+  const { friends, friendsRequests } = useAppSelector((state) => state.user);
   const { state, setToTrue, setToFalse } = useBooleanState([
     "request",
     "delete",
@@ -32,15 +36,15 @@ const ContactMenu = ({ listedUser, isRequest }: PropTypes) => {
   const openDialog = () => setToTrue("dialog");
   const closeDialog = () => setToFalse("dialog");
 
-  const isFriend = userState.friends.some((friend) => friend._id === _id);
-  const isFriendRequestSent = userState.friendsRequests.sent.some(
+  const isFriend = friends.some((friend) => friend._id === _id);
+  const isFriendRequestSent = friendsRequests.sent.some(
     (user) => user._id === _id
   );
 
   const handleFriendRequest = async () => {
     setToTrue("request");
 
-    await sendFriendRequest(_id);
+    await dispatch(sendFriendRequest(_id));
 
     setToFalse("request");
     closeMenu();
@@ -49,7 +53,7 @@ const ContactMenu = ({ listedUser, isRequest }: PropTypes) => {
   const handleDeleteFriend = async () => {
     setToTrue("delete");
 
-    await deleteFriend(_id);
+    await dispatch(deleteFriend(_id));
   };
 
   const handleOpenInviteModal = () => {

@@ -1,6 +1,7 @@
-import React, { useContext, useState } from "react";
-import { UserContext } from "../../context/userContext";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { useAppDispatch } from "../../storage/App/hooks";
+import { deleteUserEvent } from "../../storage/Slices/userSlice";
 
 import { View, StyleSheet, Alert, ActivityIndicator } from "react-native";
 import Event from "../Event/Event";
@@ -13,13 +14,13 @@ interface PropTypes {
 }
 
 const UserEvent = ({ event }: PropTypes) => {
-  const { deleteUserEvent } = useContext(UserContext);
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<NavigationProps>();
 
   const handleDelete = async () => {
     setLoading(true);
-    await deleteUserEvent(event._id);
+    await dispatch(deleteUserEvent(event._id));
   };
 
   const handleDeletePress = () => {

@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useNavigation } from "@react-navigation/native";
-import { UserContext } from "../../context/userContext";
+import { useAppSelector } from "../../storage/App/hooks";
 
 import { View, StyleSheet, Text } from "react-native";
 import { Button } from "react-native-paper";
@@ -12,9 +12,7 @@ import informations from "../../data/mockedData";
 import { NavigationProps } from "../../types/types";
 
 const HomeInfo = () => {
-  const {
-    userState: { isAuthenticated },
-  } = useContext(UserContext);
+  const { isAuthenticated } = useAppSelector((state) => state.user);
   const navigation = useNavigation<NavigationProps>();
 
   const LinkElement = (

@@ -1,12 +1,13 @@
-import React, { useContext } from "react";
-import { UserContext } from "../../context/userContext";
+import React from "react";
+import { useAppDispatch } from "../../storage/App/hooks";
+import { addEvent } from "../../storage/Slices/userSlice";
 
 import EventForm from "./EventForm";
 
 import { EventFormState } from "../../types/types";
 
 const AddEventForm = () => {
-  const { addEvent } = useContext(UserContext);
+  const dispatch = useAppDispatch();
 
   const TODAYS_DATE = new Date();
 
@@ -22,7 +23,8 @@ const AddEventForm = () => {
   };
 
   const onSubmit = async (values: any) => {
-    const isAdded = await addEvent(values);
+    const isAdded = await dispatch(addEvent(values)).then((res) => res.payload);
+    console.log(isAdded);
     return isAdded;
   };
 

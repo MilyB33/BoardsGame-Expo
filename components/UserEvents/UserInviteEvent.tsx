@@ -1,5 +1,9 @@
-import React, { useState, useContext } from "react";
-import { UserContext } from "../../context/userContext";
+import React, { useState } from "react";
+import { useAppDispatch } from "../../storage/App/hooks";
+import {
+  rejectEventRequest,
+  acceptEventRequest,
+} from "../../storage/Slices/userSlice";
 
 import Event from "../Event/Event";
 import EventButton from "../Generic/EventButton";
@@ -14,17 +18,24 @@ interface PropTypes {
 }
 
 const UserInviteEvent = ({ event }: PropTypes) => {
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
-  const { rejectEventRequest, acceptEventRequest } = useContext(UserContext);
 
   const handleAccept = async () => {
     setLoading(true);
-    await acceptEventRequest(event.inviteId!, event._id);
+
+    await dispatch(acceptEventRequest(event.inviteId!));
   };
 
   const handleReject = async () => {
     setLoading(true);
-    await rejectEventRequest(event.inviteId!, event._id);
+
+    const requestData = {
+      eventID: event._id,
+      inviteID: event.inviteId!,
+    };
+
+    await dispatch(rejectEventRequest(requestData));
   };
 
   const renderButton = loading ? (

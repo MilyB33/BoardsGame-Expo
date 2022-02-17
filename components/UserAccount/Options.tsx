@@ -1,6 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { UserContext } from "../../context/userContext";
+import { useAppDispatch } from "../../storage/App/hooks";
+import { logout, deleteAccount } from "../../storage/Slices/userSlice";
 
 import { StyleSheet } from "react-native";
 import { Surface, Portal } from "react-native-paper";
@@ -10,19 +11,19 @@ import DeleteDialog from "./DeleteDialog";
 import { NavigationProps } from "../../types/types";
 
 const Options = () => {
+  const dispatch = useAppDispatch();
   const [visible, setVisible] = useState(false);
-  const { logout, deleteAccount } = useContext(UserContext);
   const navigation = useNavigation<NavigationProps>();
 
   const handleLogout = () => {
-    logout();
+    dispatch(logout());
     navigation.navigate("Home");
   };
 
   const showDialog = () => setVisible(true);
 
   const handleDeleteAccount = () => {
-    deleteAccount();
+    dispatch(deleteAccount());
     navigation.navigate("Home");
   };
 

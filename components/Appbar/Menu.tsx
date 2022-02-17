@@ -1,15 +1,16 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { UserContext } from "../../context/userContext";
+import { useAppDispatch } from "../../storage/App/hooks";
+import { logout } from "../../storage/Slices/userSlice";
 
 import { View } from "react-native";
 import { Menu, Divider, IconButton } from "react-native-paper";
 
-import { NavigationProps, Roots } from "../../types/types";
+import { NavigationProps, Routes } from "../../types/types";
 
 const CustomMenu = () => {
+  const dispatch = useAppDispatch();
   const navigation = useNavigation<NavigationProps>();
-  const { logout } = useContext(UserContext);
   const [visible, setVisible] = useState(false);
 
   const openMenu = () => setVisible(true);
@@ -17,11 +18,11 @@ const CustomMenu = () => {
 
   const handleLogout = () => {
     closeMenu();
-    logout();
+    dispatch(logout());
     navigation.navigate("Home");
   };
 
-  const handleNavigate = (route: Roots) => {
+  const handleNavigate = (route: Routes) => {
     closeMenu();
     navigation.navigate(route);
   };

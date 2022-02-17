@@ -4,11 +4,13 @@ import { StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 import ActivityIndicator from "./ActivityIndicator";
 
+import { LoadingType } from "../../types/types";
+
 interface PropTypes {
   title: string;
   additionalStyles?: any;
-  onPress: () => void;
-  loading: boolean;
+  onPress(): Promise<any>;
+  loading: LoadingType;
 }
 
 const MoreButton = ({
@@ -17,7 +19,7 @@ const MoreButton = ({
   additionalStyles,
   onPress,
 }: PropTypes) => {
-  return loading ? (
+  return loading === "loading" ? (
     <ActivityIndicator />
   ) : (
     <Button

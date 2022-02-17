@@ -1,5 +1,9 @@
-import React, { useContext } from "react";
-import { UserContext } from "../../context/userContext";
+import React from "react";
+import { useAppDispatch } from "../../storage/App/hooks";
+import {
+  acceptFriendRequest,
+  rejectFriendRequest,
+} from "../../storage/Slices/userSlice";
 
 import { StyleSheet } from "react-native";
 import { Surface, Text, IconButton } from "react-native-paper";
@@ -13,7 +17,7 @@ interface PropTypes {
 }
 
 const ContactItem = ({ user, isRequest = false }: PropTypes) => {
-  const { acceptFriendRequest, rejectFriendRequest } = useContext(UserContext);
+  const dispatch = useAppDispatch();
   const { _id, username } = user;
 
   const Request = (
@@ -21,14 +25,14 @@ const ContactItem = ({ user, isRequest = false }: PropTypes) => {
       <IconButton
         icon="check"
         size={25}
-        onPress={() => acceptFriendRequest(_id)}
+        onPress={() => dispatch(acceptFriendRequest(_id))}
         style={styles.button}
         color="white"
       />
       <IconButton
         icon="close"
         size={25}
-        onPress={() => rejectFriendRequest(_id)}
+        onPress={() => dispatch(rejectFriendRequest(_id))}
         style={styles.button}
         color="white"
       />

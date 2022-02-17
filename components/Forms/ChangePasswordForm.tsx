@@ -1,5 +1,6 @@
-import React, { useContext } from "react";
-import { UserContext } from "../../context/userContext";
+import React from "react";
+import { useAppDispatch } from "../../storage/App/hooks";
+import { updatePassword } from "../../storage/Slices/userSlice";
 
 import { StyleSheet } from "react-native";
 import { Button, Surface, Text } from "react-native-paper";
@@ -12,7 +13,7 @@ import { removeWhiteSpaces } from "../../utils/transformers";
 import styles from "./Forms.styles";
 
 const ChangePasswordForm = () => {
-  const { updatePassword } = useContext(UserContext);
+  const dispatch = useAppDispatch();
 
   return (
     <Surface style={privateStyles.form}>
@@ -27,10 +28,13 @@ const ChangePasswordForm = () => {
         onSubmit={(values, actions) => {
           const clearedValues = removeWhiteSpaces(values);
 
-          updatePassword({
+          const passwordData = {
             oldPassword: clearedValues.oldPassword,
             newPassword: clearedValues.newPassword,
-          });
+          };
+
+          dispatch(updatePassword(passwordData));
+
           actions.setSubmitting(false);
           actions.resetForm();
         }}

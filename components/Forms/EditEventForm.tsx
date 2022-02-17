@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
-import { UserContext } from "../../context/userContext";
+import React from "react";
 import { useRoute, RouteProp } from "@react-navigation/native";
+import { useAppDispatch } from "../../storage/App/hooks";
+import { editEvent } from "../../storage/Slices/userSlice";
 
 import EventForm from "./EventForm";
 
@@ -10,7 +11,7 @@ import { formatToDate } from "../../utils/transformers";
 type EditEventRouteProp = RouteProp<RootStackParamList, "EditEvent">;
 
 const AddEventForm = () => {
-  const { editEvent } = useContext(UserContext);
+  const dispatch = useAppDispatch();
   const route = useRoute<EditEventRouteProp>();
 
   const { event } = route.params;
@@ -29,7 +30,15 @@ const AddEventForm = () => {
   };
 
   const onSubmit = async (values: any) => {
-    const isAdded = await editEvent(values, event._id);
+    const eventData = {
+      eventID: event._id,
+      event: values,
+    };
+
+    const isAdded = await dispatch(editEvent(eventData)).then(
+      (res) => res.payload
+    );
+
     return isAdded;
   };
 

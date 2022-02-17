@@ -1,5 +1,6 @@
-import React, { useContext } from "react";
-import { UserContext } from "../../context/userContext";
+import React from "react";
+import { useAppDispatch } from "../../storage/App/hooks";
+import { signOutUserFromEvent } from "../../storage/Slices/userSlice";
 
 import Event from "../Event/Event";
 import EventButton from "../Generic/EventButton";
@@ -14,10 +15,10 @@ interface PropTypes {
 const ButtonWithLoading = WithLoading(EventButton);
 
 const UserSignedEvent = ({ event }: PropTypes) => {
-  const { signOutUserFromEvent } = useContext(UserContext);
+  const dispatch = useAppDispatch();
 
   const handleDelete = async () => {
-    await signOutUserFromEvent(event._id);
+    await dispatch(signOutUserFromEvent(event._id));
   };
 
   const Button = (

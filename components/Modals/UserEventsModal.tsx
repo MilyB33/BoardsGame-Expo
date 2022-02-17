@@ -1,6 +1,7 @@
-import React, { useContext, useState } from "react";
-import { UserContext } from "../../context/userContext";
+import React from "react";
 import { useRoute } from "@react-navigation/native";
+import { useAppDispatch, useAppSelector } from "../../storage/App/hooks";
+import { sendEventRequest } from "../../storage/Slices/userSlice";
 
 import { StyleSheet, FlatList } from "react-native";
 import { Surface, Divider, Text } from "react-native-paper";
@@ -17,17 +18,14 @@ const ButtonWithLoading = WithLoading(EventButton);
 type UserEventRootProp = RouteProp<FriendsStackParamList, "UserEventsModal">;
 
 const UserEventsModal = () => {
-  const {
-    userState: {
-      events: { userEvents },
-    },
-    sendEventRequest,
-  } = useContext(UserContext);
+  const dispatch = useAppDispatch();
+  const { userEvents } = useAppSelector((state) => state.user.events);
 
   const route = useRoute<UserEventRootProp>();
 
-  const handlePress = async (eventId: string) => {
-    await sendEventRequest(eventId, route.params.userId);
+  const handlePress = async (eventID: string) => {
+    const requestData = { eventID, requestedUserID: route.params.userId };
+    await dispatch(sendEventRequest(requestData));
   };
 
   const Header = <Text style={styles.text}>Wybierz wydarzenie</Text>;

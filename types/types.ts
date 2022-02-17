@@ -14,7 +14,7 @@ export type RootStackParamList = {
   EditEvent: { event: Event };
 };
 
-export type Roots = keyof RootStackParamList;
+export type Routes = keyof RootStackParamList;
 
 export type FriendsStackParamList = {
   ContactsHome: undefined;
@@ -31,7 +31,7 @@ export type FriendsNavigationProps = NativeStackNavigationProp<
 
 export type NavigationProps = NativeStackNavigationProp<
   RootStackParamList,
-  Roots
+  Routes
 >;
 
 export type RouteProps = RouteProp<RootStackParamList, "EditEvent">; // Probably not needed
@@ -172,8 +172,8 @@ export interface RegisterFormState {
 // Client
 
 export interface LoginCredentials {
-  username: string;
-  password: string;
+  username: string | null;
+  password: string | null;
 }
 
 export type Header = {
@@ -227,6 +227,67 @@ export type ReturnTypes = P<
       message: unknown;
     }
 >;
+
+// ========================================================
+
+// State - User
+
+type EventsType = {
+  [key: string | number]: Event[];
+};
+
+type EventsRequest = {
+  sent: string[];
+  received: string[];
+};
+
+export type LoadingType = "idle" | "loading" | "succeeded" | "failed";
+
+export interface EventEntry {
+  user: UserEntry;
+  eventId: string;
+}
+
+export type UserStateTest = {
+  _id: string;
+  isAuthenticated: boolean;
+  username: string;
+  loading: LoadingType;
+  events: EventsType;
+  friends: UserEntry[];
+  friendsRequests: Requests;
+  eventsRequests: EventsRequest;
+};
+
+// state - App
+
+export enum AppStateKeys {
+  EVENTS = "events",
+  USERS = "users",
+}
+
+export interface AppFieldState<T> {
+  items: Array<T>;
+  loading: boolean;
+  query: {
+    offset: number;
+    limit: number;
+  };
+}
+
+export interface AppFieldStateTest<T> {
+  items: Array<T>;
+  loading: LoadingType;
+  query: {
+    offset: number;
+    limit: number;
+  };
+}
+
+export interface AppStateTest {
+  [AppStateKeys.EVENTS]: AppFieldStateTest<Event>;
+  [AppStateKeys.USERS]: AppFieldStateTest<UserEntry>;
+}
 
 // ========================================================
 

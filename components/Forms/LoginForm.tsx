@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useNavigation } from "@react-navigation/native";
-import { UserContext } from "../../context/userContext";
+import { useAppDispatch, useAppSelector } from "../../storage/App/hooks";
+import { login } from "../../storage/Slices/userSlice";
 
 import { Surface, Button } from "react-native-paper";
 import { Text } from "react-native";
@@ -27,7 +28,8 @@ const initialValues = {
 } as LoginFormState;
 
 const LoginForm = ({ changeForm }: PropTypes) => {
-  const { login, userState } = useContext(UserContext);
+  const dispatch = useAppDispatch();
+  const { loading } = useAppSelector((state) => state.user);
   const navigation = useNavigation<NavigationProps>();
 
   const onSubmit = async (
@@ -36,7 +38,9 @@ const LoginForm = ({ changeForm }: PropTypes) => {
   ) => {
     const clearedValues = removeWhiteSpaces(values);
 
-    const isLogged = await login(clearedValues);
+    const isLogged = await dispatch(login(clearedValues)).then(
+      (res) => res.payload
+    );
 
     if (isLogged) {
       resetForm();
@@ -73,7 +77,7 @@ const LoginForm = ({ changeForm }: PropTypes) => {
             <Text style={styles.link} onPress={() => changeForm(false)}>
               Nie masz jeszcze konta? Załóz je od razu.
             </Text>
-            {userState.loading ? (
+            {loading === "loading" ? (
               <ActivityIndicator />
             ) : (
               <Button

@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
-import { UserContext } from "../../context/userContext";
+import React from "react";
 import useOptions from "../../hooks/useOptions";
+import { useAppSelector } from "../../storage/App/hooks";
 
 import { StyleSheet } from "react-native";
 import { Surface } from "react-native-paper";
@@ -16,13 +16,10 @@ const initialState = {
 
 const ContactsList = () => {
   const { options, toggleOption } = useOptions(initialState);
-
   const {
-    userState: {
-      friends,
-      friendsRequests: { received },
-    },
-  } = useContext(UserContext);
+    friends,
+    friendsRequests: { received },
+  } = useAppSelector((state) => state.user);
 
   const renderComponent = () => {
     if (options.FriendsList) {

@@ -1,22 +1,22 @@
-import React, { useContext } from "react";
-import { UserContext } from "../../context/userContext";
+import React from "react";
+import { useAppSelector } from "../../storage/App/hooks";
 
 import { StyleSheet, View, Text } from "react-native";
 import InfoBox from "./InfoBox";
 
 const UserInfo = () => {
-  const { userState } = useContext(UserContext);
+  const { events, friends, username } = useAppSelector((state) => state.user);
 
-  const userEventsCount = userState.events.userEvents.length;
-  const userSignedEventCount = userState.events.userSignedEvents.length;
-  const userInvitedEventCount = userState.events.userInvitedEvents.length;
-  const userFriendsCount = userState.friends.length;
+  const userEventsCount = events.userEvents.length;
+  const userSignedEventCount = events.userSignedEvents.length;
+  const userInvitedEventCount = events.userInvitedEvents.length;
+  const userFriendsCount = friends.length;
 
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Statystyki</Text>
       <View style={styles.flexBox}>
-        <InfoBox info={userState.username} additionalStyle={styles.username} />
+        <InfoBox info={username} additionalStyle={styles.username} />
         <InfoBox
           title="Liczba wydarzeń twoich wydarzeń"
           info={userEventsCount}

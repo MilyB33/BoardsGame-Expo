@@ -1,5 +1,10 @@
-import React, { useContext } from "react";
-import { AppContext } from "../../context/appContext";
+import React from "react";
+import { useAppSelector, useAppDispatch } from "../../storage/App/hooks";
+import {
+  reloadItems,
+  expandEvents,
+  selectAllEvents,
+} from "../../storage/Slices/appSlice";
 
 import { View, StyleSheet } from "react-native";
 import PlainEvent from "./PlainEvent";
@@ -9,13 +14,9 @@ import MoreButton from "../Generic/MoreButton";
 import { Event as EventType } from "../../types/types";
 
 const AllEvents = () => {
-  const {
-    reloadEvents,
-    state: {
-      events: { items: events, loading },
-    },
-    loadEvents,
-  } = useContext(AppContext);
+  const dispatch = useAppDispatch();
+  const events = useAppSelector(selectAllEvents);
+  const { loading } = useAppSelector((state) => state.app.events);
 
   const renderEvents = () =>
     events.map((event: EventType) => (
@@ -26,14 +27,14 @@ const AllEvents = () => {
 
   return (
     <View style={styles.container}>
-      <RefreshButton pressCallback={reloadEvents} />
+      <RefreshButton pressCallback={() => dispatch(expandEvents())} />
 
       {renderEvents()}
 
       {eventsCount && (
         <MoreButton
           title="Pokaż więcej"
-          onPress={loadEvents}
+          onPress={() => dispatch(reloadItems())}
           loading={loading}
           additionalStyles={styles.moreButton}
         />
